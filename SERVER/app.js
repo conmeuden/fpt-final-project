@@ -10,6 +10,10 @@ const app = express();
 
 initRoute(app);
 
+app.get("/", (req, res) => {
+  res.json({ message: "WELCOME TO FPT FINAL PROJECT" });
+});
+
 const port = process.env.SYSTEM_PORT;
 app.listen(port, () => {
   console.log(`App is running`);
