@@ -23,7 +23,7 @@ const User = sequelize.define(
       allowNull: false,
     },
     password: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(150),
       allowNull: false,
     },
     phone_number: {
