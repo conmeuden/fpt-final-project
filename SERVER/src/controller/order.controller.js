@@ -1,5 +1,4 @@
 const findAll = (req, res) => {
-  // #swagger.summary = 'Some summary...'
   return res.json({ message: "findAll" });
 };
 const findById = (req, res) => {

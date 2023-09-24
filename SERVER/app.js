@@ -1,15 +1,18 @@
+// import
 require("dotenv").config();
 require("express-async-errors");
+require("./src/services/discord.logger");
+require("./src/db/db");
 const express = require("express");
-
-const logger = require("./src/services/discord.logger");
-const db = require("./src/db/db");
 const initRoute = require("./src/routes/initRoute");
 
+// main
 const app = express();
 
+// setup
 initRoute(app);
 
+// init server
 app.get("/", (req, res) => {
   res.json({ message: "WELCOME TO FPT FINAL PROJECT" });
 });
