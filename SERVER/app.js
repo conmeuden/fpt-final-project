@@ -4,12 +4,15 @@ require("express-async-errors");
 require("./src/services/discord.logger");
 require("./src/db/db");
 const express = require("express");
+var bodyParser = require("body-parser");
+
 const initRoute = require("./src/routes/initRoute");
 
 // main
 const app = express();
 
 // setup
+app.use(bodyParser.json());
 initRoute(app);
 
 // init server
