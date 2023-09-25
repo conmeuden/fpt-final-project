@@ -13,6 +13,10 @@ const Blog = sequelize.define(
       type: Sequelize.STRING(200),
       allowNull: false,
     },
+    thumbnail: {
+      type: Sequelize.STRING(200),
+      allowNull: false,
+    },
     keywords: {
       type: Sequelize.STRING(300),
       allowNull: false,
