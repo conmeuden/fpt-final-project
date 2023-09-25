@@ -25,10 +25,7 @@ async function log(message) {
 
     if (channel instanceof TextChannel) {
       const timestamp = new Date().toLocaleString();
-      const stack = new Error().stack.split("\n");
-      const caller = stack[2].trim().split(" ")[1];
-      const fileName = path.basename(caller);
-      const logMessage = `[${timestamp}] [${fileName}] ${message}`;
+      const logMessage = `[${timestamp}] : ${message}`;
 
       await channel.send(logMessage);
     } else {

@@ -12,6 +12,7 @@ const initRoute = require("./src/routes/initRoute");
 const app = express();
 
 // setup
+app.use(express.static("public"));
 app.use(bodyParser.json());
 initRoute(app);
 
