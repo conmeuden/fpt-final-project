@@ -1,4 +1,10 @@
-// DÙNG CHO KHÁCH HÀNG ĐĂNG NHẬP THƯƠNG MẠI ĐIỆN TỬ ĐỂ MUA HÀNG
+/**
+ * @swagger
+ * tags:
+ *   - name: Customer
+ *     description: API related to customers
+ */
+
 const { Shop, User, Package } = require("../../models/index");
 const jwtService = require("../../services/jwt.service");
 const bcryptService = require("../../services/bcrypt.service");
@@ -7,6 +13,59 @@ const { log } = require("../../services/discord.logger");
 const ROLE = "CUSTOMER";
 const TRIAL_PACKAGE = "Trial Package";
 
+/**
+ * @swagger
+ * /api/customer/login:
+ *   post:
+ *     summary: Đăng nhập tài khoản khách hàng
+ *     description: Đăng nhập vào tài khoản khách hàng với email và mật khẩu.
+ *     tags:
+ *       - Customer
+ *     parameters:
+ *       - name: email
+ *         in: formData
+ *         description: Địa chỉ email của khách hàng.
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         in: formData
+ *         description: Mật khẩu của khách hàng.
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Đăng nhập thành công.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             user:
+ *               type: object
+ *               description: Thông tin khách hàng.
+ *             access_token:
+ *               type: string
+ *               description: Mã token truy cập.
+ *       401:
+ *         description: Lỗi xác thực, mật khẩu không chính xác.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *       404:
+ *         description: Lỗi không tìm thấy khách hàng.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *       500:
+ *         description: Lỗi server nội bộ.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -37,10 +96,66 @@ const login = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/customer/register:
+ *   post:
+ *     summary: Đăng ký tài khoản khách hàng
+ *     description: Đăng ký tài khoản khách hàng mới với thông tin cá nhân.
+ *     tags:
+ *       - Customer
+ *     parameters:
+ *       - name: full_name
+ *         in: formData
+ *         description: Tên đầy đủ của khách hàng.
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         in: formData
+ *         description: Địa chỉ email của khách hàng.
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         in: formData
+ *         description: Mật khẩu của khách hàng.
+ *         required: true
+ *         type: string
+ *       - name: phone_number
+ *         in: formData
+ *         description: Số điện thoại của khách hàng.
+ *         required: true
+ *         type: string
+ *       - name: address
+ *         in: formData
+ *         description: Địa chỉ của khách hàng.
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Đăng ký thành công.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             access_token:
+ *               type: string
+ *       400:
+ *         description: Lỗi xác thực, email đã được sử dụng.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *       500:
+ *         description: Lỗi server nội bộ.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const register = async (req, res) => {
   try {
     const { full_name, email, password, phone_number, address } = req.body;
-    const { shop_name } = req.body;
     // Kiểm tra xem email đã tồn tại trong cơ sở dữ liệu chưa
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
@@ -60,27 +175,6 @@ const register = async (req, res) => {
       role: ROLE,
       status: 1,
     });
-
-    const trialPackage = await Package.findOne({
-      where: { name: TRIAL_PACKAGE },
-    });
-
-    console.log(newUser.dataValues);
-    console.log(trialPackage);
-
-    const shop_info = {
-      name: shop_name,
-      user_id: newUser.dataValues.id,
-      package_id: trialPackage.id,
-      logo: "",
-      created_at: new Date(),
-      description: "",
-      address,
-      phone_number,
-      status: 1,
-    };
-
-    await Shop.create(shop_info);
 
     const access_token = await jwtService.generateToken(newUser.dataValues);
 

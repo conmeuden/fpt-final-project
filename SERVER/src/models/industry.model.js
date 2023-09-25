@@ -1,3 +1,22 @@
+/**
+ * @swagger
+ * definitions:
+ *   Industry:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         description: ID của ngành công nghiệp.
+ *       name:
+ *         type: string
+ *         description: Tên ngành công nghiệp.
+ *       icon:
+ *         type: string
+ *         description: Đường dẫn đến biểu tượng ngành công nghiệp (icon).
+ *       status:
+ *         type: integer
+ *         description: Trạng thái của ngành công nghiệp (ví dụ: hoạt động, tạm ngừng).
+ */
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database.config"); // Import sequelize instance
 

@@ -1,5 +1,9 @@
-// DÙNG CHO NGƯỜI BÁN HÀNG ĐĂNG NHẬP VÀO SHOP MANAGEMENT
-
+/**
+ * @swagger
+ * tags:
+ *   - name: Saler auth
+ *     description: API related to saler
+ */
 const { Shop, User, Package } = require("../../models/index");
 const jwtService = require("../../services/jwt.service");
 const bcryptService = require("../../services/bcrypt.service");
@@ -8,6 +12,57 @@ const { log } = require("../../services/discord.logger");
 const ROLE = "SALER";
 const TRIAL_PACKAGE = "Trial Package";
 
+/**
+ * @swagger
+ * /api/saler/login:
+ *   post:
+ *     summary: Đăng nhập của người bán hàng vào Shop Management
+ *     description: Đăng nhập và xác thực người bán hàng vào hệ thống quản lý cửa hàng.
+ *     tags:
+ *       - Saler
+ *     parameters:
+ *       - name: email
+ *         in: formData
+ *         description: Địa chỉ email của người bán hàng.
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         in: formData
+ *         description: Mật khẩu của người bán hàng.
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Đăng nhập thành công, trả về thông tin người bán hàng và mã token truy cập.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             user:
+ *               $ref: '#/definitions/User'
+ *             access_token:
+ *               type: string
+ *       401:
+ *         description: Lỗi xác thực, mật khẩu không chính xác.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *       404:
+ *         description: Lỗi, email không tồn tại.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *       500:
+ *         description: Lỗi server nội bộ.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -50,6 +105,68 @@ const login = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/saler/register:
+ *   post:
+ *     summary: Đăng ký người bán hàng vào Shop Management
+ *     description: Đăng ký và tạo tài khoản người bán hàng trong hệ thống quản lý cửa hàng.
+ *     tags:
+ *       - Saler
+ *     parameters:
+ *       - name: full_name
+ *         in: formData
+ *         description: Tên đầy đủ của người bán hàng.
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         in: formData
+ *         description: Địa chỉ email của người bán hàng.
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         in: formData
+ *         description: Mật khẩu của người bán hàng.
+ *         required: true
+ *         type: string
+ *       - name: phone_number
+ *         in: formData
+ *         description: Số điện thoại của người bán hàng.
+ *         required: true
+ *         type: string
+ *       - name: address
+ *         in: formData
+ *         description: Địa chỉ của người bán hàng.
+ *         required: true
+ *         type: string
+ *       - name: shop_name
+ *         in: formData
+ *         description: Tên cửa hàng của người bán hàng.
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Đăng ký thành công, trả về mã token truy cập.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             access_token:
+ *               type: string
+ *       400:
+ *         description: Lỗi, email đã được sử dụng.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *       500:
+ *         description: Lỗi server nội bộ.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const register = async (req, res) => {
   try {
     const { full_name, email, password, phone_number, address } = req.body;
@@ -77,9 +194,6 @@ const register = async (req, res) => {
     const trialPackage = await Package.findOne({
       where: { name: TRIAL_PACKAGE },
     });
-
-    console.log(newUser.dataValues);
-    console.log(trialPackage);
 
     const shop_info = {
       name: shop_name,

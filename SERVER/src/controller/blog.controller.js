@@ -1,9 +1,61 @@
+/**
+ * @swagger
+ * tags:
+ *   - name: Blogs restful
+ *     description: API related to Blogs
+ */
+
 const { Blog } = require("../models/index");
 const { log } = require("../services/discord.logger");
 const { convertToSlug } = require("../utils/helper");
 const { Op } = require("sequelize");
 
-// Tìm tất cả các bài viết với phân trang và tìm kiếm
+/**
+ * @swagger
+ * /api/blogs:
+ *   get:
+ *     summary: Lấy danh sách các bài viết với phân trang và tìm kiếm.
+ *     description: Lấy danh sách tất cả các bài viết với khả năng phân trang và tìm kiếm theo từ khóa.
+ *     tags:
+ *       - Blog
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         description: Số trang cần lấy (mặc định là 1).
+ *         required: false
+ *         type: integer
+ *       - name: limit
+ *         in: query
+ *         description: Số lượng bài viết trên mỗi trang (mặc định là 10).
+ *         required: false
+ *         type: integer
+ *       - name: keyword
+ *         in: query
+ *         description: Từ khóa tìm kiếm trong tiêu đề bài viết.
+ *         required: false
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Danh sách các bài viết được tìm thấy.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             page:
+ *               type: integer
+ *             limit:
+ *               type: integer
+ *             blogs:
+ *               type: array
+ *               items:
+ *                 $ref: '#/definitions/Blog'
+ *       500:
+ *         description: Lỗi server nội bộ.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const findAll = async (req, res) => {
   try {
     const { page, limit, keyword } = req.query;
@@ -39,7 +91,40 @@ const findAll = async (req, res) => {
   }
 };
 
-// Tìm bài viết theo ID
+/**
+ * @swagger
+ * /api/blogs/{id}:
+ *   get:
+ *     summary: Lấy thông tin chi tiết của một bài viết theo ID.
+ *     description: Lấy thông tin chi tiết của một bài viết dựa trên ID bài viết.
+ *     tags:
+ *       - Blog
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID của bài viết cần lấy thông tin.
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Thông tin chi tiết của bài viết.
+ *         schema:
+ *           $ref: '#/definitions/Blog'
+ *       404:
+ *         description: Lỗi, bài viết không được tìm thấy.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *       500:
+ *         description: Lỗi server nội bộ.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const findById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -55,7 +140,40 @@ const findById = async (req, res) => {
   }
 };
 
-// Tìm bài viết theo slug
+/**
+ * @swagger
+ * /api/blogs/slug/{slug}:
+ *   get:
+ *     summary: Lấy thông tin chi tiết của một bài viết theo slug.
+ *     description: Lấy thông tin chi tiết của một bài viết dựa trên slug của bài viết.
+ *     tags:
+ *       - Blog
+ *     parameters:
+ *       - name: slug
+ *         in: path
+ *         description: Slug của bài viết cần lấy thông tin.
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Thông tin chi tiết của bài viết.
+ *         schema:
+ *           $ref: '#/definitions/Blog'
+ *       404:
+ *         description: Lỗi, bài viết không được tìm thấy.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *       500:
+ *         description: Lỗi server nội bộ.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const findBySlug = async (req, res) => {
   try {
     const { slug } = req.params;
@@ -71,7 +189,58 @@ const findBySlug = async (req, res) => {
   }
 };
 
-// Tạo bài viết mới
+/**
+ * @swagger
+ * /api/blogs:
+ *   post:
+ *     summary: Tạo bài viết mới.
+ *     description: Tạo một bài viết mới với thông tin cần thiết.
+ *     tags:
+ *       - Blog
+ *     parameters:
+ *       - name: title
+ *         in: formData
+ *         description: Tiêu đề của bài viết mới.
+ *         required: true
+ *         type: string
+ *       - name: thumbnail
+ *         in: formData
+ *         description: URL hình ảnh đại diện cho bài viết.
+ *         required: true
+ *         type: string
+ *       - name: keywords
+ *         in: formData
+ *         description: Các từ khóa liên quan đến bài viết.
+ *         required: true
+ *         type: string
+ *       - name: description
+ *         in: formData
+ *         description: Mô tả ngắn gọn về bài viết.
+ *         required: true
+ *         type: string
+ *       - name: content
+ *         in: formData
+ *         description: Nội dung chi tiết của bài viết.
+ *         required: true
+ *         type: string
+ *       - name: status
+ *         in: formData
+ *         description: Trạng thái của bài viết (1 - Đã xuất bản, 0 - Chưa xuất bản).
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Bài viết mới đã được tạo thành công.
+ *         schema:
+ *           $ref: '#/definitions/Blog'
+ *       500:
+ *         description: Lỗi server nội bộ.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const create = async (req, res) => {
   try {
     const {
@@ -101,7 +270,70 @@ const create = async (req, res) => {
   }
 };
 
-// Cập nhật bài viết theo ID
+/**
+ * @swagger
+ * /api/blogs/{id}:
+ *   put:
+ *     summary: Cập nhật thông tin bài viết theo ID.
+ *     description: Cập nhật thông tin của một bài viết dựa trên ID của bài viết.
+ *     tags:
+ *       - Blog
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID của bài viết cần cập nhật thông tin.
+ *         required: true
+ *         type: integer
+ *       - name: title
+ *         in: formData
+ *         description: Tiêu đề của bài viết cần cập nhật.
+ *         required: true
+ *         type: string
+ *       - name: thumbnail
+ *         in: formData
+ *         description: URL hình ảnh đại diện cho bài viết.
+ *         required: true
+ *         type: string
+ *       - name: keywords
+ *         in: formData
+ *         description: Các từ khóa liên quan đến bài viết cần cập nhật.
+ *         required: true
+ *         type: string
+ *       - name: description
+ *         in: formData
+ *         description: Mô tả ngắn gọn về bài viết cần cập nhật.
+ *         required: true
+ *         type: string
+ *       - name: content
+ *         in: formData
+ *         description: Nội dung chi tiết của bài viết cần cập nhật.
+ *         required: true
+ *         type: string
+ *       - name: status
+ *         in: formData
+ *         description: Trạng thái của bài viết cần cập nhật (1 - Đã xuất bản, 0 - Chưa xuất bản).
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Thông tin bài viết đã được cập nhật thành công.
+ *         schema:
+ *           $ref: '#/definitions/Blog'
+ *       404:
+ *         description: Lỗi, bài viết không được tìm thấy.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *       500:
+ *         description: Lỗi server nội bộ.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const update = async (req, res) => {
   try {
     const { id } = req.params;
@@ -140,7 +372,43 @@ const update = async (req, res) => {
   }
 };
 
-// Xóa bài viết theo ID
+/**
+ * @swagger
+ * /api/blogs/{id}:
+ *   delete:
+ *     summary: Xóa bài viết theo ID.
+ *     description: Đánh dấu một bài viết đã bị xóa bằng cách cập nhật trạng thái thành "0".
+ *     tags:
+ *       - Blog
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID của bài viết cần xóa.
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Bài viết đã được đánh dấu là đã xóa thành công.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *       404:
+ *         description: Lỗi, bài viết không được tìm thấy.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *       500:
+ *         description: Lỗi server nội bộ.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const remove = async (req, res) => {
   try {
     const { id } = req.params;

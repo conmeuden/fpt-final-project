@@ -1,3 +1,19 @@
+/**
+ * @swagger
+ * definitions:
+ *   ShopUser:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         description: ID của mối quan hệ giữa cửa hàng và người dùng.
+ *       shop_id:
+ *         type: integer
+ *         description: ID của cửa hàng.
+ *       user_id:
+ *         type: integer
+ *         description: ID của người dùng.
+ */
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database.config"); // Import sequelize instance
 
