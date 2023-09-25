@@ -1,12 +1,37 @@
 const { Blog } = require("../models/index");
 const { log } = require("../services/discord.logger");
 const { convertToSlug } = require("../utils/helper");
+const { Op } = require("sequelize");
 
-// Tìm tất cả các bài viết
+// Tìm tất cả các bài viết với phân trang và tìm kiếm
 const findAll = async (req, res) => {
   try {
-    const blogs = await Blog.findAll();
-    return res.json(blogs);
+    const { page, limit, keyword } = req.query;
+    const pageOptions = {
+      page: parseInt(page, 10) || 1, // Trang mặc định là 1 nếu không có tham số
+      limit: parseInt(limit, 10) || 10, // Giới hạn số bài viết trên mỗi trang, mặc định là 10 nếu không có tham số
+    };
+
+    // Điều kiện tìm kiếm
+    const whereCondition = {};
+
+    if (keyword) {
+      whereCondition.title = { [Op.like]: `%${keyword}%` };
+      // Nếu bạn muốn tìm kiếm theo nhiều trường khác, bạn có thể thêm vào whereCondition tương ứng.
+    }
+
+    // Tìm kiếm và phân trang
+    const blogs = await Blog.findAndCountAll({
+      where: whereCondition,
+      offset: (pageOptions.page - 1) * pageOptions.limit,
+      limit: pageOptions.limit,
+    });
+
+    return res.json({
+      page: pageOptions.page,
+      limit: pageOptions.limit,
+      blogs,
+    });
   } catch (error) {
     console.error("Error fetching blogs:", error);
     log(`Error fetching blogs: ${error}`);
@@ -89,29 +114,25 @@ const update = async (req, res) => {
       status,
     } = req.body;
 
-    const newSlug = convertToSlug(title);
+    const existingBlog = await Blog.findByPk(id);
 
-    const [updatedBlogs, updatedRowsCount] = await Blog.update(
-      {
-        title,
-        thumbnail,
-        keywords,
-        description,
-        slug: newSlug,
-        content,
-        status,
-      },
-      {
-        where: { id: Number(id) },
-        returning: true,
-      }
-    );
-
-    if (updatedRowsCount === 0) {
+    if (!existingBlog) {
       return res.status(404).json({ error: "Blog not found" });
     }
 
-    return res.json(updatedBlogs[0]);
+    // Cập nhật thông tin của blog    const newSlug = convertToSlug(title);
+
+    existingBlog.title = title;
+    existingBlog.thumbnail = thumbnail;
+    existingBlog.keywords = keywords;
+    existingBlog.description = description;
+    existingBlog.content = content;
+    existingBlog.slug = convertToSlug(title);
+    existingBlog.status = status;
+
+    await existingBlog.save();
+
+    return res.json(existingBlog);
   } catch (error) {
     console.error(`Error updating blog with ID ${id}:`, error);
     log(`Error updating blog with ID ${id}: ${error}`);
@@ -123,8 +144,9 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedRowCount = await Blog.destroy({ where: { id } });
-    if (deletedRowCount === 0) {
+    const updatedRows = await Blog.update({ status: 0 }, { where: { id } });
+
+    if (updatedRows[0] === 0) {
       return res.status(404).json({ error: "Blog not found" });
     }
     return res.json({ message: "Blog deleted successfully" });

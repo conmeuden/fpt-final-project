@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../db/db"); // Import sequelize instance
+const sequelize = require("../config/database.config"); // Import sequelize instance
 
 // Định nghĩa model cho bảng 'users'
 const User = sequelize.define(
@@ -9,10 +9,6 @@ const User = sequelize.define(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-    },
-    shop_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
     },
     full_name: {
       type: DataTypes.STRING(60),
