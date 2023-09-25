@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../db/db"); // Import sequelize instance
+const sequelize = require("../config/database.config"); // Import sequelize instance
 
 // Định nghĩa model cho bảng 'shops'
 const Shop = sequelize.define(
@@ -12,6 +12,10 @@ const Shop = sequelize.define(
     },
     name: {
       type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     package_id: {

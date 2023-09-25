@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../db/db"); // Import sequelize instance
+const sequelize = require("../config/database.config"); // Import sequelize instance
 
 // Định nghĩa model cho bảng 'order_details'
 const OrderDetail = sequelize.define(

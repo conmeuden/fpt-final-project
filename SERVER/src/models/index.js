@@ -94,8 +94,8 @@ SupplieOrder.hasMany(SupplieOrderDetail, { foreignKey: "supplie_order_id" });
 Product.hasMany(SupplieOrderDetail, { foreignKey: "product_id" });
 
 // User và Shop
-User.belongsTo(Shop, { foreignKey: "shop_id" });
-Shop.hasMany(User, { foreignKey: "shop_id" });
+Shop.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Shop, { foreignKey: "user_id" });
 
 module.exports = {
   Blog,
