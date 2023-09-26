@@ -5,6 +5,7 @@ const customerController = require("../controller/auth/customerAuth.controller")
 const shopAuthController = require("../controller/auth/shopAuth.controller");
 
 router.post("/admin/login", adminAuthController.login);
+router.post("/admin/refresh", adminAuthController.refresh);
 
 router.post("/shop/login", shopAuthController.login);
 router.post("/shop/register", shopAuthController.register);

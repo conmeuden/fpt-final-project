@@ -9,7 +9,7 @@ const User = require("../../models/user.model");
 const jwtService = require("../../services/jwt.service");
 const bcryptService = require("../../services/bcrypt.service");
 const { log } = require("../../services/discord.logger");
-
+const { verifyToken } = require("../../services/jwt.service");
 const ROLE = "ADMIN";
 
 /**
@@ -93,6 +93,37 @@ const login = async (req, res) => {
   }
 };
 
+const refresh = async (req, res) => {
+  const { token } = req.body;
+  console.log(token);
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: "Không có token, truy cập bị từ chối" });
+  }
+
+  try {
+    const decoded = verifyToken(token);
+
+    if (!decoded) {
+      return res.status(401).json({ message: "Token không hợp lệ" });
+    }
+
+    console.log(decoded);
+    if (decoded.role === "ADMIN") {
+      const access_token = await jwtService.generateToken(decoded);
+      return res.status(200).json({ user: decoded, access_token });
+    } else {
+      return res.status(403).json({ message: "Không có quyền truy cập" });
+    }
+  } catch (err) {
+    console.log(err);
+    log("Lỗi khi refresh api admin: " + err);
+    res.status(401).json({ message: "Token không hợp lệ" });
+  }
+};
+
 module.exports = {
   login,
+  refresh,
 };
