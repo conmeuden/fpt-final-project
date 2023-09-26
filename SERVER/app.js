@@ -5,13 +5,14 @@ require("./src/services/discord.logger");
 require("./src/config/database.config");
 const express = require("express");
 var bodyParser = require("body-parser");
-
 const initRoute = require("./src/routes/initRoute");
 
+const jwtAuthMiddleware = require("./src/middlewares/jwtAuth.middleware");
 // main
 const app = express();
 
 // setup
+app.use("/api", jwtAuthMiddleware);
 app.use(express.static("public"));
 app.use(bodyParser.json());
 initRoute(app);
