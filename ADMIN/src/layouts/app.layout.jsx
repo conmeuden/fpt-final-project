@@ -125,6 +125,7 @@ export default function AppLayout({ children }) {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
+
         <div className="main">{children}</div>
       </Box>
     </Box>
