@@ -28,9 +28,7 @@ function Header() {
           to={"https://backend-dalapha.onrender.com/api/doc/"}
           target="_blank"
         >
-          <button className="btn btn-success">
-            Link document API, xem khi cần
-          </button>
+          <button className="btn btn-success">API document</button>
         </Link>
 
         <Avatar
