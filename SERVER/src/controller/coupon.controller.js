@@ -1,7 +1,95 @@
+/**
+ * @swagger
+ * tags:
+ *   - name: Coupons RESTful
+ *     description: API related to Coupons
+ */
+/**
+ * @swagger
+ * definitions:
+ *   Coupon:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         description: ID of the coupon.
+ *       shop_id:
+ *         type: integer
+ *         description: ID of the shop associated with the coupon.
+ *       code:
+ *         type: string
+ *         description: The coupon code.
+ *       type:
+ *         type: string
+ *         description: The type of the coupon (e.g., percentage, fixed amount).
+ *       effect_at:
+ *         type: date
+ *         description: The date when the coupon becomes effective.
+ *       expire_at:
+ *         type: date
+ *         description: The expiration date of the coupon.
+ *       discount_amount:
+ *         type: number
+ *         description: The discount amount applied by the coupon.
+ *       minimum_purchase_amount:
+ *         type: number
+ *         description: The minimum purchase amount required to use the coupon.
+ *       max_usage_count:
+ *         type: integer
+ *         description: The maximum number of times the coupon can be used.
+ *       status:
+ *         type: integer
+ *         description: The status of the coupon (1 - Active, 0 - Inactive).
+ */
 const { Op } = require("sequelize");
 const { Coupon } = require("../models"); // Import model Coupon
 
-// Lấy danh sách tất cả các mã giảm giá (coupons) với phân trang và tìm kiếm
+/**
+ * @swagger
+ * /api/coupons:
+ *   get:
+ *     summary: Get a list of coupons with pagination and search.
+ *     description: Get a list of all coupons with the ability to paginate and search by keyword.
+ *     tags:
+ *       - Coupons
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         description: The page number to retrieve (default is 1).
+ *         required: false
+ *         type: integer
+ *       - name: limit
+ *         in: query
+ *         description: The number of coupons per page (default is 10).
+ *         required: false
+ *         type: integer
+ *       - name: keyword
+ *         in: query
+ *         description: The keyword to search for in coupon codes.
+ *         required: false
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: A list of found coupons.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             page:
+ *               type: integer
+ *             limit:
+ *               type: integer
+ *             coupons:
+ *               type: array
+ *               items:
+ *                 $ref: '#/definitions/Coupon'
+ *       500:
+ *         description: Internal server error.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const findAll = async (req, res) => {
   try {
     const { page = 1, limit = 10, keyword = "" } = req.query;
@@ -33,7 +121,40 @@ const findAll = async (req, res) => {
   }
 };
 
-// Lấy thông tin một mã giảm giá theo ID
+/**
+ * @swagger
+ * /api/coupons/{id}:
+ *   get:
+ *     summary: Get detailed information about a coupon by ID.
+ *     description: Get detailed information about a coupon based on its ID.
+ *     tags:
+ *       - Coupons
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: The ID of the coupon to retrieve information about.
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Detailed information about the coupon.
+ *         schema:
+ *           $ref: '#/definitions/Coupon'
+ *       404:
+ *         description: Error, coupon not found.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *       500:
+ *         description: Internal server error.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const findById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -50,7 +171,40 @@ const findById = async (req, res) => {
   }
 };
 
-// Lấy thông tin một mã giảm giá theo mã (code)
+/**
+ * @swagger
+ * /api/coupons/code/{code}:
+ *   get:
+ *     summary: Get detailed information about a coupon by code.
+ *     description: Get detailed information about a coupon based on its code.
+ *     tags:
+ *       - Coupons
+ *     parameters:
+ *       - name: code
+ *         in: path
+ *         description: The code of the coupon to retrieve information about.
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Detailed information about the coupon.
+ *         schema:
+ *           $ref: '#/definitions/Coupon'
+ *       404:
+ *         description: Error, coupon not found.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *       500:
+ *         description: Internal server error.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const findByCode = async (req, res) => {
   try {
     const { code } = req.params;
@@ -67,7 +221,73 @@ const findByCode = async (req, res) => {
   }
 };
 
-// Tạo một mã giảm giá mới
+/**
+ * @swagger
+ * /api/coupons:
+ *   post:
+ *     summary: Create a new coupon.
+ *     description: Create a new coupon with the necessary information.
+ *     tags:
+ *       - Coupons
+ *     parameters:
+ *       - name: shop_id
+ *         in: formData
+ *         description: The ID of the shop to which the coupon belongs.
+ *         required: true
+ *         type: integer
+ *       - name: code
+ *         in: formData
+ *         description: The code of the new coupon.
+ *         required: true
+ *         type: string
+ *       - name: type
+ *         in: formData
+ *         description: The type of the coupon (e.g., percentage, fixed amount).
+ *         required: true
+ *         type: string
+ *       - name: effect_at
+ *         in: formData
+ *         description: The date when the coupon becomes effective.
+ *         required: true
+ *         type: date
+ *       - name: expire_at
+ *         in: formData
+ *         description: The expiration date of the coupon.
+ *         required: true
+ *         type: date
+ *       - name: discount_amount
+ *         in: formData
+ *         description: The discount amount applied by the coupon.
+ *         required: true
+ *         type: number
+ *       - name: minimum_purchase_amount
+ *         in: formData
+ *         description: The minimum purchase amount required to use the coupon.
+ *         required: true
+ *         type: number
+ *       - name: max_usage_count
+ *         in: formData
+ *         description: The maximum number of times the coupon can be used.
+ *         required: true
+ *         type: integer
+ *       - name: status
+ *         in: formData
+ *         description: The status of the coupon (1 - Active, 0 - Inactive).
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       201:
+ *         description: The new coupon has been successfully created.
+ *         schema:
+ *           $ref: '#/definitions/Coupon'
+ *       500:
+ *         description: Internal server error.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const create = async (req, res) => {
   try {
     const {
@@ -101,7 +321,85 @@ const create = async (req, res) => {
   }
 };
 
-// Cập nhật thông tin một mã giảm giá theo ID
+/**
+ * @swagger
+ * /api/coupons/{id}:
+ *   put:
+ *     summary: Update an existing coupon by ID.
+ *     description: Update an existing coupon's information based on its ID.
+ *     tags:
+ *       - Coupons
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: The ID of the coupon to update.
+ *         required: true
+ *         type: integer
+ *       - name: shop_id
+ *         in: formData
+ *         description: The ID of the shop to which the coupon belongs.
+ *         required: true
+ *         type: integer
+ *       - name: code
+ *         in: formData
+ *         description: The code of the coupon.
+ *         required: true
+ *         type: string
+ *       - name: type
+ *         in: formData
+ *         description: The type of the coupon (e.g., percentage, fixed amount).
+ *         required: true
+ *         type: string
+ *       - name: effect_at
+ *         in: formData
+ *         description: The date when the coupon becomes effective.
+ *         required: true
+ *         type: date
+ *       - name: expire_at
+ *         in: formData
+ *         description: The expiration date of the coupon.
+ *         required: true
+ *         type: date
+ *       - name: discount_amount
+ *         in: formData
+ *         description: The discount amount applied by the coupon.
+ *         required: true
+ *         type: number
+ *       - name: minimum_purchase_amount
+ *         in: formData
+ *         description: The minimum purchase amount required to use the coupon.
+ *         required: true
+ *         type: number
+ *       - name: max_usage_count
+ *         in: formData
+ *         description: The maximum number of times the coupon can be used.
+ *         required: true
+ *         type: integer
+ *       - name: status
+ *         in: formData
+ *         description: The status of the coupon (1 - Active, 0 - Inactive).
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: The coupon has been successfully updated.
+ *         schema:
+ *           $ref: '#/definitions/Coupon'
+ *       404:
+ *         description: Error, coupon not found.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *       500:
+ *         description: Internal server error.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const update = async (req, res) => {
   try {
     const { id } = req.params;
@@ -142,7 +440,43 @@ const update = async (req, res) => {
   }
 };
 
-// Xóa một mã giảm giá theo ID (cài đặt status = 0 thay vì xóa)
+/**
+ * @swagger
+ * /api/coupons/{id}:
+ *   delete:
+ *     summary: Deactivate a coupon by ID (set status to 0).
+ *     description: Deactivate a coupon by updating its status to "0".
+ *     tags:
+ *       - Coupons
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: The ID of the coupon to deactivate.
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: The coupon has been marked as deactivated successfully.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *       404:
+ *         description: Error, coupon not found.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *       500:
+ *         description: Internal server error.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ */
 const remove = async (req, res) => {
   try {
     const { id } = req.params;

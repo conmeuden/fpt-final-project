@@ -1,3 +1,26 @@
+/**
+ * @swagger
+ * definitions:
+ *   Package:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         description: ID của gói dịch vụ.
+ *       name:
+ *         type: string
+ *         description: Tên của gói dịch vụ.
+ *       price:
+ *         type: number
+ *         format: double
+ *         description: Giá của gói dịch vụ.
+ *       date:
+ *         type: integer
+ *         description: Số ngày sử dụng của gói dịch vụ.
+ *       status:
+ *         type: integer
+ *         description: Trạng thái của gói dịch vụ (ví dụ: hoạt động, ngừng hoạt động).
+ */
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database.config"); // Import sequelize instance
 

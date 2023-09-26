@@ -1,3 +1,65 @@
+/**
+ * @swagger
+ * definitions:
+ *   Product:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         description: ID của sản phẩm.
+ *       name:
+ *         type: string
+ *         description: Tên của sản phẩm.
+ *       images:
+ *         type: string
+ *         description: Đường dẫn tới hình ảnh của sản phẩm.
+ *       industry_id:
+ *         type: integer
+ *         description: ID của ngành công nghiệp mà sản phẩm thuộc về.
+ *       description:
+ *         type: string
+ *         description: Mô tả của sản phẩm.
+ *       keywords:
+ *         type: string
+ *         description: Các từ khóa liên quan đến sản phẩm.
+ *       base_price:
+ *         type: number
+ *         format: double
+ *         description: Giá gốc của sản phẩm.
+ *       sale_price:
+ *         type: number
+ *         format: double
+ *         description: Giá bán của sản phẩm.
+ *       import_price:
+ *         type: number
+ *         format: double
+ *         description: Giá nhập khẩu của sản phẩm.
+ *       total_like:
+ *         type: integer
+ *         description: Tổng số lượt thích của sản phẩm.
+ *       properties:
+ *         type: string
+ *         description: Thuộc tính của sản phẩm.
+ *       variant_list:
+ *         type: string
+ *         description: Danh sách biến thể của sản phẩm.
+ *       created_at:
+ *         type: string
+ *         format: date-time
+ *         description: Ngày tạo sản phẩm.
+ *       stock:
+ *         type: integer
+ *         description: Số lượng tồn kho của sản phẩm.
+ *       category_id:
+ *         type: integer
+ *         description: ID của danh mục mà sản phẩm thuộc về.
+ *       shop_id:
+ *         type: integer
+ *         description: ID của cửa hàng mà sản phẩm thuộc về.
+ *       status:
+ *         type: integer
+ *         description: Trạng thái của sản phẩm (ví dụ: hoạt động, ngừng hoạt động).
+ */
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database.config"); // Import sequelize instance
 

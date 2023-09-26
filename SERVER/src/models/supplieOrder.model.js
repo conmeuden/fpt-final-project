@@ -1,3 +1,33 @@
+/**
+ * @swagger
+ * definitions:
+ *   SupplyOrder:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         description: ID của đơn đặt hàng cung cấp.
+ *       shop_id:
+ *         type: integer
+ *         description: ID của cửa hàng.
+ *       supplier_id:
+ *         type: integer
+ *         description: ID của nhà cung cấp.
+ *       created_at:
+ *         type: string
+ *         format: date-time
+ *         description: Thời gian tạo đơn đặt hàng.
+ *       total_price:
+ *         type: number
+ *         format: double
+ *         description: Tổng giá trị của đơn đặt hàng.
+ *       payment:
+ *         type: string
+ *         description: Phương thức thanh toán của đơn đặt hàng.
+ *       status:
+ *         type: integer
+ *         description: Trạng thái của đơn đặt hàng.
+ */
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database.config"); // Import sequelize instance
 

@@ -1,3 +1,32 @@
+/**
+ * @swagger
+ * definitions:
+ *   Rating:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         description: ID của xếp hạng.
+ *       product_id:
+ *         type: integer
+ *         description: ID của sản phẩm được xếp hạng.
+ *       star:
+ *         type: integer
+ *         description: Số sao đánh giá (ví dụ: 1-5).
+ *       comment:
+ *         type: string
+ *         description: Bình luận đánh giá.
+ *       user_id:
+ *         type: integer
+ *         description: ID của người dùng tạo xếp hạng.
+ *       created_at:
+ *         type: string
+ *         format: date-time
+ *         description: Ngày tạo xếp hạng.
+ *       status:
+ *         type: integer
+ *         description: Trạng thái của xếp hạng (ví dụ: hoạt động, ngừng hoạt động).
+ */
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database.config"); // Import sequelize instance
 
