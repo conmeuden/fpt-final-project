@@ -6,8 +6,7 @@ export const AuthService = {
       url: "/api/auth/admin/login",
       data: { email, password },
     });
-    console.log(res);
-    return res;
+    return res.data;
   },
 
   refresh: async () => {
@@ -15,7 +14,6 @@ export const AuthService = {
       url: "/api/auth/admin/refresh",
       data: { token: localStorage.getItem("access_token") },
     });
-    console.log(res);
-    return res;
+    return res.data;
   },
 };

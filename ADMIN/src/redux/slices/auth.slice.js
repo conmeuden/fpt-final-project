@@ -20,14 +20,14 @@ export const refresh = createAsyncThunk(
   async ({ navigate }, thunkAPI) => {
     try {
       const data = await AuthService.refresh();
-      console.log(data);
+
       localStorage.setItem("access_token", data.access_token);
 
-      navigate("/dashboard");
+      navigate(window.location.pathname);
       return data;
     } catch (error) {
       navigate("/login");
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -38,34 +38,34 @@ const authSlice = createSlice({
     isAuthentication: false,
     user: null,
     loading: false,
-    error: false,
+    error: null,
   },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => {
       state.loading = true;
-      state.error = false;
+      state.error = null;
     });
-    builder.addCase(login.rejected, (state) => {
+    builder.addCase(login.rejected, (state, action) => {
       state.loading = false;
-      state.error = true;
+      state.error = action.payload;
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false;
-      state.error = false;
+      state.error = null;
       state.isAuthentication = true;
       state.user = action.payload;
     });
     builder.addCase(refresh.pending, (state) => {
       state.loading = true;
-      state.error = false;
+      state.error = null;
     });
-    builder.addCase(refresh.rejected, (state) => {
+    builder.addCase(refresh.rejected, (state, action) => {
       state.loading = false;
-      state.error = true;
+      state.error = action.payload;
     });
     builder.addCase(refresh.fulfilled, (state, action) => {
       state.loading = false;
-      state.error = false;
+      state.error = null;
       state.isAuthentication = true;
       state.user = action.payload;
     });

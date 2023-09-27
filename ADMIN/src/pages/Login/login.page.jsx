@@ -20,7 +20,7 @@ function LoginPage() {
 
   return (
     <div className="login-page container-fluid">
-      {error && <SystemAlert type={"error"} message={"Lỗi đăng nhập"} />}
+      {error && <SystemAlert type={"error"} message={error} />}
       {loading && <ScreenLoading />}
       <div
         style={{
