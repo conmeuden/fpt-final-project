@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "open": "open build/dist/index.html"
+    "open": "start build/dist/index.html"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
