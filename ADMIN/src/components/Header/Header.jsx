@@ -30,6 +30,9 @@ function Header() {
         >
           <button className="btn btn-success">API document</button>
         </Link>
+        <Link to={"/dashboard/base-components"} target="_blank" className="m-1">
+          <button className="btn btn-warning">UI mẫu</button>
+        </Link>
 
         <Avatar
           sx={{ bgcolor: deepOrange[500] }}
