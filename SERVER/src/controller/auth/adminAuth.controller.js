@@ -95,7 +95,6 @@ const login = async (req, res) => {
 
 const refresh = async (req, res) => {
   const { token } = req.body;
-  console.log(token);
   if (!token) {
     return res
       .status(401)
@@ -109,7 +108,6 @@ const refresh = async (req, res) => {
       return res.status(401).json({ message: "Token không hợp lệ" });
     }
 
-    console.log(decoded);
     if (decoded.role === "ADMIN") {
       const access_token = await jwtService.generateToken(decoded);
       return res.status(200).json({ user: decoded, access_token });

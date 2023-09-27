@@ -24,7 +24,7 @@ function GlobalNotfound() {
             The page you’re looking for doesn’t exist.
           </Typography>
           <Link to={"/login"}>
-            <Button variant="contained">Back Home</Button>
+            <Button variant="contained">Back to login</Button>
           </Link>
         </Box>
       </div>

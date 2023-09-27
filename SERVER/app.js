@@ -3,6 +3,7 @@ require("dotenv").config();
 require("express-async-errors");
 require("./src/services/discord.logger");
 require("./src/config/database.config");
+require("./src/crons/initCron");
 const express = require("express");
 var bodyParser = require("body-parser");
 const initRoute = require("./src/routes/initRoute");
