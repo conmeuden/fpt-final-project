@@ -4,6 +4,7 @@ import LoginPage from "./../pages/Login/login.page";
 import IndexPage from "./../pages/Index/index.page";
 import AppNotfound from "./../components/Notfound/AppNotfound";
 import GlobalNotfound from "./../components/Notfound/GlobalNotfound";
+import { useSelector } from "react-redux";
 
 function AppRouter() {
   return (
@@ -23,16 +24,21 @@ function AppRouter() {
 }
 
 function InitRouter() {
+  const { isAuthentication } = useSelector((state) => state.authentication);
+
   return (
     <Routes>
-      <Route
-        path="/dashboard/*"
-        element={
-          <AppLayout>
-            <AppRouter />
-          </AppLayout>
-        }
-      />
+      {isAuthentication && (
+        <Route
+          path="/dashboard/*"
+          element={
+            <AppLayout>
+              <AppRouter />
+            </AppLayout>
+          }
+        />
+      )}
+
       <Route path="/login" element={<LoginPage />} />
       <Route path="*" element={<GlobalNotfound />} />
     </Routes>

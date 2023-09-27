@@ -14,10 +14,14 @@ function App() {
   );
 
   useEffect(() => {
-    const tokenInLocalStorage = localStorage.getItem("access_token");
+    const token = localStorage.getItem("access_token");
 
-    if (tokenInLocalStorage && !isAuthentication) {
+    if (token && !isAuthentication) {
       dispatch(refresh({ navigate }));
+    }
+
+    if (!token) {
+      navigate("/login");
     }
   }, [dispatch, isAuthentication, navigate]);
 
