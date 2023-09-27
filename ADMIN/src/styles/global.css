@@ -11,3 +11,7 @@ a {
   text-decoration: none !important;
   color: unset !important;
 }
+
+.css-1191obr-MuiPaper-root-MuiAppBar-root {
+  z-index: 50 !important;
+}

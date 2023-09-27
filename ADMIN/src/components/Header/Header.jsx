@@ -3,9 +3,8 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import { deepOrange } from "@mui/material/colors";
-
+import { Link } from "react-router-dom";
 import "./style.css";
-import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -17,17 +16,23 @@ function Header() {
     setAnchorEl(null);
   };
 
-  const navigate = useNavigate();
-
   const handleLogin = () => {
-    setAnchorEl(null);
     localStorage.removeItem("access_token");
-    navigate("/login");
+    window.location.href = "/login";
   };
 
   return (
     <div className="header container-fluid">
       <div>
+        <Link
+          to={"https://backend-dalapha.onrender.com/api/doc/"}
+          target="_blank"
+        >
+          <button className="btn btn-success">
+            Link document API, xem khi cần
+          </button>
+        </Link>
+
         <Avatar
           sx={{ bgcolor: deepOrange[500] }}
           onClick={handleClick}

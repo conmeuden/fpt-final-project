@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
-function PageNotFound() {
+function GlobalNotfound() {
   return (
     <div className="container-fluid" style={{ padding: 0 }}>
       <div
@@ -23,7 +23,7 @@ function PageNotFound() {
           <Typography variant="h6" style={{ color: "#093f68" }}>
             The page you’re looking for doesn’t exist.
           </Typography>
-          <Link to={"/dashboard"}>
+          <Link to={"/login"}>
             <Button variant="contained">Back Home</Button>
           </Link>
         </Box>
@@ -32,4 +32,4 @@ function PageNotFound() {
   );
 }
 
-export default PageNotFound;
+export default GlobalNotfound;
