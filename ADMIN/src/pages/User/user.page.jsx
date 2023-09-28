@@ -25,7 +25,7 @@ function UserPage() {
 
   return (
     <>
-      {error && <SystemAlert type={"error"} message={"Lỗi khi lấy dữ liệu"} />}
+      {error && <SystemAlert type={"error"} message={error} />}
 
       <div className="container">
         {loading && <SmallLoading />}

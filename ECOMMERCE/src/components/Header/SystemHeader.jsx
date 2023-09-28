@@ -4,9 +4,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import { deepOrange } from "@mui/material/colors";
 import { Link } from "react-router-dom";
-import "./style.css";
 
-function Header() {
+function SystemHeader() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -18,7 +17,7 @@ function Header() {
 
   const handleLogin = () => {
     localStorage.removeItem("access_token");
-    window.location.href = "/login";
+    window.location.href = "/sign-in";
   };
 
   return (
@@ -29,9 +28,6 @@ function Header() {
           target="_blank"
         >
           <button className="btn btn-success">API document</button>
-        </Link>
-        <Link to={"/dashboard/base-components"} target="_blank" className="m-1">
-          <button className="btn btn-warning">UI mẫu</button>
         </Link>
 
         <Avatar
@@ -50,6 +46,7 @@ function Header() {
           }}
         >
           <MenuItem onClick={handleClose}>My account</MenuItem>
+
           <MenuItem onClick={handleLogin}>Logout</MenuItem>
         </Menu>
       </div>
@@ -57,4 +54,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default SystemHeader;

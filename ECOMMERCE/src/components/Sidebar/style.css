@@ -1,0 +1,6 @@
+.sidebar-active,
+.sidebar-active svg {
+  background-color: var(--bg-color) !important;
+  color: white !important;
+  font-weight: bold !important;
+}
