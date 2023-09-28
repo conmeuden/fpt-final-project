@@ -1,5 +1,24 @@
+/**
+ * @swagger
+ * definitions:
+ *   Category:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         description: ID của danh mục.
+ *       name:
+ *         type: string
+ *         description: Tên danh mục.
+ *       shop_id:
+ *         type: integer
+ *         description: ID của cửa hàng mà danh mục thuộc về.
+ *       status:
+ *         type: integer
+ *         description: Trạng thái của danh mục (ví dụ: hoạt động, tạm ngừng).
+ */
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../db/db"); // Import sequelize instance
+const sequelize = require("../config/database.config"); // Import sequelize instance
 
 // Định nghĩa model cho bảng 'categories'
 const Category = sequelize.define(

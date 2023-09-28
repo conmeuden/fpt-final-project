@@ -1,5 +1,5 @@
 "use strict";
-
+const path = require("path");
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 const DISCORD_ID_CHANEL = process.env.DISCORD_ID_CHANEL;
 const { Client, TextChannel, GatewayIntentBits } = require("discord.js");
@@ -19,12 +19,15 @@ client.on("ready", () => {
 
 client.login(DISCORD_TOKEN);
 
-async function sendLog(message) {
+async function log(message) {
   try {
     const channel = await client.channels.fetch(DISCORD_ID_CHANEL);
 
     if (channel instanceof TextChannel) {
-      await channel.send(message);
+      const timestamp = new Date().toLocaleString();
+      const logMessage = `[${timestamp}] : ${message}`;
+
+      await channel.send(logMessage);
     } else {
       console.error("Kênh không phải là TextChannel.");
     }
@@ -34,5 +37,5 @@ async function sendLog(message) {
 }
 
 module.exports = {
-  sendLog,
+  log,
 };

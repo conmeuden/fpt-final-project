@@ -1,0 +1,17 @@
+:root {
+  --bg-color: #2093eb;
+}
+body {
+  background-color: rgba(230, 230, 230, 0.76) !important;
+}
+#navbar {
+  background-color: var(--bg-color) !important;
+}
+a {
+  text-decoration: none !important;
+  color: unset !important;
+}
+
+.css-1191obr-MuiPaper-root-MuiAppBar-root {
+  z-index: 50 !important;
+}

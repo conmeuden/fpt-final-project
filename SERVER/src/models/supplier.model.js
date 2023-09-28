@@ -1,5 +1,34 @@
+/**
+ * @swagger
+ * definitions:
+ *   Supplier:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         description: ID của nhà cung cấp.
+ *       name:
+ *         type: string
+ *         description: Tên của nhà cung cấp.
+ *       address:
+ *         type: string
+ *         description: Địa chỉ của nhà cung cấp.
+ *       shop_id:
+ *         type: integer
+ *         description: ID của cửa hàng.
+ *       phone_number:
+ *         type: string
+ *         description: Số điện thoại của nhà cung cấp.
+ *       debt:
+ *         type: number
+ *         format: double
+ *         description: Số nợ của nhà cung cấp.
+ *       status:
+ *         type: integer
+ *         description: Trạng thái của nhà cung cấp.
+ */
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../db/db"); // Import sequelize instance
+const sequelize = require("../config/database.config"); // Import sequelize instance
 
 // Định nghĩa model cho bảng 'suppliers'
 const Supplier = sequelize.define(

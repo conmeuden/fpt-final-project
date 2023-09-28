@@ -10,6 +10,7 @@ const shopRoute = require("./shop.route");
 const shopUserRoute = require("./shopUser.route");
 const supplierRoute = require("./supplier.route");
 const docRoute = require("./doc.route");
+const uploadRoute = require("./upload.route");
 
 const initRoute = (app) => {
   app.use("/api/users", userRoute);
@@ -23,6 +24,8 @@ const initRoute = (app) => {
   app.use("/api/shops", shopRoute);
   app.use("/api/shopUser", shopUserRoute);
   app.use("/api/suppliers", supplierRoute);
+  app.use("/api/upload", uploadRoute);
+
   app.use("/api/doc", docRoute);
 };
 

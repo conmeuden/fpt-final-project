@@ -1,5 +1,21 @@
+/**
+ * @swagger
+ * definitions:
+ *   Cart:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         description: ID của giỏ hàng.
+ *       shop_id:
+ *         type: integer
+ *         description: ID của cửa hàng mà giỏ hàng thuộc về.
+ *       user_id:
+ *         type: integer
+ *         description: ID của người dùng sở hữu giỏ hàng.
+ */
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../db/db");
+const sequelize = require("../config/database.config");
 
 const Cart = sequelize.define(
   "cart",

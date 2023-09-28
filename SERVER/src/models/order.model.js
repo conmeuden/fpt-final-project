@@ -1,5 +1,42 @@
+/**
+ * @swagger
+ * definitions:
+ *   Order:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: integer
+ *         description: ID của đơn hàng.
+ *       created_at:
+ *         type: string
+ *         format: date-time
+ *         description: Thời gian tạo đơn hàng.
+ *       shop_id:
+ *         type: integer
+ *         description: ID của cửa hàng liên quan đến đơn hàng.
+ *       user_id:
+ *         type: integer
+ *         description: ID của người dùng liên quan đến đơn hàng.
+ *       total_price:
+ *         type: number
+ *         format: double
+ *         description: Tổng giá trị đơn hàng.
+ *       coupon:
+ *         type: string
+ *         description: Mã giảm giá sử dụng cho đơn hàng.
+ *       discount:
+ *         type: number
+ *         format: double
+ *         description: Giảm giá được áp dụng cho đơn hàng.
+ *       payment:
+ *         type: string
+ *         description: Phương thức thanh toán cho đơn hàng.
+ *       status:
+ *         type: integer
+ *         description: Trạng thái của đơn hàng (ví dụ: đã thanh toán, đang xử lý).
+ */
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../db/db"); // Import sequelize instance
+const sequelize = require("../config/database.config"); // Import sequelize instance
 
 // Định nghĩa model cho bảng 'orders'
 const Order = sequelize.define(
