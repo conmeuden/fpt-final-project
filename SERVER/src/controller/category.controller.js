@@ -25,6 +25,7 @@
  *         description: Status of the category (e.g., active, inactive).
  */
 const { Category } = require("../models/index");
+const { Op } = require("sequelize");
 
 /**
  * @swagger
