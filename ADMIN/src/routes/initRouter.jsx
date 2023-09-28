@@ -10,6 +10,7 @@ import GlobalNotfound from "./../components/Notfound/GlobalNotfound";
 import BaseComponent from "../pages/BaseComponent/BaseComponent.page";
 import UserPage from "./../pages/User/user.page";
 import UserDetail from "./../pages/User/UserDetail.page";
+import EmailPage from "./../pages/Email/email.page";
 
 function AppRouter() {
   return (
@@ -21,7 +22,7 @@ function AppRouter() {
       <Route path="/users" element={<UserPage />} />
       <Route path="/blogs" element={<h1>blogs page</h1>} />
       <Route path="/shops" element={<h1>shops page</h1>} />
-      <Route path="/email" element={<h1>email page</h1>} />
+      <Route path="/email" element={<EmailPage />} />
       <Route path="/industries" element={<IndustriesPage />} />
       <Route path="/products" element={<h1>products page</h1>} />
       <Route path="/packages" element={<h1>packages page</h1>} />
