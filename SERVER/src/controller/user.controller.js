@@ -104,6 +104,7 @@ const findAll = async (req, res) => {
 
     // Tìm kiếm và phân trang
     const users = await userModel.findAndCountAll({
+      attributes: { exclude: ["password"] }, // Exclude the 'password' field
       where: whereCondition,
       offset: (pageOptions.page - 1) * pageOptions.limit,
       limit: pageOptions.limit,

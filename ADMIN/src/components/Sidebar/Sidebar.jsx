@@ -6,7 +6,6 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import { Link, useLocation } from "react-router-dom";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
-import ExtensionIcon from "@mui/icons-material/Extension";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import PolylineIcon from "@mui/icons-material/Polyline";
 import ForwardToInboxIcon from "@mui/icons-material/ForwardToInbox";
@@ -46,12 +45,12 @@ export default function Sidebar() {
         </ListItemButton>
       </Link>
 
-      <Link to={"/dashboard/products"}>
-        <ListItemButton className={isActive("/dashboard/products")}>
+      <Link to={"/dashboard/users"}>
+        <ListItemButton className={isActive("/dashboard/users")}>
           <ListItemIcon>
-            <ExtensionIcon />
+            <Inventory2Icon />
           </ListItemIcon>
-          <ListItemText primary="Sản phẩm" />
+          <ListItemText primary="Người dùng" />
         </ListItemButton>
       </Link>
 
