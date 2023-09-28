@@ -1,0 +1,15 @@
+#web-header {
+  background-color: var(--bg-color) !important;
+  color: black !important;
+}
+
+#web-header a {
+  margin: 5px;
+}
+
+#dalapha {
+  color: orange;
+}
+#ecommerce {
+  color: white;
+}
