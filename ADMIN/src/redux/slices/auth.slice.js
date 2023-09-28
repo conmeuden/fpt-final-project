@@ -1,3 +1,5 @@
+/** @format */
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AuthService } from "../../services/auth.service";
 
@@ -61,7 +63,7 @@ const authSlice = createSlice({
     });
     builder.addCase(refresh.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload.message;
     });
     builder.addCase(refresh.fulfilled, (state, action) => {
       state.loading = false;

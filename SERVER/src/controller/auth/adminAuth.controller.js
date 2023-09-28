@@ -1,8 +1,6 @@
 /**
- * @swagger
- * tags:
- *   - name: ADMIN LOGIN
- *     description: API related to admin
+ * @format
+ * @swagger tags: - name: ADMIN LOGIN description: API related to admin
  */
 
 const User = require("../../models/user.model");

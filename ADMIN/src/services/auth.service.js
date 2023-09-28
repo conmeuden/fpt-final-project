@@ -1,3 +1,5 @@
+/** @format */
+
 import AxiosService from "./axios.service";
 
 export const AuthService = {
