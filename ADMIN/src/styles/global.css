@@ -15,3 +15,7 @@ a {
 .css-1191obr-MuiPaper-root-MuiAppBar-root {
   z-index: 50 !important;
 }
+
+td:hover {
+  color: #2093eb !important;
+}

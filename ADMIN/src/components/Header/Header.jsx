@@ -30,6 +30,9 @@ function Header() {
         >
           <button className="btn btn-success">API document</button>
         </Link>
+        <Link to={"/dashboard/base-components"} target="_blank" className="m-1">
+          <button className="btn btn-warning">UI mẫu</button>
+        </Link>
 
         <Avatar
           sx={{ bgcolor: deepOrange[500] }}
@@ -47,9 +50,7 @@ function Header() {
           }}
         >
           <MenuItem onClick={handleClose}>My account</MenuItem>
-          <Link to={"/login"}>
-            <MenuItem onClick={handleLogin}>Logout</MenuItem>
-          </Link>
+          <MenuItem onClick={handleLogin}>Logout</MenuItem>
         </Menu>
       </div>
     </div>

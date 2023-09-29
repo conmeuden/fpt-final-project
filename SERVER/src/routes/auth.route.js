@@ -9,6 +9,7 @@ router.post("/admin/refresh", adminAuthController.refresh);
 
 router.post("/shop/login", shopAuthController.login);
 router.post("/shop/register", shopAuthController.register);
+router.post("/shop/refresh", shopAuthController.refresh);
 
 router.post("/customer/login", customerController.login);
 router.post("/customer/register", customerController.register);
