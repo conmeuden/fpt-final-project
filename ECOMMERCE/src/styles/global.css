@@ -16,3 +16,17 @@ a {
 .css-1191obr-MuiPaper-root-MuiAppBar-root {
   z-index: 50 !important;
 }
+
+/* Thay đổi kiểu hiển thị cho tablet và mobile */
+@media (max-width: 1200px) {
+  .login-banner {
+    display: none;
+  }
+}
+
+/* Kiểu hiển thị cho máy tính (màn hình lớn) */
+@media (min-width: 1210px) {
+  .login-banner {
+    display: block;
+  }
+}

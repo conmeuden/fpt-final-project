@@ -34,17 +34,17 @@ function LoginPage() {
     <>
       {loading && <ScreenLoading />}
       {error && <SystemAlert type={"error"} message={error} />}
-      <div className="container-fluid p-0 login-page">
+      <div className="container-fluid p-0 login-page mb-5">
         <div className="container">
           <div className="row" style={{ alignItems: "center" }}>
-            <div className="login-banner col-8">
+            <div className="login-banner col-sm-12 col-md-6 col-xl-8">
               <img
                 src="/images/login-bg.svg"
                 alt="lg"
                 style={{ width: "80%" }}
               />
             </div>
-            <div className="login-form col-4">
+            <div className="login-form col-sm-12 col-md-12 col-xl-4">
               <h2 className="m-3">Chào mừng trở lại !</h2>
               <form onSubmit={handleLogin}>
                 <div className="form-group m-3">
