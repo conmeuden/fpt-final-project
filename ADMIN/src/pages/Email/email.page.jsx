@@ -1,5 +1,11 @@
+import Editor from "../../components/CKEditor/Editor";
+
 function EmailPage() {
-  return <>email page</>;
+  return (
+    <>
+      <Editor />
+    </>
+  );
 }
 
 export default EmailPage;
