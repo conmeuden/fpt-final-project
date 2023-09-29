@@ -75,7 +75,7 @@ const { Op } = require("sequelize");
  */
 const findAll = async (req, res) => {
   try {
-    const { page = 1, limit = 10, keyword = "" } = req.query;
+    const { page = 1, limit = 10, keyword = "", status } = req.query;
     const pageOptions = {
       page: parseInt(page, 10) || 1, // Trang mặc định là 1 nếu không có tham số
       limit: parseInt(limit, 10) || 10, // Giới hạn số mục trên mỗi trang, mặc định là 10 nếu không có tham số
@@ -86,6 +86,10 @@ const findAll = async (req, res) => {
 
     if (keyword) {
       whereCondition.name = { [Op.like]: `%${keyword}%` };
+      // Nếu bạn muốn tìm kiếm theo nhiều trường khác, bạn có thể thêm vào whereCondition tương ứng.
+    }
+    if (status) {
+      whereCondition.status = { [Op.like]: `%${status}%` };
       // Nếu bạn muốn tìm kiếm theo nhiều trường khác, bạn có thể thêm vào whereCondition tương ứng.
     }
 

@@ -74,7 +74,7 @@ const { Category } = require("../models/index");
  */
 const findAll = async (req, res) => {
   try {
-    const { page, limit, keyword } = req.query;
+    const { page, limit, keyword, status } = req.query;
     const pageOptions = {
       page: parseInt(page, 10) || 1,
       limit: parseInt(limit, 10) || 10,
@@ -84,6 +84,10 @@ const findAll = async (req, res) => {
 
     if (keyword) {
       whereCondition.name = { [Op.like]: `%${keyword}%` };
+    }
+
+    if (status) {
+      whereCondition.status = { [Op.like]: `%${status}%` };
     }
 
     const categories = await Category.findAndCountAll({
@@ -99,7 +103,7 @@ const findAll = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching categories:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -142,12 +146,12 @@ const findById = async (req, res) => {
     const { id } = req.params;
     const category = await Category.findByPk(id);
     if (!category) {
-      return res.status(404).json({ error: "Category not found" });
+      return res.status(404).json({ message: "Category not found" });
     }
     return res.json(category);
   } catch (error) {
     console.error(`Error fetching category with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -190,16 +194,17 @@ const findById = async (req, res) => {
  */
 const create = async (req, res) => {
   try {
-    const { name, shop_id, status } = req.body;
+    const firstShopId = req.user.shops[0].id;
+    const { name, status } = req.body;
     const category = await Category.create({
       name,
-      shop_id,
+      shop_id: firstShopId,
       status,
     });
     return res.json(category);
   } catch (error) {
     console.error("Error creating category:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -260,7 +265,7 @@ const update = async (req, res) => {
     const existingCategory = await Category.findByPk(id);
 
     if (!existingCategory) {
-      return res.status(404).json({ error: "Category not found" });
+      return res.status(404).json({ message: "Category not found" });
     }
 
     existingCategory.name = name;
@@ -272,7 +277,7 @@ const update = async (req, res) => {
     return res.json(existingCategory);
   } catch (error) {
     console.error(`Error updating category with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -319,12 +324,12 @@ const remove = async (req, res) => {
     const updatedRows = await Category.update({ status: 0 }, { where: { id } });
 
     if (updatedRows[0] === 0) {
-      return res.status(404).json({ error: "Category not found" });
+      return res.status(404).json({ message: "Category not found" });
     }
     return res.json({ message: "Category deleted successfully" });
   } catch (error) {
     console.error(`Error deleting category with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

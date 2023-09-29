@@ -9,7 +9,7 @@ export const login = createAsyncThunk(
     try {
       const data = await AuthService.login(email, password);
       localStorage.setItem("access_token", data.access_token);
-      navigate("/system");
+      navigate("/management");
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -33,7 +33,7 @@ export const register = createAsyncThunk(
         shop_name: shop_name.trim(),
       });
       localStorage.setItem("access_token", data.access_token);
-      navigate("/system");
+      navigate("/management");
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
