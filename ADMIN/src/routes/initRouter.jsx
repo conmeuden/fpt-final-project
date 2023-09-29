@@ -5,6 +5,7 @@ import AppLayout from "./../layouts/app.layout";
 import LoginPage from "./../pages/Login/login.page";
 import IndexPage from "./../pages/Index/index.page";
 import IndustriesPage from "../pages/Industries/industries.page";
+import IndustryDetail from "../pages/Industries/industryDetail.page";
 import AppNotfound from "./../components/Notfound/AppNotfound";
 import GlobalNotfound from "./../components/Notfound/GlobalNotfound";
 import BaseComponent from "../pages/BaseComponent/BaseComponent.page";
@@ -24,6 +25,7 @@ function AppRouter() {
       <Route path="/shops" element={<h1>shops page</h1>} />
       <Route path="/email" element={<EmailPage />} />
       <Route path="/industries" element={<IndustriesPage />} />
+      <Route path="/industries/:id" element={<IndustryDetail />} />
       <Route path="/products" element={<h1>products page</h1>} />
       <Route path="/packages" element={<h1>packages page</h1>} />
       <Route path="/index" element={<IndexPage />} />

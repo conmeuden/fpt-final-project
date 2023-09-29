@@ -8,8 +8,21 @@ export const getAllIndustries = createAsyncThunk(
   async (thunkAPI) => {
     try {
       const data = await IndustriesService.getAll();
-      console.log("Industry Slice: ", data);
+      //   console.log("Industry Slice: ", data);
       return data.industries.rows;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getIndustryById = createAsyncThunk(
+  "industries/getById",
+  async (id, thunkAPI) => {
+    try {
+      const data = await IndustriesService.getById(id);
+      console.log("by ID >> ", data);
+      return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -58,6 +71,7 @@ const IndustriesSlice = createSlice({
     data: [],
     loading: true,
     error: false,
+    currentIndustry: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -77,12 +91,28 @@ const IndustriesSlice = createSlice({
         state.error = true;
       })
 
+      // getById
+      .addCase(getIndustryById.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(getIndustryById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = false;
+        state.currentIndustry = action.payload;
+      })
+      .addCase(getIndustryById.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+      })
+
       // create
       .addCase(createIndustry.pending, (state) => {
         state.loading = true;
         state.error = false;
       })
       .addCase(createIndustry.fulfilled, (state, action) => {
+        console.log("Industry created:", action.payload);
         state.loading = false;
         state.error = false;
         if (state.data) {
@@ -91,7 +121,8 @@ const IndustriesSlice = createSlice({
           state.data = [{ ...action.payload }];
         }
       })
-      .addCase(createIndustry.rejected, (state) => {
+      .addCase(createIndustry.rejected, (state, action) => {
+        console.error("Error creating industry:", action.error);
         state.loading = false;
         state.error = true;
       })
