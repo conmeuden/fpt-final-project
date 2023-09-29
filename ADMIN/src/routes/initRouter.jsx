@@ -10,7 +10,6 @@ import GlobalNotfound from "./../components/Notfound/GlobalNotfound";
 import BaseComponent from "../pages/BaseComponent/BaseComponent.page";
 import UserPage from "./../pages/User/user.page";
 import UserDetail from "./../pages/User/UserDetail.page";
-import IndustriesPage from "../pages/Industries/industries.page";
 import EmailPage from "./../pages/Email/email.page";
 
 function AppRouter() {

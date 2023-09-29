@@ -99,7 +99,30 @@ function IndustriesPage() {
         <Modal.Header closeButton>
           <Modal.Title>Tạo Ngành Hàng Mới</Modal.Title>
         </Modal.Header>
-        <Modal.Body>🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖</Modal.Body>
+        <Modal.Body>
+          <form action="">
+            <div className="form-group">
+              <label htmlFor="">Tên ngành hàng</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Nhập tên ngành hàng"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Icon</label>
+              <input type="file" className="form-control" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="">Trạng thái</label>
+              <select className="form-control">
+                <option value="">Chọn trạng thái</option>
+                <option value="1">Đang sử dụng</option>
+                <option value="0">Ngừng sử dụng</option>
+              </select>
+            </div>
+          </form>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={handleClose}>
             Cancel
