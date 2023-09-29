@@ -1,4 +1,19 @@
 const nodemailer = require("nodemailer");
+const ejs = require("ejs");
+const fs = require("fs");
+const path = require("path");
+
+const readEjsFile = (link, data) => {
+  try {
+    // Use __dirname to get the directory of the current module
+    const templatePath = path.join(__dirname, link);
+    const template = fs.readFileSync(templatePath, "utf8");
+    return ejs.render(template, data);
+  } catch (error) {
+    console.error("Error reading EJS file:", error.message);
+    return null;
+  }
+};
 
 class EmailService {
   constructor() {
@@ -14,11 +29,15 @@ class EmailService {
 
   // Gửi email đến một địa chỉ
   sendSingleEmail({ to, subject, text }) {
+    const htmlContent = readEjsFile("../emailTemplate/base.template.ejs", {
+      text,
+    });
+
     const mailOptions = {
       from: process.env.MAILSYSTEM_EMAIL,
       to,
       subject,
-      text,
+      html: htmlContent,
     };
 
     return new Promise((resolve, reject) => {
@@ -34,11 +53,14 @@ class EmailService {
 
   // Gửi email đến nhiều địa chỉ
   sendMultipleEmails({ listEmail, subject, text }) {
+    const htmlContent = readEjsFile("../emailTemplate/base.template.ejs", {
+      text,
+    });
     const mailOptions = {
       from: process.env.MAILSYSTEM_EMAIL,
       to: listEmail.join(","),
       subject,
-      text,
+      html: htmlContent,
     };
 
     return new Promise((resolve, reject) => {
