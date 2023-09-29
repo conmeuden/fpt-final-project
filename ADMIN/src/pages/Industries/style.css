@@ -1,1 +1,8 @@
 /** @format */
+
+p {
+  margin-bottom: 0 !important;
+}
+.industry-table {
+  border: 1px solid #bebebe !important;
+}
