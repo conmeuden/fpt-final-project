@@ -1,3 +1,5 @@
+/** @format */
+
 import { Routes, Route } from "react-router-dom";
 import AppLayout from "./../layouts/app.layout";
 import LoginPage from "./../pages/Login/login.page";
@@ -7,6 +9,7 @@ import GlobalNotfound from "./../components/Notfound/GlobalNotfound";
 import BaseComponent from "../pages/BaseComponent/BaseComponent.page";
 import UserPage from "./../pages/User/user.page";
 import UserDetail from "./../pages/User/UserDetail.page";
+import IndustriesPage from "../pages/Industries/industries.page";
 
 function AppRouter() {
   return (
@@ -19,7 +22,7 @@ function AppRouter() {
       <Route path="/blogs" element={<h1>blogs page</h1>} />
       <Route path="/shops" element={<h1>shops page</h1>} />
       <Route path="/email" element={<h1>email page</h1>} />
-      <Route path="/industries" element={<h1>industries page</h1>} />
+      <Route path="/industries" element={<IndustriesPage />} />
       <Route path="/packages" element={<h1>packages page</h1>} />
       <Route path="/index" element={<IndexPage />} />
       <Route path="/" element={<IndexPage />} />
