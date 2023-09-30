@@ -2,10 +2,10 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "./../redux/slices/auth.slice";
+import { login } from "../../redux/slices/auth.slice";
 import { useNavigate } from "react-router-dom";
-import ScreenLoading from "./../components/Loading/ScreenLoading";
-import SystemAlert from "./../components/Alert/Alert";
+import ScreenLoading from "../../components/Loading/ScreenLoading";
+import SystemAlert from "../../components/Alert/Alert";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +20,7 @@ function LoginPage() {
 
   return (
     <div className="login-page container-fluid">
-      {error && <SystemAlert type={"error"} message={"Lỗi đăng nhập"} />}
+      {error && <SystemAlert type={"error"} message={error} />}
       {loading && <ScreenLoading />}
       <div
         style={{
@@ -36,7 +36,7 @@ function LoginPage() {
           <h1>LOGIN !</h1>
           <h3>Welcome back</h3>
         </div>
-        <Form>
+        <Form onSubmit={handleLogin}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
@@ -62,7 +62,7 @@ function LoginPage() {
           </Form.Group>
 
           <center>
-            <Button variant="success" type="button" onClick={handleLogin}>
+            <Button variant="success" type="submit">
               Go to dashboard
             </Button>
           </center>

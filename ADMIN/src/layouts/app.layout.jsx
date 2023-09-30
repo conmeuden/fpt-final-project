@@ -81,7 +81,7 @@ const Drawer = styled(MuiDrawer, {
 // eslint-disable-next-line react/prop-types
 export default function AppLayout({ children }) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -125,6 +125,7 @@ export default function AppLayout({ children }) {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
+
         <div className="main">{children}</div>
       </Box>
     </Box>

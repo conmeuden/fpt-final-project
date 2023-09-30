@@ -1,8 +1,6 @@
 /**
- * @swagger
- * tags:
- *   - name: ADMIN LOGIN
- *     description: API related to admin
+ * @format
+ * @swagger tags: - name: ADMIN LOGIN description: API related to admin
  */
 
 const User = require("../../models/user.model");
@@ -95,7 +93,6 @@ const login = async (req, res) => {
 
 const refresh = async (req, res) => {
   const { token } = req.body;
-  console.log(token);
   if (!token) {
     return res
       .status(401)
@@ -109,8 +106,7 @@ const refresh = async (req, res) => {
       return res.status(401).json({ message: "Token không hợp lệ" });
     }
 
-    console.log(decoded);
-    if (decoded.role === "ADMIN") {
+    if (decoded.role === ROLE) {
       const access_token = await jwtService.generateToken(decoded);
       return res.status(200).json({ user: decoded, access_token });
     } else {

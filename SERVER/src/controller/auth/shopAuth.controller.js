@@ -4,6 +4,9 @@
  *   - name: Saler auth
  *     description: API related to saler
  */
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth2");
+const { v4: uuid } = require("uuid");
 const { Shop, User, Package } = require("../../models/index");
 const jwtService = require("../../services/jwt.service");
 const bcryptService = require("../../services/bcrypt.service");
@@ -101,7 +104,7 @@ const login = async (req, res) => {
     return res.json({ user, access_token });
   } catch (error) {
     log(`Lỗi đăng nhập trang shop: ${error}`);
-    res.status(500).json({ error: "Lỗi xử lý" });
+    res.status(500).json({ message: "Lỗi xử lý" });
   }
 };
 
@@ -211,14 +214,97 @@ const register = async (req, res) => {
 
     const access_token = await jwtService.generateToken(newUser.dataValues);
 
-    return res.json({ access_token });
+    return res.json({ user: newUser, access_token });
   } catch (error) {
     log(`Lỗi đăng ký trang customer: ${error}`);
-    res.status(500).json({ error: "Lỗi xử lý" });
+    res.status(500).json({ message: "Lỗi xử lý" });
   }
 };
 
+// const loginWithGoogle = passport.use(
+//   new GoogleStrategy(
+//     {
+//       clientID: process.env.GOOGLE_CLIENT_ID,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//       callbackURL: "/api/auth/shop/google/callback",
+//     },
+//     async function (accessToken, refreshToken, profile, cb) {
+//       const tokenLogin = uuid();
+//       profile.tokenLogin = tokenLogin;
+//       try {
+//         if (profile?.id) {
+//           const user = await User.findOrCreate({
+//             where: { email: profile.emails[0]?.value },
+//             defaults: {
+//               email: profile.emails[0]?.value,
+//               full_name: profile?.displayName,
+//               password: "",
+//               phone_number: "",
+//               address: "",
+//               role: ROLE,
+//               status: 1,
+//             },
+//           });
+
+//           const trialPackage = await Package.findOne({
+//             where: { name: TRIAL_PACKAGE },
+//           });
+
+//           const shop_info = await Shop.findOrCreate({
+//             where: { user_id: user.id },
+//             defaults: {
+//               name: "",
+//               user_id: user.id,
+//               package_id: trialPackage.id,
+//               logo: "",
+//               created_at: new Date(),
+//               description: "",
+//               address: "",
+//               phone_number: "",
+//               status: 1,
+//             },
+//           });
+
+//           accessToken = await jwtService.generateToken(user);
+//         }
+//       } catch (error) {
+//         console.log(error);
+//       }
+//       return cb(null, profile, accessToken);
+//     }
+//   )
+// );
+
+const refresh = async (req, res) => {
+  const { token } = req.body;
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: "Không có token, truy cập bị từ chối" });
+  }
+
+  try {
+    const decoded = await jwtService.verifyToken(token);
+
+    if (!decoded) {
+      return res.status(401).json({ message: "Token không hợp lệ" });
+    }
+
+    if (decoded.role === ROLE) {
+      const access_token = await jwtService.generateToken(decoded);
+      return res.status(200).json({ user: decoded, access_token });
+    } else {
+      return res.status(403).json({ message: "Không có quyền truy cập" });
+    }
+  } catch (err) {
+    console.log(err);
+    log("Lỗi khi refresh api shop: " + err);
+    res.status(401).json({ message: "Token không hợp lệ" });
+  }
+};
 module.exports = {
   login,
   register,
+  // loginWithGoogle,
+  refresh,
 };
