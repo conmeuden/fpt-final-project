@@ -12,7 +12,8 @@ import BaseComponent from "../pages/BaseComponent/BaseComponent.page";
 import UserPage from "./../pages/User/user.page";
 import UserDetail from "./../pages/User/UserDetail.page";
 import EmailPage from "./../pages/Email/email.page";
-
+import PackagePage from "../pages/Packages/packages.page";
+import PackageDetail from "../pages/Packages/PackageDetail.page";
 function AppRouter() {
   return (
     //Thêm router ở đây
@@ -27,7 +28,8 @@ function AppRouter() {
       <Route path="/industries" element={<IndustriesPage />} />
       <Route path="/industries/:id" element={<IndustryDetail />} />
       <Route path="/products" element={<h1>products page</h1>} />
-      <Route path="/packages" element={<h1>packages page</h1>} />
+      <Route path="/packages" element={<PackagePage/>} />
+      <Route path="/packages/:id" element={<PackageDetail/>} />
       <Route path="/index" element={<IndexPage />} />
       <Route path="/" element={<IndexPage />} />
       <Route path="*" element={<AppNotfound />} />
