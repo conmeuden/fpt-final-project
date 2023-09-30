@@ -79,7 +79,6 @@ function IndustriesPage() {
         status,
       })
     );
-    console.log("data", data);
   }, [dispatch, keyword, status, page]);
 
   useEffect(() => {
