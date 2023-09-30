@@ -67,7 +67,7 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({
-      where: { email, role: ROLE },
+      where: { email },
       include: [
         {
           model: Shop,
@@ -84,6 +84,9 @@ const login = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: "Email không tồn tại" });
+    }
+    if (user.role !== ROLE) {
+      return res.status(404).json({ message: "Không có quyền truy cập" });
     }
     // Xác minh mật khẩu
     const isPasswordValid = await bcryptService.compare(

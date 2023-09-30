@@ -92,7 +92,7 @@ const login = async (req, res) => {
     return res.json({ user, access_token });
   } catch (error) {
     log(`Lỗi đăng nhập trang customer: ${error}`);
-    res.status(500).json({ error: "Lỗi xử lý" });
+    res.status(500).json({ message: "Lỗi xử lý" });
   }
 };
 
@@ -181,7 +181,7 @@ const register = async (req, res) => {
     return res.json({ access_token });
   } catch (error) {
     log(`Lỗi đăng ký trang customer: ${error}`);
-    res.status(500).json({ error: "Lỗi xử lý" });
+    res.status(500).json({ message: "Lỗi xử lý" });
   }
 };
 
