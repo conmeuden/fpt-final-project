@@ -4,6 +4,9 @@
  *   - name: Saler auth
  *     description: API related to saler
  */
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth2");
+const { v4: uuid } = require("uuid");
 const { Shop, User, Package } = require("../../models/index");
 const jwtService = require("../../services/jwt.service");
 const bcryptService = require("../../services/bcrypt.service");
@@ -221,6 +224,60 @@ const register = async (req, res) => {
   }
 };
 
+// const loginWithGoogle = passport.use(
+//   new GoogleStrategy(
+//     {
+//       clientID: process.env.GOOGLE_CLIENT_ID,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//       callbackURL: "/api/auth/shop/google/callback",
+//     },
+//     async function (accessToken, refreshToken, profile, cb) {
+//       const tokenLogin = uuid();
+//       profile.tokenLogin = tokenLogin;
+//       try {
+//         if (profile?.id) {
+//           const user = await User.findOrCreate({
+//             where: { email: profile.emails[0]?.value },
+//             defaults: {
+//               email: profile.emails[0]?.value,
+//               full_name: profile?.displayName,
+//               password: "",
+//               phone_number: "",
+//               address: "",
+//               role: ROLE,
+//               status: 1,
+//             },
+//           });
+
+//           const trialPackage = await Package.findOne({
+//             where: { name: TRIAL_PACKAGE },
+//           });
+
+//           const shop_info = await Shop.findOrCreate({
+//             where: { user_id: user.id },
+//             defaults: {
+//               name: "",
+//               user_id: user.id,
+//               package_id: trialPackage.id,
+//               logo: "",
+//               created_at: new Date(),
+//               description: "",
+//               address: "",
+//               phone_number: "",
+//               status: 1,
+//             },
+//           });
+
+//           accessToken = await jwtService.generateToken(user);
+//         }
+//       } catch (error) {
+//         console.log(error);
+//       }
+//       return cb(null, profile, accessToken);
+//     }
+//   )
+// );
+
 const refresh = async (req, res) => {
   const { token } = req.body;
   if (!token) {
@@ -251,5 +308,6 @@ const refresh = async (req, res) => {
 module.exports = {
   login,
   register,
+  // loginWithGoogle,
   refresh,
 };

@@ -5,6 +5,10 @@
  *     description: API related to customers
  */
 
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth2");
+const FacebookStrategy = require("passport-facebook");
+const { v4: uuid } = require("uuid");
 const { Shop, User, Package } = require("../../models/index");
 const jwtService = require("../../services/jwt.service");
 const bcryptService = require("../../services/bcrypt.service");
@@ -185,7 +189,78 @@ const register = async (req, res) => {
   }
 };
 
+const loginWithGoogle = passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/api/auth/customer/google/callback",
+    },
+    async function (accessToken, refreshToken, profile, cb) {
+      const tokenLogin = uuid();
+      profile.tokenLogin = tokenLogin;
+      try {
+        if (profile?.id) {
+          const user = await User.findOrCreate({
+            where: { email: profile.emails[0]?.value },
+            defaults: {
+              email: profile.emails[0]?.value,
+              full_name: profile?.displayName,
+              password: "",
+              phone_number: "",
+              address: "",
+              role: ROLE,
+              status: 1,
+            },
+          });
+          accessToken = await jwtService.generateToken(user);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      return cb(null, profile, accessToken);
+    }
+  )
+);
+
+const loginWithFacebook = passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: "/api/auth/customer/facebook/callback",
+      profileFields: ["email", "photos", "id", "displayName"],
+    },
+    async function (accessToken, refreshToken, profile, cb) {
+      const tokenLogin = uuid();
+      profile.tokenLogin = tokenLogin;
+      try {
+        if (profile?.id) {
+          const user = await User.findOrCreate({
+            where: { email: profile.emails[0]?.value },
+            defaults: {
+              email: profile.emails[0]?.value,
+              full_name: profile?.displayName,
+              password: "",
+              phone_number: "",
+              address: "",
+              role: ROLE,
+              status: 1,
+            },
+          });
+          accessToken = await jwtService.generateToken(user);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      return cb(null, profile, accessToken);
+    }
+  )
+);
+
 module.exports = {
   login,
   register,
+  loginWithGoogle,
+  loginWithFacebook,
 };
