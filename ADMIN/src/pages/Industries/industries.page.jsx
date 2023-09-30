@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import SmallLoading from "./../../components/Loading/SmallLoading";
-import AutoTable from "./../../components/Table/Table";
+// import AutoTable from "./../../components/Table/Table";
 import Table from "react-bootstrap/Table";
 
 function IndustriesPage() {
