@@ -4,6 +4,7 @@ require("express-async-errors");
 require("./src/services/discord.logger");
 require("./src/config/database.config");
 require("./src/crons/initCron");
+require("passport");
 const express = require("express");
 var bodyParser = require("body-parser");
 const initRoute = require("./src/routes/initRoute");
@@ -18,6 +19,7 @@ app.use(cors());
 app.use("/api", jwtAuthMiddleware);
 app.use(express.static("public"));
 app.use(bodyParser.json());
+
 initRoute(app);
 
 // init server

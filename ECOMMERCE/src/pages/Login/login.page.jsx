@@ -6,6 +6,8 @@ import { useState } from "react";
 import { login } from "../../redux/slices/auth.slice";
 import ScreenLoading from "../../components/Loading/ScreenLoading";
 import SystemAlert from "../../components/Alert/Alert";
+import { GoogleLogin } from "@react-oauth/google";
+import { googleLogin } from "../../redux/slices/auth.slice";
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -29,6 +31,14 @@ function LoginPage() {
   const handleLogin = (e) => {
     e.preventDefault();
     dispatch(login({ ...formData, navigate }));
+  };
+
+  const responseMessage = async (response) => {
+    dispatch(googleLogin({ access_token: response.credential, navigate }));
+  };
+
+  const errorMessage = (error) => {
+    console.log(error);
   };
   return (
     <>
@@ -76,14 +86,24 @@ function LoginPage() {
                 </div>
               </form>
               <hr className="hr" />
+
+              <div>
+                <GoogleLogin
+                  responseType="code,token"
+                  onSuccess={responseMessage}
+                  onError={errorMessage}
+                  text="ád"
+                />
+              </div>
+
               <Link to="/sign-up">
                 <div>
                   <Button variant="link">Tạo một cửa hàng</Button>
                 </div>
-                <div>
-                  <Button variant="link">Quên mật khẩu?</Button>
-                </div>
               </Link>
+              <div>
+                <Button variant="link">Quên mật khẩu?</Button>
+              </div>
             </div>
           </div>
         </div>

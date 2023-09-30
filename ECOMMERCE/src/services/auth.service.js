@@ -40,4 +40,12 @@ export const AuthService = {
     });
     return res.data;
   },
+
+  googleLogin: async ({ access_token }) => {
+    const res = await AxiosService.post({
+      url: "api/auth/shop/google",
+      data: { access_token },
+    });
+    return res.data;
+  },
 };
