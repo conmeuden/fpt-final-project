@@ -18,4 +18,17 @@ export const CategoryService = {
     });
     return res.data;
   },
+  updateCategory: async ({ id, category }) => {
+    const res = await AxiosService.put({
+      url: `api/categories/${id}`,
+      data: category,
+    });
+    return res.data;
+  },
+  deleteCategory: async (id) => {
+    const res = await AxiosService.delete({
+      url: `api/categories/${id}`,
+    });
+    return res.data;
+  },
 };
