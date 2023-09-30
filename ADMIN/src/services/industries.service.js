@@ -8,7 +8,7 @@ const IndustriesService = {
       page: page || 1,
       limit: limit || 10,
       keyword: keyword || "",
-      status,
+      status: status || "",
     });
 
     const res = await AxiosService.get({ url: "api/industries", params });
