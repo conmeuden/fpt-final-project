@@ -1,11 +1,13 @@
 import AxiosService from "./axios.service";
 
 const UserService = {
-  getAllUsers: async ({ page, limit, keyword }) => {
+  getAllUsers: async ({ page, limit, keyword, role, status }) => {
     const params = new URLSearchParams({
       page: page || 1,
       limit: limit || 10,
       keyword: keyword || "",
+      role,
+      status,
     });
 
     const res = await AxiosService.get({ url: "api/users", params });

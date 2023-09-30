@@ -74,6 +74,9 @@ const findAll = async (req, res) => {
 
     // Tìm kiếm và phân trang
     const blogs = await Blog.findAndCountAll({
+      attributes: {
+        exclude: ["content", "slug"], // Exclude the 'content' field
+      },
       where: whereCondition,
       offset: (pageOptions.page - 1) * pageOptions.limit,
       limit: pageOptions.limit,

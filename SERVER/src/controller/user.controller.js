@@ -88,7 +88,7 @@ const { Op } = require("sequelize");
  */
 const findAll = async (req, res) => {
   try {
-    const { page, limit, keyword } = req.query;
+    const { page, limit, keyword, role, status } = req.query;
     const pageOptions = {
       page: parseInt(page, 10) || 1,
       limit: parseInt(limit, 10) || 10,
@@ -98,8 +98,18 @@ const findAll = async (req, res) => {
     const whereCondition = {};
 
     if (keyword) {
-      whereCondition.full_name = { [Op.like]: `%${keyword}%` };
-      // Nếu bạn muốn tìm kiếm theo nhiều trường khác, bạn có thể thêm vào whereCondition tương ứng.
+      whereCondition[Op.or] = [
+        { full_name: { [Op.like]: `%${keyword}%` } },
+        { email: { [Op.like]: `%${keyword}%` } },
+      ];
+    }
+
+    if (role) {
+      whereCondition.role = role;
+    }
+
+    if (status) {
+      whereCondition.status = status;
     }
 
     // Tìm kiếm và phân trang
@@ -235,11 +245,21 @@ const findById = async (req, res) => {
  */
 const create = async (req, res) => {
   try {
+    const existingUser = await userModel.findOne({
+      where: {
+        email: req.body.email,
+      },
+    });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "Email đã tồn tại !" });
+    }
+
     const newUser = await userModel.create(req.body);
     res.status(201).json(newUser);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Lỗi khi tạo người dùng" });
+    res.status(500).json({ message: "Lỗi khi tạo người dùng" });
   }
 };
 
@@ -325,15 +345,32 @@ const create = async (req, res) => {
  */
 const update = async (req, res) => {
   const userId = req.params.id;
+  const newEmail = req.body.email;
+
   try {
     const user = await userModel.findByPk(userId);
     if (!user) {
       return res.status(404).json({ message: "Không tìm thấy người dùng" });
     }
+
+    // If the email is being changed, check if the new email already exists
+    if (newEmail !== user.email) {
+      const existingUserWithNewEmail = await userModel.findOne({
+        where: {
+          email: newEmail,
+        },
+      });
+
+      if (existingUserWithNewEmail) {
+        return res.status(400).json({ message: "Email mới đã tồn tại" });
+      }
+    }
+
+    // Update the user
     await user.update(req.body);
     res.json({ message: "Cập nhật người dùng thành công" });
   } catch (error) {
-    res.status(500).json({ error: "Lỗi khi cập nhật người dùng" });
+    res.status(500).json({ message: "Lỗi khi cập nhật người dùng" });
   }
 };
 

@@ -57,8 +57,31 @@ const { Package } = require("../models/index");
  */
 const findAll = async (req, res) => {
   try {
-    const packages = await Package.findAll();
-    return res.json(packages);
+    const { page = 1, limit = 10, keyword = "" } = req.query;
+    const pageOptions = {
+      page: parseInt(page, 10) || 1, // Trang mặc định là 1 nếu không có tham số
+      limit: parseInt(limit, 10) || 10, // Giới hạn số mục trên mỗi trang, mặc định là 10 nếu không có tham số
+    };
+
+    // Điều kiện tìm kiếm
+    const whereCondition = {};
+
+    if (keyword) {
+      whereCondition.name = { [Op.like]: `%${keyword}%` };
+      // Nếu bạn muốn tìm kiếm theo nhiều trường khác, bạn có thể thêm vào whereCondition tương ứng.
+    }
+
+    const packages = await Package.findAndCountAll({
+      where: whereCondition,
+      offset: (pageOptions.page - 1) * pageOptions.limit,
+      limit: pageOptions.limit,
+    });
+
+    return res.json({
+      page: pageOptions.page,
+      limit: pageOptions.limit,
+      packages,
+    });
   } catch (error) {
     console.error("Error fetching packages:", error);
     return res.status(500).json({ error: "Internal Server Error" });
