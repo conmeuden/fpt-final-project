@@ -3,19 +3,19 @@
 import AxiosService from "./axios.service";
 
 const IndustriesService = {
-  async getAll() {
-    const res = await AxiosService.get({
-      url: "api/industries",
+  getAll: async ({ page, limit, keyword, status }) => {
+    const params = new URLSearchParams({
+      page: page || 1,
+      limit: limit || 10,
+      keyword: keyword || "",
+      status: status || "",
     });
+
+    const res = await AxiosService.get({ url: "api/industries", params });
     return res.data;
   },
 
   async create(industryData) {
-    // const formData = new FormData();
-    // formData.append("name", industryData.name);
-    // formData.append("status", industryData.status);
-    // formData.append("icon", industryData.icon);
-
     const res = await AxiosService.post({
       url: `api/industries`,
       data: industryData,
@@ -30,10 +30,10 @@ const IndustriesService = {
     return res.data;
   },
 
-  async update(id, industryData) {
+  updateIndustry: async ({ id, industry }) => {
     const res = await AxiosService.put({
       url: `api/industries/${id}`,
-      data: industryData,
+      data: industry,
     });
     return res.data;
   },

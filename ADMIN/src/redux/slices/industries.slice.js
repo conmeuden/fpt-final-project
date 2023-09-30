@@ -5,11 +5,15 @@ import IndustriesService from "./../../services/industries.service";
 
 export const getAllIndustries = createAsyncThunk(
   "industries/getAllIndustries",
-  async (thunkAPI) => {
+  async ({ page, limit, keyword, status }, thunkAPI) => {
     try {
-      const data = await IndustriesService.getAll();
-      //   console.log("Industry Slice: ", data);
-      return data.industries.rows;
+      const data = await IndustriesService.getAll({
+        page,
+        limit,
+        keyword,
+        status,
+      });
+      return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -41,17 +45,17 @@ export const createIndustry = createAsyncThunk(
   }
 );
 
-export const updateIndustry = createAsyncThunk(
-  "industries/updateIndustry",
-  async ({ id, industryData }, thunkAPI) => {
-    try {
-      const data = await IndustriesService.update(id, industryData);
-      return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
+// export const updateIndustry = createAsyncThunk(
+//   "industries/updateIndustry",
+//   async ({ id, industryData }, thunkAPI) => {
+//     try {
+//       const data = await IndustriesService.update(id, industryData);
+//       return data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );
 
 export const deleteIndustry = createAsyncThunk(
   "industries/deleteIndustry",
@@ -68,7 +72,7 @@ export const deleteIndustry = createAsyncThunk(
 const IndustriesSlice = createSlice({
   name: "industry",
   initialState: {
-    data: [],
+    data: null,
     loading: true,
     error: false,
     currentIndustry: null,
@@ -86,9 +90,9 @@ const IndustriesSlice = createSlice({
         state.loading = false;
         state.error = false;
       })
-      .addCase(getAllIndustries.rejected, (state) => {
+      .addCase(getAllIndustries.rejected, (state, action) => {
         state.loading = false;
-        state.error = true;
+        state.error = action.payload.message;
       })
 
       // getById
@@ -127,25 +131,25 @@ const IndustriesSlice = createSlice({
         state.error = true;
       })
       // update
-      .addCase(updateIndustry.pending, (state) => {
-        state.loading = true;
-        state.error = false;
-      })
-      .addCase(updateIndustry.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = false;
-        const industry = action.payload;
-        const index = state.data.findIndex((item) => item._id === industry._id);
-        if (index !== -1) {
-          state.data[index] = { ...state.data[index], ...industry };
-        } else {
-          state.data.push(industry);
-        }
-      })
-      .addCase(updateIndustry.rejected, (state) => {
-        state.loading = false;
-        state.error = true;
-      })
+      // .addCase(updateIndustry.pending, (state) => {
+      //   state.loading = true;
+      //   state.error = false;
+      // })
+      // .addCase(updateIndustry.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.error = false;
+      //   const industry = action.payload;
+      //   const index = state.data.findIndex((item) => item._id === industry._id);
+      //   if (index !== -1) {
+      //     state.data[index] = { ...state.data[index], ...industry };
+      //   } else {
+      //     state.data.push(industry);
+      //   }
+      // })
+      // .addCase(updateIndustry.rejected, (state) => {
+      //   state.loading = false;
+      //   state.error = true;
+      // })
       // delete
       .addCase(deleteIndustry.pending, (state) => {
         state.loading = true;

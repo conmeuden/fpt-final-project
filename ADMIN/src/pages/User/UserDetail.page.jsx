@@ -1,3 +1,5 @@
+/** @format */
+
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import UserService from "./../../services/users.service";
@@ -29,6 +31,7 @@ function UserDetail() {
       return;
     }
 
+    console.log("user >> ", user);
     try {
       setLoading(true);
       await UserService.updateUser({
