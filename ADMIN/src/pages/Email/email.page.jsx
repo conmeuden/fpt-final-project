@@ -99,9 +99,9 @@ function EmailPage() {
       {errorEmail && <SystemAlert type={"error"} message={errorEmail} />}
       {error && <SystemAlert type={"error"} message={error} />}
       {loading && <SmallLoading />}
-      <div className="email-page container">
+      <div className="email-page container-fluid">
         <div className="row">
-          <div className="email-form col-8">
+          <div className="email-form col-sm-12 col-md-7 col-xl-8">
             <form onSubmit={sendEmail}>
               <div className="form-group m-3">
                 <input
@@ -125,7 +125,7 @@ function EmailPage() {
               </div>
             </form>
           </div>
-          <div className="email-listUser col-4">
+          <div className="email-listUser col-sm-12 col-md-5 col-xl-4">
             <CheckBoxList
               data={data}
               checked={checked}

@@ -9,7 +9,7 @@ function App() {
     <>
       <Routes>
         <Route
-          path="/system/*"
+          path="/management/*"
           element={
             <SystemLayout>
               <SystemRouter />

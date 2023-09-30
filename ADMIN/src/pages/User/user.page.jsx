@@ -32,7 +32,7 @@ function UserPage() {
     <>
       {error && <SystemAlert type={"error"} message={error} />}
 
-      <div className="container">
+      <div className="user-page container-fluid">
         {loading && <SmallLoading />}
         <div className="users-table">
           <form
@@ -41,9 +41,9 @@ function UserPage() {
               setKeyword(searchText);
             }}
           >
-            <div className="user-control row mb-3">
+            <div className="user-control  mb-3">
               <div className="row">
-                <div className="col-3">
+                <div className="col-sm-12 col-md-6 col-xl-3">
                   <input
                     onChange={(e) => {
                       setSearchText(e.target.value);
@@ -54,7 +54,7 @@ function UserPage() {
                     className="form-control"
                   />
                 </div>
-                <div className="col-3">
+                <div className="col-sm-12 col-md-6 col-xl-3">
                   <select
                     defaultValue={role}
                     onChange={(e) => {
@@ -68,7 +68,7 @@ function UserPage() {
                     <option value="CUSTOMER">Người tiêu dùng</option>
                   </select>
                 </div>
-                <div className="col-3">
+                <div className="col-sm-12 col-md-6 col-xl-3">
                   <select
                     defaultValue={status}
                     onChange={(e) => {

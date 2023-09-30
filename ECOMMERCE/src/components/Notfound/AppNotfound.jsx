@@ -23,7 +23,7 @@ function AppNotfound() {
           <Typography variant="h6" style={{ color: "#093f68" }}>
             The page you’re looking for doesn’t exist.
           </Typography>
-          <Link to={"/system/index"}>
+          <Link to={"/management/index"}>
             <Button variant="contained">Trở về trang chủ</Button>
           </Link>
         </Box>
