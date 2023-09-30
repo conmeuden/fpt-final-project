@@ -5,6 +5,7 @@ import { register } from "../../redux/slices/auth.slice";
 import { useNavigate } from "react-router-dom";
 import ScreenLoading from "../../components/Loading/ScreenLoading";
 import SystemAlert from "./../../components/Alert/Alert";
+
 function RegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
