@@ -28,7 +28,19 @@ function AutoTable({ data, setPage, limit, page, count, link }) {
             <tr key={rowIndex}>
               {columns.map((column, colIndex) => (
                 <td key={colIndex}>
-                  <Link to={`${link}/${row.id}`}>{row[column]}</Link>
+                  {column === "status" ? (
+                    row[column] === 1 ? (
+                      <span style={{ color: "green", fontWeight: "500" }}>
+                        Đang sử dụng
+                      </span>
+                    ) : (
+                      <span style={{ color: "#FE5000", fontWeight: "500" }}>
+                        Ngưng sử dụng
+                      </span>
+                    )
+                  ) : (
+                    <Link to={`${link}/${row.id}`}>{row[column]}</Link>
+                  )}
                 </td>
               ))}
             </tr>
