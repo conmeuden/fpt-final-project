@@ -12,19 +12,31 @@ import SmallLoading from "./../../components/Loading/SmallLoading";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import UploadService from "../../services/upload.service";
+import Toastify from "../../components/Toastify/Toastify";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 function IndustriesPage() {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
-  const industriesData = useSelector((state) => state.industries.data);
-  const { loading, error } = useSelector((state) => state.industries);
 
+  const [page, setPage] = useState(1);
+
+  const [keyword, setKeyword] = useState("");
+  const [status, setStatus] = useState("");
+  const [searchText, setSearchText] = useState("");
+
+  // const data = useSelector((state) => state.industries.data);
+  const { data, loading, error } = useSelector((state) => state.industries);
+  const limit = 10; // Số lượng items trên mỗi trang.
+  const totalItems = data?.industries?.count || 0;
+  const totalPages = Math.ceil(totalItems / limit);
   const [file, setFile] = useState(null);
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [toast, setToast] = useState({ type: "", message: "" });
 
-  // Thêm ngành hàng mới start
   const [newIndustry, setNewIndustry] = useState({
     name: "",
     icon: "",
@@ -49,52 +61,84 @@ function IndustriesPage() {
   };
 
   const handleCreateIndustry = async () => {
-    console.log("newIndustry: ", newIndustry);
     try {
-      // Gọi API để tạo ngành hàng mới
-      // const formData = new FormData();
-      // formData.append("name", newIndustry.name);
-      // formData.append("status", newIndustry.status);
-      // formData.append("icon", newIndustry.icon);
       dispatch(createIndustry(newIndustry));
       handleClose();
+      setToast({ type: "success", message: "Tạo thành công" });
     } catch (error) {
-      console.error("Error creating industry:", error);
+      setToast({ type: "error", message: error.message });
     }
   };
 
   useEffect(() => {
-    dispatch(getAllIndustries());
-    // console.log("Industry data: ", industriesData);
-  }, [dispatch, page]);
+    dispatch(
+      getAllIndustries({
+        page,
+        limit: limit,
+        keyword,
+        status,
+      })
+    );
+  }, [dispatch, keyword, status, page]);
+
+  useEffect(() => {
+    if (error) {
+      setToast({ type: "error", message: error.message });
+    }
+  }, [error]);
 
   if (loading) {
     return <SmallLoading />;
   }
-  if (error) {
-    return (
-      <div className="container text-center">
-        <h1>Đã có lỗi xảy ra...</h1>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return setToast({ type: "error", message: error.message });
+  // }
 
   return (
     <>
-      <div className="row">
-        {/* {loading && <SmallLoading />} */}
-        <div className="col-8">
-          <h2>Các ngành hàng trong hệ thống</h2>
+      {/* {loading && <SmallLoading />} */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setKeyword(searchText);
+          setPage(1);
+        }}
+      >
+        <div className="row mb-3">
+          <div className="col-3">
+            <input
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+              type="text"
+              placeholder="Tìm kiếm ngành hàng"
+              value={searchText}
+              className="form-control"
+            />
+          </div>
+          <div className="col-3">
+            <select
+              defaultValue={status}
+              onChange={(e) => {
+                setStatus(e.target.value);
+              }}
+              className="form-control"
+            >
+              <option value="">Chọn trạng thái</option>
+              <option value="1">Đang sử dụng</option>
+              <option value="2">Ngừng sử dụng</option>
+            </select>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-primary nut">Tìm kiếm</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-primary nut" onClick={handleShow}>
+              Thêm ngành hàng
+            </button>
+          </div>
         </div>
-        <div
-          className="col-4"
-          style={{ display: "flew", justifyContent: "end" }}
-        >
-          <button className="btn btn-primary" onClick={handleShow}>
-            Thêm ngành hàng
-          </button>
-        </div>
-      </div>
+      </form>
 
       {/* Table */}
       <Table className="industry-table" bordered hover responsive>
@@ -108,7 +152,7 @@ function IndustriesPage() {
           </tr>
         </thead>
         <tbody>
-          {industriesData?.map((column) => (
+          {data?.industries.rows.map((column) => (
             <tr key={column.id}>
               <td>{column.id}</td>
               <td>
@@ -129,11 +173,33 @@ function IndustriesPage() {
               <td>
                 <i>Tính toán sau</i>
               </td>
-              <td>{column.status}</td>
+              <td>
+                {column.status === 1 ? (
+                  <span style={{ color: "green", fontWeight: "500" }}>
+                    Đang sử dụng
+                  </span>
+                ) : (
+                  <span style={{ color: "#FE5000", fontWeight: "500" }}>
+                    Ngưng sử dụng
+                  </span>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
+      {/* paginnation */}
+      <Stack spacing={2}>
+        <Pagination
+          color="primary"
+          count={totalPages}
+          page={page}
+          siblingCount={0}
+          onChange={(event, newPage) => {
+            setPage(newPage);
+          }}
+        />
+      </Stack>
 
       {/* Modal */}
       <Modal
@@ -190,6 +256,7 @@ function IndustriesPage() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Toastify type={toast.type} message={toast.message} />
     </>
   );
 }

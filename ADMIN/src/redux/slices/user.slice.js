@@ -1,3 +1,5 @@
+/** @format */
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import UserService from "./../../services/users.service";
 
@@ -12,6 +14,7 @@ export const getAllUsers = createAsyncThunk(
         role,
         status,
       });
+      console.log("user data", data);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
