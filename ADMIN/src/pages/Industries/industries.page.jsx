@@ -1,13 +1,17 @@
 /** @format */
 import { useDispatch, useSelector } from "react-redux";
 import "./style.css";
-import { getAllIndustries } from "../../redux/slices/industries.slice";
+import {
+  getAllIndustries,
+  createIndustry,
+} from "../../redux/slices/industries.slice";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import SmallLoading from "./../../components/Loading/SmallLoading";
-import AutoTable from "./../../components/Table/Table";
 import Table from "react-bootstrap/Table";
+import { Link } from "react-router-dom";
+import UploadService from "../../services/upload.service";
 
 function IndustriesPage() {
   const dispatch = useDispatch();
@@ -15,13 +19,53 @@ function IndustriesPage() {
   const industriesData = useSelector((state) => state.industries.data);
   const { loading, error } = useSelector((state) => state.industries);
 
+  const [file, setFile] = useState(null);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // Thêm ngành hàng mới start
+  const [newIndustry, setNewIndustry] = useState({
+    name: "",
+    icon: "",
+    status: 1,
+  });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewIndustry({
+      ...newIndustry,
+      [name]: value,
+    });
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+    const img = await UploadService.singleFile({ file });
+    setNewIndustry({
+      ...newIndustry,
+      icon: img,
+    });
+  };
+
+  const handleCreateIndustry = async () => {
+    console.log("newIndustry: ", newIndustry);
+    try {
+      // Gọi API để tạo ngành hàng mới
+      // const formData = new FormData();
+      // formData.append("name", newIndustry.name);
+      // formData.append("status", newIndustry.status);
+      // formData.append("icon", newIndustry.icon);
+      dispatch(createIndustry(newIndustry));
+      handleClose();
+    } catch (error) {
+      console.error("Error creating industry:", error);
+    }
+  };
+
   useEffect(() => {
     dispatch(getAllIndustries());
-    console.log("Industry data: ", industriesData);
+    // console.log("Industry data: ", industriesData);
   }, [dispatch, page]);
 
   if (loading) {
@@ -67,27 +111,29 @@ function IndustriesPage() {
           {industriesData?.map((column) => (
             <tr key={column.id}>
               <td>{column.id}</td>
-              <td>{column.name}</td>
-              <td>{column.icon}</td>
               <td>
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAmxJREFUSEvN1knITWEYwPHfZyoZUmxkgSQKyYKNBRGZSaKEhWHHgg2yVWSjZMnGkKEQMpQxGykLQwkprGRhKBbG6Pl6Pp2Oe+797v1u8dSte97zvs//md/T4R9Jxz/i+q/BvTEOffAYvyqi1AsT8QPP8LNeNOt5PB+7MQl9U8lX3MMO3M216diLaeiXa9/xEDtxvZYBtcABCUXbGuR/fxq0ucG+fdiVkfiztRb4OFbnjg84jEv5vBAbMaQEe44w5GmuT8BWjMnno1hXPFMGr0FsCrmBRfhSgvTHZczM9WtYUmPfgDR4Ru5bhdNduorgKKLXGIGPGI+3FWEcmJGI1xvwuWLf8Cy0QXiBsbXAs9LLeBf5jdC1Q7ZnzYSuqbgff4oeb8GBJE3Go3ZQs9qjE0LW4lgZHC2yJzcMw7s2gUfiVerahENl8PpC3uYiiqYdshxnUlEUa2eHFEM9Ci8LlRrwdsit7IAYKkPxqQyO53NYlrTo5RM9JEdOj6SOg4g66pRyH4/GAwxGWBj9ebVFeIzcCznj3+Qcf18FjvXZuJLjsFX4PFxMaFwaofNO0YGqSyIOns+h/w1Lm/B8ThZQzPwwPMbsX4Va73YqWh3wCN3NBmEvQuMmW1zVHY0+BCLH0QpxF8fMDuur4GVoGH67ytBG4DjXHXhT0FpVXWVgwM8iLpKy501DmwHH3hU4WYKHITGJopAip3XD252qrvJ8ZQ6V+L4KzyP38YviW1C43Rq2fndyXFYSnp9CwEOa8rTeAGloLeJLJUZhV5vFPG5KWvG4CzAlvX3SFLFiVreio6UzPfG4JWBPc9wjaBz+DfUffB+fR0YAAAAAAElFTkSuQmCC" />
+                <Link to={`/dashboard/industries/${column.id}`}>
+                  {column.name}
+                </Link>
+              </td>
+              <td>
+                <Link to={`/dashboard/industries/${column.id}`}>
+                  <img
+                    src={column.icon}
+                    alt={`Icon của ${column.name}`}
+                    width="50"
+                    height="50"
+                  />
+                </Link>
+              </td>
+              <td>
+                <i>Tính toán sau</i>
               </td>
               <td>{column.status}</td>
             </tr>
           ))}
         </tbody>
       </Table>
-
-      {/* {industriesData && (
-        <AutoTable
-          data={industriesData}
-          limit={10}
-          count={industriesData.count}
-          page={page}
-          setPage={setPage}
-          link={"/dashboard/industry"}
-        />
-      )} */}
 
       {/* Modal */}
       <Modal
@@ -107,16 +153,28 @@ function IndustriesPage() {
                 type="text"
                 className="form-control"
                 placeholder="Nhập tên ngành hàng"
+                name="name"
+                value={newIndustry.name}
+                onChange={handleInputChange}
               />
             </div>
             <div className="form-group">
               <label htmlFor="">Icon</label>
-              <input type="file" className="form-control" />
+              <input
+                type="file"
+                className="form-control"
+                name="icon"
+                onChange={handleFileChange}
+              />
             </div>
             <div className="form-group">
               <label htmlFor="">Trạng thái</label>
-              <select className="form-control">
-                <option value="">Chọn trạng thái</option>
+              <select
+                className="form-control"
+                name="status"
+                value={newIndustry.status}
+                onChange={handleInputChange}
+              >
                 <option value="1">Đang sử dụng</option>
                 <option value="0">Ngừng sử dụng</option>
               </select>
@@ -127,7 +185,9 @@ function IndustriesPage() {
           <Button variant="danger" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="success">Create</Button>
+          <Button variant="success" onClick={handleCreateIndustry}>
+            Create
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
