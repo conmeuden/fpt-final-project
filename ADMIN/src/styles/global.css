@@ -6,7 +6,7 @@ body {
 }
 #navbar {
   background-color: var(--bg-color) !important;
-  z-index: 50 !important;
+  z-index: 1201 !important;
 }
 a {
   text-decoration: none !important;

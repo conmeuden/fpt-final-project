@@ -127,7 +127,7 @@ const findAll = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching users:", error);
-    res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
+    res.status(500).json({ message: "Lỗi truy vấn cơ sở dữ liệu" });
   }
 };
 
@@ -174,7 +174,7 @@ const findById = async (req, res) => {
     }
     res.json(user);
   } catch (error) {
-    res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
+    res.status(500).json({ message: "Lỗi truy vấn cơ sở dữ liệu" });
   }
 };
 
@@ -419,12 +419,12 @@ const remove = async (req, res) => {
       { where: { id } }
     );
     if (updatedRows[0] === 0) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     res.json({ message: "Xóa người dùng thành công" });
   } catch (error) {
-    res.status(500).json({ error: "Lỗi khi xóa người dùng" });
+    res.status(500).json({ message: "Lỗi khi xóa người dùng" });
   }
 };
 

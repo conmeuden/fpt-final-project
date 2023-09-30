@@ -66,10 +66,14 @@ const ROLE = "ADMIN";
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ where: { email, role: ROLE } });
+    const user = await User.findOne({ where: { email } });
 
     if (!user) {
       return res.status(404).json({ message: "Email không tồn tại" });
+    }
+
+    if (user.role !== ROLE) {
+      return res.status(403).json({ message: "Không có quyền truy cập" });
     }
     // Xác minh mật khẩu
     const isPasswordValid = await bcryptService.compare(
@@ -87,7 +91,7 @@ const login = async (req, res) => {
     return res.json({ user, access_token });
   } catch (error) {
     log(`Lỗi đăng nhập trang admin: ${error}`);
-    res.status(500).json({ error: "Lỗi xử lý" });
+    res.status(500).json({ message: "Lỗi xử lý" });
   }
 };
 

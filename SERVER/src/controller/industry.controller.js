@@ -107,7 +107,7 @@ const findAll = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching industries:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -150,12 +150,12 @@ const findById = async (req, res) => {
   try {
     const industry = await Industry.findByPk(id);
     if (!industry) {
-      return res.status(404).json({ error: "Industry not found" });
+      return res.status(404).json({ message: "Industry not found" });
     }
     return res.json(industry);
   } catch (error) {
     console.error(`Error fetching industry with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -203,7 +203,7 @@ const create = async (req, res) => {
     return res.json(industry);
   } catch (error) {
     console.error("Error creating industry:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -262,7 +262,7 @@ const update = async (req, res) => {
   try {
     const industry = await Industry.findByPk(id);
     if (!industry) {
-      return res.status(404).json({ error: "Industry not found" });
+      return res.status(404).json({ message: "Industry not found" });
     }
     industry.name = name;
     industry.icon = icon;
@@ -271,7 +271,7 @@ const update = async (req, res) => {
     return res.json(industry);
   } catch (error) {
     console.error(`Error updating industry with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -317,7 +317,7 @@ const remove = async (req, res) => {
   try {
     const industry = await Industry.findByPk(id);
     if (!industry) {
-      return res.status(404).json({ error: "Industry not found" });
+      return res.status(404).json({ message: "Industry not found" });
     }
 
     // Thay vì xóa mục, hãy cập nhật trường status thành 0
@@ -327,7 +327,7 @@ const remove = async (req, res) => {
     return res.json({ message: "Industry marked as deleted" });
   } catch (error) {
     console.error(`Error marking industry with ID ${id} as deleted:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
