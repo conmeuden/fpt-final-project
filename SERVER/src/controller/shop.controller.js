@@ -113,7 +113,7 @@ const findAll = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching shops:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -157,13 +157,13 @@ const findById = async (req, res) => {
     const shop = await Shop.findByPk(id);
 
     if (!shop) {
-      return res.status(404).json({ error: "Shop not found" });
+      return res.status(404).json({ message: "Shop not found" });
     }
 
     return res.json(shop);
   } catch (error) {
     console.error(`Error fetching shop with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -251,7 +251,7 @@ const create = async (req, res) => {
     return res.status(201).json(newShop);
   } catch (error) {
     console.error("Error creating shop:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -341,7 +341,7 @@ const update = async (req, res) => {
     const existingShop = await Shop.findByPk(id);
 
     if (!existingShop) {
-      return res.status(404).json({ error: "Shop not found" });
+      return res.status(404).json({ message: "Shop not found" });
     }
 
     existingShop.name = name;
@@ -358,7 +358,7 @@ const update = async (req, res) => {
     return res.json(existingShop);
   } catch (error) {
     console.error(`Error updating shop with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -405,13 +405,13 @@ const remove = async (req, res) => {
     const updatedRows = await Shop.update({ status: 0 }, { where: { id } });
 
     if (updatedRows[0] === 0) {
-      return res.status(404).json({ error: "Shop not found" });
+      return res.status(404).json({ message: "Shop not found" });
     }
 
     return res.json({ message: "Shop deleted successfully" });
   } catch (error) {
     console.error(`Error deleting shop with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

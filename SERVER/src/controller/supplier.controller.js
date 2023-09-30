@@ -109,7 +109,7 @@ const findAll = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching suppliers:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -153,13 +153,13 @@ const findById = async (req, res) => {
     const supplier = await Supplier.findByPk(id);
 
     if (!supplier) {
-      return res.status(404).json({ error: "Supplier not found" });
+      return res.status(404).json({ message: "Supplier not found" });
     }
 
     return res.json(supplier);
   } catch (error) {
     console.error(`Error fetching supplier with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -229,7 +229,7 @@ const create = async (req, res) => {
     return res.status(201).json(newSupplier);
   } catch (error) {
     console.error("Error creating supplier:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -304,7 +304,7 @@ const update = async (req, res) => {
     const supplier = await Supplier.findByPk(id);
 
     if (!supplier) {
-      return res.status(404).json({ error: "Supplier not found" });
+      return res.status(404).json({ message: "Supplier not found" });
     }
 
     await supplier.update({
@@ -319,7 +319,7 @@ const update = async (req, res) => {
     return res.json(supplier);
   } catch (error) {
     console.error(`Error updating supplier with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -366,7 +366,7 @@ const remove = async (req, res) => {
     const supplier = await Supplier.findByPk(id);
 
     if (!supplier) {
-      return res.status(404).json({ error: "Supplier not found" });
+      return res.status(404).json({ message: "Supplier not found" });
     }
 
     await supplier.update({ status: 0 });
@@ -374,7 +374,7 @@ const remove = async (req, res) => {
     return res.json({ message: "Supplier deactivated successfully" });
   } catch (error) {
     console.error(`Error deactivating supplier with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

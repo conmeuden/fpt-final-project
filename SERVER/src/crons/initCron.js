@@ -19,6 +19,14 @@ cron.schedule("*/30 * * * * *", () => {
     .catch((error) => {
       console.error("Error sending request:", error.message);
     });
+  axios
+    .get("https://shop-dalapha.onrender.com/")
+    .then((response) => {
+      console.log("Truy cập đánh thức shop page");
+    })
+    .catch((error) => {
+      console.error("Error sending request:", error.message);
+    });
 });
 
 module.exports = {

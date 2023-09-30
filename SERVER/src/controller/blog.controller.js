@@ -74,6 +74,9 @@ const findAll = async (req, res) => {
 
     // Tìm kiếm và phân trang
     const blogs = await Blog.findAndCountAll({
+      attributes: {
+        exclude: ["content", "slug"], // Exclude the 'content' field
+      },
       where: whereCondition,
       offset: (pageOptions.page - 1) * pageOptions.limit,
       limit: pageOptions.limit,
@@ -87,7 +90,7 @@ const findAll = async (req, res) => {
   } catch (error) {
     console.error("Error fetching blogs:", error);
     log(`Error fetching blogs: ${error}`);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -130,13 +133,13 @@ const findById = async (req, res) => {
     const { id } = req.params;
     const blog = await Blog.findByPk(id);
     if (!blog) {
-      return res.status(404).json({ error: "Blog not found" });
+      return res.status(404).json({ message: "Blog not found" });
     }
     return res.json(blog);
   } catch (error) {
     console.error(`Error fetching blog with ID ${id}:`, error);
     log(`Error fetching blog with ID ${id}: ${error}`);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -179,13 +182,13 @@ const findBySlug = async (req, res) => {
     const { slug } = req.params;
     const blog = await Blog.findOne({ where: { slug } });
     if (!blog) {
-      return res.status(404).json({ error: "Blog not found" });
+      return res.status(404).json({ message: "Blog not found" });
     }
     return res.json(blog);
   } catch (error) {
     console.error(`Error fetching blog with slug ${slug}:`, error);
     log(`Error fetching blog with slug ${slug}: ${error}`);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -266,7 +269,7 @@ const create = async (req, res) => {
   } catch (error) {
     console.error("Error creating blog:", error);
     log(`Error creating blog: ${error}`);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -349,7 +352,7 @@ const update = async (req, res) => {
     const existingBlog = await Blog.findByPk(id);
 
     if (!existingBlog) {
-      return res.status(404).json({ error: "Blog not found" });
+      return res.status(404).json({ message: "Blog not found" });
     }
 
     // Cập nhật thông tin của blog    const newSlug = convertToSlug(title);
@@ -368,7 +371,7 @@ const update = async (req, res) => {
   } catch (error) {
     console.error(`Error updating blog with ID ${id}:`, error);
     log(`Error updating blog with ID ${id}: ${error}`);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -415,13 +418,13 @@ const remove = async (req, res) => {
     const updatedRows = await Blog.update({ status: 0 }, { where: { id } });
 
     if (updatedRows[0] === 0) {
-      return res.status(404).json({ error: "Blog not found" });
+      return res.status(404).json({ message: "Blog not found" });
     }
     return res.json({ message: "Blog deleted successfully" });
   } catch (error) {
     console.error(`Error deleting blog with ID ${id}:`, error);
     log(`Error deleting blog with ID ${id}: ${error}`);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
