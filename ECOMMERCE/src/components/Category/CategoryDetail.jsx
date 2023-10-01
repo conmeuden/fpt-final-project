@@ -36,7 +36,7 @@ export default function CategoryDetail({ item, handeUpdate }) {
         <AccordionDetails>
           <div className="container">
             <div className="row">
-              <div className="form-group col-4">
+              <div className="form-group col-sm-12 col-md-6 col-xl-4">
                 <input
                   type="text"
                   onChange={(e) => {
@@ -46,7 +46,7 @@ export default function CategoryDetail({ item, handeUpdate }) {
                   className="form-control"
                 />
               </div>
-              <div className="form-group col-4">
+              <div className="form-group col-sm-12 col-md-6 col-xl-4">
                 <select
                   className="form-control"
                   defaultValue={category.status}
@@ -68,7 +68,7 @@ export default function CategoryDetail({ item, handeUpdate }) {
                   </option>
                 </select>
               </div>
-              <div className="form-group col-4">
+              <div className="form-group col-sm-12 col-md-6 col-xl-4">
                 <button
                   className="btn btn-success"
                   onClick={() => {

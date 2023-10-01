@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { CategoryService } from "../../services/category.service";
+import CouponService from "../../services/coupon.service";
 
-export const getAllCategories = createAsyncThunk(
-  "category/getAllCategories",
+export const getAllCoupons = createAsyncThunk(
+  "coupon/getAllCoupons",
   async ({ page, limit, keyword, status }, thunkAPI) => {
     try {
-      const res = await CategoryService.getAllCategories({
+      const res = await CouponService.getAllCoupons({
         page,
         limit,
         keyword,
@@ -18,8 +18,8 @@ export const getAllCategories = createAsyncThunk(
   }
 );
 
-const categorySlice = createSlice({
-  name: "category",
+const couponSlice = createSlice({
+  name: "coupon",
   initialState: {
     data: null,
     loading: false,
@@ -27,15 +27,15 @@ const categorySlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getAllCategories.pending, (state) => {
+      .addCase(getAllCoupons.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getAllCategories.rejected, (state, action) => {
+      .addCase(getAllCoupons.rejected, (state, action) => {
         state.loading = true;
         state.error = action.payload.message;
       })
-      .addCase(getAllCategories.fulfilled, (state, action) => {
+      .addCase(getAllCoupons.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
         state.data = action.payload;
@@ -43,4 +43,4 @@ const categorySlice = createSlice({
   },
 });
 
-export default categorySlice.reducer;
+export default couponSlice.reducer;
