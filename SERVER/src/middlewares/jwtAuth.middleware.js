@@ -17,6 +17,7 @@ const salerUrls = [
   "/api/shopUser",
   "/api/suppliers",
   "/api/upload",
+  "/api/products",
 ];
 
 const jwtAuthMiddleware = (req, res, next) => {

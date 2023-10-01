@@ -94,42 +94,44 @@ export default function AppLayout({ children }) {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open} id="navbar">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Header />
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Sidebar open={open} />
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
+    <div className="container-fluid p3">
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar position="fixed" open={open} id="navbar">
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: "none" }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Header />
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="permanent" open={open}>
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "rtl" ? (
+                <ChevronRightIcon />
+              ) : (
+                <ChevronLeftIcon />
+              )}
+            </IconButton>
+          </DrawerHeader>
+          <Sidebar open={open} />
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <DrawerHeader />
 
-        <div className="main">{children}</div>
+          <div className="main">{children}</div>
+        </Box>
       </Box>
-    </Box>
+    </div>
   );
 }

@@ -1,15 +1,38 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { ProductService } from "../../services/product.service";
 
-// export const login = createAsyncThunk(
-//   "auth/login",
-//   async ( thunkAPI) => {
-//     try {
-
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
+export const getAllProducts = createAsyncThunk(
+  "product/getAllProducts",
+  async (
+    {
+      page,
+      limit,
+      keyword,
+      status,
+      min_price,
+      max_price,
+      category_id,
+      barcode,
+    },
+    thunkAPI
+  ) => {
+    try {
+      const res = await ProductService.getAllProducts({
+        page,
+        limit,
+        keyword,
+        status,
+        min_price,
+        max_price,
+        category_id,
+        barcode,
+      });
+      return res;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 const productSlice = createSlice({
   name: "product",
@@ -18,7 +41,22 @@ const productSlice = createSlice({
     loading: false,
     error: null,
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(getAllProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllProducts.rejected, (state, action) => {
+        state.loading = true;
+        state.error = action.payload.message;
+      })
+      .addCase(getAllProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.data = action.payload;
+      });
+  },
 });
 
 export default productSlice.reducer;
