@@ -75,13 +75,17 @@ const { Op } = require("sequelize");
  */
 const findAll = async (req, res) => {
   try {
+    const shop_id = req.user.shops[0].id;
+
     const { page, limit, keyword, status } = req.query;
     const pageOptions = {
       page: parseInt(page, 10) || 1,
       limit: parseInt(limit, 10) || 10,
     };
 
-    const whereCondition = {};
+    const whereCondition = {
+      shop_id,
+    };
 
     if (keyword) {
       whereCondition.name = { [Op.like]: `%${keyword}%` };
@@ -144,8 +148,9 @@ const findAll = async (req, res) => {
  */
 const findById = async (req, res) => {
   try {
+    const shop_id = req.user.shops[0].id;
     const { id } = req.params;
-    const category = await Category.findByPk(id);
+    const category = await Category.findOne({ where: { id, shop_id } });
     if (!category) {
       return res.status(404).json({ message: "Category not found" });
     }
@@ -260,17 +265,18 @@ const create = async (req, res) => {
  */
 const update = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { name, shop_id, status } = req.body;
+    const shop_id = req.user.shops[0].id;
 
-    const existingCategory = await Category.findByPk(id);
+    const { id } = req.params;
+    const { name, status } = req.body;
+
+    const existingCategory = await Category.findOne({ where: { id, shop_id } });
 
     if (!existingCategory) {
       return res.status(404).json({ message: "Category not found" });
     }
 
     existingCategory.name = name;
-    existingCategory.shop_id = shop_id;
     existingCategory.status = status;
 
     await existingCategory.save();
@@ -322,7 +328,12 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const { id } = req.params;
-    const updatedRows = await Category.update({ status: 0 }, { where: { id } });
+    const shop_id = req.user.shops[0].id;
+
+    const updatedRows = await Category.update(
+      { status: 0 },
+      { where: { id, shop_id } }
+    );
 
     if (updatedRows[0] === 0) {
       return res.status(404).json({ message: "Category not found" });

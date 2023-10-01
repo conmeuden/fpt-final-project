@@ -13,6 +13,8 @@ const supplierRoute = require("./supplier.route");
 const docRoute = require("./doc.route");
 const uploadRoute = require("./upload.route");
 const EmailRoute = require("./email.route");
+const ProductRoute = require("./product.route");
+
 const initRoute = (app) => {
   app.use("/api/users", userRoute);
   app.use("/api/auth", authRoute);
@@ -28,6 +30,7 @@ const initRoute = (app) => {
   app.use("/api/suppliers", supplierRoute);
   app.use("/api/upload", uploadRoute);
   app.use("/api/send-mail", EmailRoute);
+  app.use("/api/products", ProductRoute);
 
   app.use("/api/doc", docRoute);
 };

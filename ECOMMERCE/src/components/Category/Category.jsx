@@ -64,7 +64,7 @@ function Category() {
   return (
     <>
       {error && <SystemAlert type={"error"} message={error} />}
-      <div className="category-page col-sm-12 col-md-12 col-xl-6">
+      <div className="category-page col-sm-12 col-md-12 col-xl-7">
         <div className="category-control">
           <form onSubmit={handleSearch}>
             <div className="row">
