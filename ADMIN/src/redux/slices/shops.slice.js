@@ -70,7 +70,7 @@ export const removeShop = createAsyncThunk(
   }
 );
 
-const shopsSlice = createSlice({
+const ShopsSlice = createSlice({
   name: "shops",
   initialState: {
     data: null,
@@ -168,5 +168,5 @@ const shopsSlice = createSlice({
   },
 });
 
-export const { searchShop } = shopsSlice.actions;
-export default shopsSlice.reducer;
+export const { searchShop } = ShopsSlice.actions;
+export default ShopsSlice.reducer;

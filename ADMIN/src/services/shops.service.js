@@ -6,7 +6,7 @@ const ShopsService = {
       page: page || 1,
       limit: limit || 10,
       keyword: keyword || "",
-      status,
+      status: status || "",
     });
 
     const res = await AxiosService.get({ url: "api/shops", params });

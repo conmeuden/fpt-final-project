@@ -1,3 +1,9 @@
+/*
+Route cho shop dùng:
+api cần dung:
+lấy tất cả product : phân trang, tìm kiếm, lọc giá, status,category_id
+ */
+
 const findAll = (req, res) => {
   return res.json({ message: "findAll" });
 };

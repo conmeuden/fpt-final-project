@@ -23,7 +23,7 @@ function ShopPage() {
         status,
       })
     );
-  }, [dispatch, page, keyword, status]);
+  }, [dispatch, keyword, status, page]);
 
   return (
     <>

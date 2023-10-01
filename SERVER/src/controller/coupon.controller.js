@@ -117,7 +117,7 @@ const findAll = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching coupons:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -161,13 +161,13 @@ const findById = async (req, res) => {
     const coupon = await Coupon.findByPk(id);
 
     if (!coupon) {
-      return res.status(404).json({ error: "Coupon not found" });
+      return res.status(404).json({ message: "Coupon not found" });
     }
 
     return res.json(coupon);
   } catch (error) {
     console.error(`Error fetching coupon with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -211,13 +211,13 @@ const findByCode = async (req, res) => {
     const coupon = await Coupon.findOne({ where: { code } });
 
     if (!coupon) {
-      return res.status(404).json({ error: "Coupon not found" });
+      return res.status(404).json({ message: "Coupon not found" });
     }
 
     return res.json(coupon);
   } catch (error) {
     console.error(`Error fetching coupon with code ${code}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -317,7 +317,7 @@ const create = async (req, res) => {
     return res.status(201).json(newCoupon);
   } catch (error) {
     console.error("Error creating coupon:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -418,7 +418,7 @@ const update = async (req, res) => {
     const coupon = await Coupon.findByPk(id);
 
     if (!coupon) {
-      return res.status(404).json({ error: "Coupon not found" });
+      return res.status(404).json({ message: "Coupon not found" });
     }
 
     await coupon.update({
@@ -436,7 +436,7 @@ const update = async (req, res) => {
     return res.json(coupon);
   } catch (error) {
     console.error(`Error updating coupon with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -483,7 +483,7 @@ const remove = async (req, res) => {
     const coupon = await Coupon.findByPk(id);
 
     if (!coupon) {
-      return res.status(404).json({ error: "Coupon not found" });
+      return res.status(404).json({ message: "Coupon not found" });
     }
 
     await coupon.update({ status: 0 });
@@ -491,7 +491,7 @@ const remove = async (req, res) => {
     return res.json({ message: "Coupon deactivated successfully" });
   } catch (error) {
     console.error(`Error deactivating coupon with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

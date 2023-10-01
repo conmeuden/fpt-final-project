@@ -15,7 +15,7 @@ import EmailPage from "./../pages/Email/email.page";
 import PackagePage from "../pages/Packages/packages.page";
 import PackageDetail from "../pages/Packages/PackageDetail.page";
 import ShopPage from "../pages/Shops/Shops.page";
-// import ShopDetail from "../pages/Shops/ShopDetail.page";
+import ShopDetail from "../pages/Shops/ShopDetail.page";
 function AppRouter() {
   return (
     //Thêm router ở đây
@@ -32,7 +32,7 @@ function AppRouter() {
       <Route path="/packages" element={<PackagePage />} />
       <Route path="/packages/:id" element={<PackageDetail />} />
       <Route path="/shops" element={<ShopPage />} />
-      {/* <Route path="/shops/:id" element={<ShopDetail />} /> */}
+      <Route path="/shops/:id" element={<ShopDetail />} />
       <Route path="/index" element={<IndexPage />} />
       <Route path="/" element={<IndexPage />} />
       <Route path="*" element={<AppNotfound />} />

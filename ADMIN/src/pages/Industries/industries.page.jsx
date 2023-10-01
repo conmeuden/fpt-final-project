@@ -13,6 +13,8 @@ import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import UploadService from "../../services/upload.service";
 import Toastify from "../../components/Toastify/Toastify";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 function IndustriesPage() {
   const dispatch = useDispatch();
@@ -25,6 +27,9 @@ function IndustriesPage() {
 
   // const data = useSelector((state) => state.industries.data);
   const { data, loading, error } = useSelector((state) => state.industries);
+  const limit = 10; // Số lượng items trên mỗi trang.
+  const totalItems = data?.industries?.count || 0;
+  const totalPages = Math.ceil(totalItems / limit);
   const [file, setFile] = useState(null);
 
   const [show, setShow] = useState(false);
@@ -69,12 +74,11 @@ function IndustriesPage() {
     dispatch(
       getAllIndustries({
         page,
-        limit: 10,
+        limit: limit,
         keyword,
         status,
       })
     );
-    console.log("data", data);
   }, [dispatch, keyword, status, page]);
 
   useEffect(() => {
@@ -83,29 +87,16 @@ function IndustriesPage() {
     }
   }, [error]);
 
-  // if (loading) {
-  //   return <SmallLoading />;
-  // }
+  if (loading) {
+    return <SmallLoading />;
+  }
   // if (error) {
   //   return setToast({ type: "error", message: error.message });
   // }
 
   return (
     <>
-      <div className="row mb-3">
-        {loading && <SmallLoading />}
-        <div className="col-7">
-          <h2>Các ngành hàng trong hệ thống</h2>
-        </div>
-        <div
-          className="col-5 row"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <button className="btn btn-primary col-5" onClick={handleShow}>
-            Thêm ngành hàng
-          </button>
-        </div>
-      </div>
+      {/* {loading && <SmallLoading />} */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -113,35 +104,38 @@ function IndustriesPage() {
           setPage(1);
         }}
       >
-        <div className="user-control row mb-3">
-          <div className="row">
-            <div className="col-3">
-              <input
-                onChange={(e) => {
-                  setSearchText(e.target.value);
-                }}
-                type="text"
-                placeholder="Tìm kiếm ngành hàng"
-                value={searchText}
-                className="form-control"
-              />
-            </div>
-            <div className="col-3">
-              <select
-                defaultValue={status}
-                onChange={(e) => {
-                  setStatus(e.target.value);
-                }}
-                className="form-control"
-              >
-                <option value="">Chọn trạng thái</option>
-                <option value="1">Đang sử dụng</option>
-                <option value="2">Ngừng sử dụng</option>
-              </select>
-            </div>
-            <div className="col-2">
-              <button className="btn btn-primary">Tìm kiếm</button>
-            </div>
+        <div className="row mb-3">
+          <div className="col-3">
+            <input
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+              type="text"
+              placeholder="Tìm kiếm ngành hàng"
+              value={searchText}
+              className="form-control"
+            />
+          </div>
+          <div className="col-3">
+            <select
+              defaultValue={status}
+              onChange={(e) => {
+                setStatus(e.target.value);
+              }}
+              className="form-control"
+            >
+              <option value="">Chọn trạng thái</option>
+              <option value="1">Đang sử dụng</option>
+              <option value="2">Ngừng sử dụng</option>
+            </select>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-primary nut">Tìm kiếm</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-primary nut" onClick={handleShow}>
+              Thêm ngành hàng
+            </button>
           </div>
         </div>
       </form>
@@ -194,6 +188,18 @@ function IndustriesPage() {
           ))}
         </tbody>
       </Table>
+      {/* paginnation */}
+      <Stack spacing={2}>
+        <Pagination
+          color="primary"
+          count={totalPages}
+          page={page}
+          siblingCount={0}
+          onChange={(event, newPage) => {
+            setPage(newPage);
+          }}
+        />
+      </Stack>
 
       {/* Modal */}
       <Modal
