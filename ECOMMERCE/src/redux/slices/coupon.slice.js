@@ -32,8 +32,8 @@ const couponSlice = createSlice({
         state.error = null;
       })
       .addCase(getAllCoupons.rejected, (state, action) => {
-        state.loading = true;
-        state.error = action.payload.message;
+        state.loading = false;
+        state.error = action.payload;
       })
       .addCase(getAllCoupons.fulfilled, (state, action) => {
         state.loading = false;

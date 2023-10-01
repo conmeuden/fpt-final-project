@@ -1,22 +1,17 @@
-/*
-Route cho shop dùng:
-api cần dung:
-lấy tất cả product : phân trang, tìm kiếm, lọc giá, status,category_id
- */
-
-const { Category } = require("../models");
-const Product = require("../models/product.model");
+const { Category, Shop, Product } = require("../models");
 const { log } = require("../services/discord.logger");
 const { Op } = require("sequelize");
 
 const findAll = async (req, res) => {
   try {
-    if (!req.user.shops) {
+    const { user, query } = req;
+    const shop = await Shop.findOne({ where: { user_id: user.id } });
+    if (!shop) {
       return res
-        .status(404)
-        .json({ message: "Bạn chưa có cửa hàng để thực hiện truy cập" });
+        .status(401)
+        .json({ message: "Bạn chưa có cửa hàng để truy cập" });
     }
-    const shop_id = req.user.shops[0].id;
+    const shop_id = shop.id;
 
     const {
       page = 1,
@@ -27,14 +22,15 @@ const findAll = async (req, res) => {
       status,
       category_id,
       barcode,
-    } = req.query;
+    } = query;
 
-    const whereCondition = {
-      shop_id,
-    };
+    const whereCondition = { shop_id };
 
     if (keyword) {
       whereCondition.name = { [Op.like]: `%${keyword}%` };
+    }
+    if (category_id) {
+      whereCondition.category_id = category_id;
     }
 
     if (min_price && max_price) {
@@ -51,10 +47,6 @@ const findAll = async (req, res) => {
 
     if (barcode) {
       whereCondition.barcode = barcode;
-    }
-
-    if (category_id) {
-      whereCondition.category_id = category_id;
     }
 
     const products = await Product.findAndCountAll({
@@ -77,22 +69,22 @@ const findAll = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    // log(`Lỗi khi lấy danh sách sản phẩm: ${error}`);
     return res.status(500).json({ message: "Lỗi xử lý" });
   }
 };
 
 const findById = async (req, res) => {
   try {
-    if (!req.user.shops) {
-      return res
-        .status(404)
-        .json({ message: "Bạn chưa có cửa hàng để thực hiện truy cập" });
-    }
-    const shop_id = req.user.shops[0].id;
+    const { user, params } = req;
+    const shop = await Shop.findOne({ where: { user_id: user.id } });
+    const shop_id = shop.id;
 
-    const { id } = req.params;
-    const product = await Product.findByPk(id, {
+    const { id } = params;
+    const product = await Product.findOne({
+      where: {
+        id,
+        shop_id,
+      },
       include: [
         {
           model: Category,
@@ -114,47 +106,12 @@ const findById = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    if (!req.user.shops) {
-      return res
-        .status(404)
-        .json({ message: "Bạn chưa có cửa hàng để thực hiện truy cập" });
-    }
-    const shop_id = req.user.shops[0].id;
-
-    const {
-      name,
-      images,
-      industry_id,
-      description,
-      keywords,
-      base_price,
-      sale_price,
-      import_price,
-      total_like,
-      properties,
-      variant_list,
-      created_at,
-      stock,
-      category_id,
-      status,
-    } = req.body;
+    const { user, body } = req;
+    const shop = await Shop.findOne({ where: { user_id: user.id } });
+    const shop_id = shop.id;
 
     const newProduct = await Product.create({
-      name,
-      images,
-      industry_id,
-      description,
-      keywords,
-      base_price,
-      sale_price,
-      import_price,
-      total_like,
-      properties,
-      variant_list,
-      created_at,
-      stock,
-      category_id,
-      status,
+      ...body,
       shop_id,
     });
 
@@ -167,31 +124,10 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    if (!req.user.shops) {
-      return res
-        .status(404)
-        .json({ message: "Bạn chưa có cửa hàng để thực hiện truy cập" });
-    }
-    const shop_id = req.user.shops[0].id;
-
-    const { id } = req.params;
-    const {
-      name,
-      images,
-      industry_id,
-      description,
-      keywords,
-      base_price,
-      sale_price,
-      import_price,
-      total_like,
-      properties,
-      variant_list,
-      created_at,
-      stock,
-      category_id,
-      status,
-    } = req.body;
+    const { user, params, body } = req;
+    const shop = await Shop.findOne({ where: { user_id: user.id } });
+    const shop_id = shop.id;
+    const { id } = params;
 
     const existingProduct = await Product.findOne({ where: { id, shop_id } });
 
@@ -199,21 +135,7 @@ const update = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    existingProduct.name = name;
-    existingProduct.images = images;
-    existingProduct.industry_id = industry_id;
-    existingProduct.description = description;
-    existingProduct.keywords = keywords;
-    existingProduct.base_price = base_price;
-    existingProduct.sale_price = sale_price;
-    existingProduct.import_price = import_price;
-    existingProduct.total_like = total_like;
-    existingProduct.properties = properties;
-    existingProduct.variant_list = variant_list;
-    existingProduct.created_at = created_at;
-    existingProduct.stock = stock;
-    existingProduct.category_id = category_id;
-    existingProduct.status = status;
+    Object.assign(existingProduct, body, { shop_id });
 
     await existingProduct.save();
 
@@ -226,14 +148,11 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
-    if (!req.user.shops) {
-      return res
-        .status(404)
-        .json({ message: "Bạn chưa có cửa hàng để thực hiện truy cập" });
-    }
-    const shop_id = req.user.shops[0].id;
+    const { user, params } = req;
+    const shop = await Shop.findOne({ where: { user_id: user.id } });
+    const shop_id = shop.id;
+    const { id } = params;
 
-    const { id } = req.params;
     const updatedRows = await Product.update(
       { status: 0 },
       { where: { id, shop_id } }

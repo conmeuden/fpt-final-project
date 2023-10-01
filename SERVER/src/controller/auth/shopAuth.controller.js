@@ -154,6 +154,24 @@ const loginWithGoogle = async (req, res) => {
         status: 1,
       });
 
+      const trialPackage = await Package.findOne({
+        where: { name: TRIAL_PACKAGE },
+      });
+
+      const shop_info = {
+        name: "",
+        user_id: newUser.dataValues.id,
+        package_id: trialPackage.id,
+        logo: "",
+        created_at: new Date(),
+        description: "",
+        address: "",
+        phone_number: "",
+        status: 1,
+      };
+
+      await Shop.create(shop_info);
+
       const access_token = await jwtService.generateToken(newUser);
       res.status(200).json({ user: newUser, access_token, isNewUser: true });
     }

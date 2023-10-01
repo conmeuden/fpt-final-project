@@ -31,7 +31,6 @@ function UserDetail() {
       return;
     }
 
-    console.log("user >> ", user);
     try {
       setLoading(true);
       await UserService.updateUser({
