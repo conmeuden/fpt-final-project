@@ -104,8 +104,8 @@ function IndustriesPage() {
           setPage(1);
         }}
       >
-        <div className="row mb-3">
-          <div className="col-3">
+        <div className="row mb-2">
+          <div className="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
             <input
               onChange={(e) => {
                 setSearchText(e.target.value);
@@ -113,27 +113,27 @@ function IndustriesPage() {
               type="text"
               placeholder="Tìm kiếm ngành hàng"
               value={searchText}
-              className="form-control"
+              className="form-control mb-2"
             />
           </div>
-          <div className="col-3">
+          <div className="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
             <select
               defaultValue={status}
               onChange={(e) => {
                 setStatus(e.target.value);
               }}
-              className="form-control"
+              className="form-control mb-2"
             >
               <option value="">Chọn trạng thái</option>
               <option value="1">Đang sử dụng</option>
               <option value="2">Ngừng sử dụng</option>
             </select>
           </div>
-          <div className="col-3">
-            <button className="btn btn-primary nut">Tìm kiếm</button>
+          <div className="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+            <button className="btn btn-secondary nut mb-2">Tìm kiếm</button>
           </div>
-          <div className="col-3">
-            <button className="btn btn-primary nut" onClick={handleShow}>
+          <div className="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+            <button className="btn btn-primary nut mb-2" onClick={handleShow}>
               Thêm ngành hàng
             </button>
           </div>
@@ -141,7 +141,12 @@ function IndustriesPage() {
       </form>
 
       {/* Table */}
-      <Table className="industry-table" bordered hover responsive>
+      <Table
+        className="table-responsive industry-table "
+        bordered
+        hover
+        responsive
+      >
         <thead>
           <tr>
             <th>ID</th>
