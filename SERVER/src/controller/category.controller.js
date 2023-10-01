@@ -75,6 +75,11 @@ const { Op } = require("sequelize");
  */
 const findAll = async (req, res) => {
   try {
+    if (!req.user.shops) {
+      return res
+        .status(404)
+        .json({ message: "Bạn chưa có cửa hàng để thực hiện truy cập" });
+    }
     const shop_id = req.user.shops[0].id;
 
     const { page, limit, keyword, status } = req.query;
@@ -148,6 +153,11 @@ const findAll = async (req, res) => {
  */
 const findById = async (req, res) => {
   try {
+    if (!req.user.shops) {
+      return res
+        .status(404)
+        .json({ message: "Bạn chưa có cửa hàng để thực hiện truy cập" });
+    }
     const shop_id = req.user.shops[0].id;
     const { id } = req.params;
     const category = await Category.findOne({ where: { id, shop_id } });
@@ -265,6 +275,11 @@ const create = async (req, res) => {
  */
 const update = async (req, res) => {
   try {
+    if (!req.user.shops) {
+      return res
+        .status(404)
+        .json({ message: "Bạn chưa có cửa hàng để thực hiện truy cập" });
+    }
     const shop_id = req.user.shops[0].id;
 
     const { id } = req.params;
@@ -328,6 +343,11 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.user.shops) {
+      return res
+        .status(404)
+        .json({ message: "Bạn chưa có cửa hàng để thực hiện truy cập" });
+    }
     const shop_id = req.user.shops[0].id;
 
     const updatedRows = await Category.update(

@@ -6,7 +6,7 @@ function WebLayout({ children }) {
   return (
     <>
       <WebHeader />
-      <main style={{ marginTop: 72 }}>{children}</main>
+      <main style={{ marginTop: 98 }}>{children}</main>
       <Footer />
     </>
   );
