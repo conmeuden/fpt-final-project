@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import SystemAlert from "../../components/Alert/Alert";
 import SmallLoading from "../../components/Loading/SmallLoading";
 import CouponTable from "./CouponTable";
+import { Link } from "react-router-dom";
 
 function CouponPage() {
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.coupon);
-
+  const [keyword, setKeyword] = useState("");
   const [couponParams, setCouponParams] = useState({
     page: 1,
     limit: 10,
@@ -24,12 +25,12 @@ function CouponPage() {
   };
 
   const handleSearchChange = (e) => {
-    setCouponParams({ ...couponParams, keyword: e.target.value });
+    setKeyword(e.target.value);
   };
 
   useEffect(() => {
     dispatch(getAllCoupons(couponParams));
-  }, [couponParams.status, couponParams.page, dispatch]);
+  }, [couponParams, dispatch]);
 
   return (
     <>
@@ -51,6 +52,19 @@ function CouponPage() {
                 <option value="1">Đang sử dụng</option>
                 <option value="0">Ngưng sử dụng</option>
               </select>
+            </div>
+            <div className="form-group col-4">
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  setCouponParams({ ...couponParams, keyword });
+                }}
+              >
+                Tìm kiếm
+              </button>{" "}
+              <Link to={"/management/coupons/create"}>
+                <button className="btn btn-success">Thêm mới</button>
+              </Link>
             </div>
           </div>
         </div>

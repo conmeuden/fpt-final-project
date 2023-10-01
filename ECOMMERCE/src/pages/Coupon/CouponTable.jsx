@@ -1,23 +1,28 @@
 import Table from "react-bootstrap/Table";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { useNavigate } from "react-router-dom";
+import { DateUtil } from "../../utils/date.util";
 
 function CouponTable({ data, setPage }) {
+  const navigate = useNavigate();
+  const linkToDetail = (id) => {
+    navigate(`/management/coupons/${id}`);
+  };
+
   return (
     <>
       <Table hover responsive>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Shop ID</th>
-            <th>Code</th>
-            <th>Type</th>
-            <th>Effect At</th>
-            <th>Expire At</th>
-            <th>Discount Amount</th>
-            <th>Min Purchase Amount</th>
-            <th>Max Usage Count</th>
-            <th>Status</th>
+            <th>Mã</th>
+            <th>Hình thức</th>
+            <th>Bắt đầu từ</th>
+            <th>Hết hạn vào</th>
+            <th>Số tiền giảm giá</th>
+            <th>Giá tối thiểu khi mua</th>
+            <th>Số lần sử dụng tối đa</th>
+            <th>Trạng thái</th>
           </tr>
         </thead>
         <tbody>
@@ -25,14 +30,22 @@ function CouponTable({ data, setPage }) {
             data.coupons.rows &&
             data.coupons.rows.map((item) => {
               return (
-                <tr key={item.id} style={{ cursor: "pointer" }}>
-                  <td>{item.id}</td>
-                  <td>{item.shop_id}</td>
+                <tr
+                  key={item.id}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    linkToDetail(item.id);
+                  }}
+                >
                   <td>{item.code}</td>
-                  <td>{item.type}</td>
-                  <td>{item.effect_at}</td>
-                  <td>{item.expire_at}</td>
-                  <td>{item.discount_amount}</td>
+                  <td>
+                    {item.type === "fixed"
+                      ? "Giảm theo tiền"
+                      : "Giảm theo phần trăm"}
+                  </td>
+                  <td>{DateUtil.toString(item.effect_at)}</td>
+                  <td>{DateUtil.toString(item.expire_at)}</td>
+                  <td>{item.discount_amount.toLocaleString()}</td>
                   <td>{item.minimum_purchase_amount}</td>
                   <td>{item.max_usage_count}</td>
                   <td>
@@ -56,7 +69,7 @@ function CouponTable({ data, setPage }) {
         <Stack spacing={2}>
           <Pagination
             color="primary"
-            count={Math.ceil(data.count / data.limit)}
+            count={Math.ceil(data.coupons.count / data.limit)}
             page={Number(data.page)}
             siblingCount={0}
             onChange={(event, newPage) => {

@@ -17,6 +17,10 @@ a {
   z-index: 50 !important;
 }
 
+label {
+  font-weight: bolder;
+}
+
 /* Thay đổi kiểu hiển thị cho tablet và mobile */
 @media (max-width: 1200px) {
   .login-banner {

@@ -12,7 +12,7 @@ const Shop = sequelize.define(
     },
     name: {
       type: DataTypes.STRING(100),
-      allowNull: false,
+      allowNull: true,
     },
     user_id: {
       type: DataTypes.INTEGER,
@@ -24,7 +24,7 @@ const Shop = sequelize.define(
     },
     logo: {
       type: DataTypes.STRING(200),
-      allowNull: false,
+      allowNull: true,
     },
     created_at: {
       type: DataTypes.DATE,
@@ -32,15 +32,15 @@ const Shop = sequelize.define(
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
     address: {
       type: DataTypes.STRING(150),
-      allowNull: false,
+      allowNull: true,
     },
     phone_number: {
       type: DataTypes.STRING(14),
-      allowNull: false,
+      allowNull: true,
     },
     status: {
       type: DataTypes.INTEGER,
