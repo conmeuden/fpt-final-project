@@ -16,6 +16,19 @@ export const login = createAsyncThunk(
     }
   }
 );
+export const googleLogin = createAsyncThunk(
+  "auth/googleLogin",
+  async ({ access_token, navigate }, thunkAPI) => {
+    try {
+      const data = await AuthService.googleLogin({ access_token });
+      localStorage.setItem("access_token", data.access_token);
+      navigate("/management");
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 export const register = createAsyncThunk(
   "auth/register",
@@ -76,6 +89,20 @@ const authSlice = createSlice({
       state.error = action.payload;
     });
     builder.addCase(login.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.isAuthentication = true;
+      state.user = action.payload;
+    });
+    builder.addCase(googleLogin.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(googleLogin.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(googleLogin.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
       state.isAuthentication = true;

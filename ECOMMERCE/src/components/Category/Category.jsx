@@ -3,24 +3,19 @@ import { useEffect, useState } from "react";
 import SmallLoading from "../Loading/SmallLoading";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 import { getAllCategories } from "./../../redux/slices/category.slice";
 import SystemAlert from "./../Alert/Alert";
 import { CategoryService } from "./../../services/category.service";
+import ModalCreateCategory from "./ModalCreateCategory";
+import CategoryDetail from "./CategoryDetail";
 
 function Category() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [keyword, setKeyword] = useState("");
-  const [status, setStatus] = useState("");
   const [name, setName] = useState("");
+  const [status, setStatus] = useState("");
   const dispatch = useDispatch();
 
   const [categoryParams, setCategoryParams] = useState({
@@ -33,12 +28,24 @@ function Category() {
   const { data, loading, error } = useSelector((state) => state.category);
 
   const handeCreate = async () => {
-    await CategoryService.addCategory({
-      name,
-      status: 1,
-    });
-    initData();
-    handleClose();
+    if (name) {
+      await CategoryService.addCategory({
+        name,
+        status: 1,
+      });
+      initData();
+      handleClose();
+    }
+  };
+
+  const handeUpdate = async (id, category) => {
+    if (category.name) {
+      await CategoryService.updateCategory({
+        id,
+        category,
+      });
+      initData();
+    }
   };
 
   const handleSearch = (e) => {
@@ -57,11 +64,11 @@ function Category() {
   return (
     <>
       {error && <SystemAlert type={"error"} message={error} />}
-      <div className="category-page">
+      <div className="category-page col-sm-12 col-md-12 col-xl-7">
         <div className="category-control">
           <form onSubmit={handleSearch}>
             <div className="row">
-              <div className="col-sm-12 col-md-3 col-xl-3">
+              <div className="col-sm-12 col-md-4 col-xl-4">
                 <div className="form-group">
                   <input
                     value={keyword}
@@ -74,7 +81,7 @@ function Category() {
                   />
                 </div>
               </div>
-              <div className="col-sm-12 col-md-3 col-xl-3">
+              <div className="col-sm-12 col-md-4 col-xl-4">
                 <div className="form-group">
                   <select
                     defaultValue={status}
@@ -89,9 +96,19 @@ function Category() {
                   </select>
                 </div>
               </div>
-              <div className="col-sm-12 col-md-3 col-xl-3">
+              <div className="col-sm-12 col-md-4 col-xl-4">
                 <div className="form-group">
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      setCategoryParams({
+                        ...categoryParams,
+                        keyword,
+                        status,
+                      });
+                    }}
+                  >
                     Tìm kiếm
                   </button>{" "}
                   <button
@@ -106,29 +123,43 @@ function Category() {
             </div>
           </form>
         </div>
-        <div className="category-table mt-2">
-          {data && data.categories?.rows && (
+        <div className="category-table mt-2 ">
+          {!loading ? (
             <>
-              {data.categories.rows.map((item) => (
-                <BasicAccordion key={item.id} item={item} />
-              ))}
+              {data && data.categories?.rows && (
+                <>
+                  {data.categories.rows.map((item) => (
+                    <CategoryDetail
+                      key={item.id}
+                      item={item}
+                      handeUpdate={handeUpdate}
+                    />
+                  ))}
 
-              <Stack spacing={2}>
-                <Pagination
-                  color="primary"
-                  count={Math.ceil(
-                    Number(data.categories.count) / Number(data.limit)
-                  )}
-                  page={data.page}
-                  siblingCount={0}
-                  onChange={(event, newPage) => {
-                    setCategoryParams({ ...categoryParams, page: newPage });
-                  }}
-                />
-              </Stack>
+                  <div className="category-pagination mt-3">
+                    <Stack spacing={2}>
+                      <Pagination
+                        color="primary"
+                        count={Math.ceil(
+                          Number(data.categories.count) / Number(data.limit)
+                        )}
+                        page={data.page}
+                        siblingCount={0}
+                        onChange={(event, newPage) => {
+                          setCategoryParams({
+                            ...categoryParams,
+                            page: newPage,
+                          });
+                        }}
+                      />
+                    </Stack>
+                  </div>
+                </>
+              )}
             </>
+          ) : (
+            <SmallLoading />
           )}
-          {loading && <SmallLoading />}
         </div>
       </div>
       {show && (
@@ -144,77 +175,4 @@ function Category() {
   );
 }
 
-function ModalCreateCategory({
-  show,
-  handleClose,
-  name,
-  setName,
-  handeCreate,
-}) {
-  return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Tạo một danh mục</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="container">
-          <div className="form-gourp">
-            <label>Tên danh mục:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-          </div>
-        </div>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-        <Button variant="success" onClick={handeCreate}>
-          Save Changes
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
-
-// eslint-disable-next-line react/prop-types
-function BasicAccordion({ item }) {
-  return (
-    <div className="mt-2">
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>{item.name}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div className="container">
-            <div className="row">
-              <div className="form-group col-4">
-                <input type="text" className="form-control" />
-              </div>
-              <div className="form-group col-4">
-                <select className="form-control">
-                  <option value="1">Đang sử dụng</option>
-                  <option value="0">Ngưng sử dụng</option>
-                </select>
-              </div>
-              <div className="form-group col-4">
-                <button className="btn btn-success">Cập nhật</button>
-              </div>
-            </div>
-          </div>
-        </AccordionDetails>
-      </Accordion>
-    </div>
-  );
-}
 export default Category;

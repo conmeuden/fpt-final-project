@@ -65,7 +65,7 @@ const findAll = async (req, res) => {
     return res.json(ratings);
   } catch (error) {
     console.error("Error fetching ratings:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -108,12 +108,12 @@ const findById = async (req, res) => {
   try {
     const rating = await Rating.findByPk(id);
     if (!rating) {
-      return res.status(404).json({ error: "Rating not found" });
+      return res.status(404).json({ message: "Rating not found" });
     }
     return res.json(rating);
   } catch (error) {
     console.error(`Error fetching rating with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -182,7 +182,7 @@ const create = async (req, res) => {
     return res.status(201).json(newRating);
   } catch (error) {
     console.error("Error creating rating:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -254,7 +254,7 @@ const update = async (req, res) => {
   try {
     const rating = await Rating.findByPk(id);
     if (!rating) {
-      return res.status(404).json({ error: "Rating not found" });
+      return res.status(404).json({ message: "Rating not found" });
     }
     const { product_id, star, comment, user_id, created_at, status } = req.body;
     await rating.update({
@@ -268,7 +268,7 @@ const update = async (req, res) => {
     return res.json(rating);
   } catch (error) {
     console.error(`Error updating rating with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -314,12 +314,12 @@ const remove = async (req, res) => {
   try {
     const deletedRowCount = await Rating.destroy({ where: { id } });
     if (deletedRowCount === 0) {
-      return res.status(404).json({ error: "Rating not found" });
+      return res.status(404).json({ message: "Rating not found" });
     }
     return res.json({ message: "Rating deleted successfully" });
   } catch (error) {
     console.error(`Error deleting rating with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

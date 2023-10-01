@@ -52,7 +52,7 @@ const findAll = async (req, res) => {
     return res.json(shopUsers);
   } catch (error) {
     console.error("Error fetching shop users:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -99,7 +99,7 @@ const getUsersByShopId = async (req, res) => {
     return res.json(shopUsers);
   } catch (error) {
     console.error("Error fetching users by shop ID:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -142,12 +142,12 @@ const findById = async (req, res) => {
     const { id } = req.params;
     const shopUser = await ShopUser.findByPk(id);
     if (!shopUser) {
-      return res.status(404).json({ error: "ShopUser not found" });
+      return res.status(404).json({ message: "ShopUser not found" });
     }
     return res.json(shopUser);
   } catch (error) {
     console.error(`Error fetching shop user with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -193,7 +193,7 @@ const create = async (req, res) => {
     return res.json(shopUser);
   } catch (error) {
     console.error("Error creating shop user:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -249,7 +249,7 @@ const update = async (req, res) => {
     const existingShopUser = await ShopUser.findByPk(id);
 
     if (!existingShopUser) {
-      return res.status(404).json({ error: "ShopUser not found" });
+      return res.status(404).json({ message: "ShopUser not found" });
     }
 
     existingShopUser.shop_id = shop_id;
@@ -260,7 +260,7 @@ const update = async (req, res) => {
     return res.json(existingShopUser);
   } catch (error) {
     console.error(`Error updating shop user with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -307,7 +307,7 @@ const remove = async (req, res) => {
     const deletedShopUser = await ShopUser.findByPk(id);
 
     if (!deletedShopUser) {
-      return res.status(404).json({ error: "ShopUser not found" });
+      return res.status(404).json({ message: "ShopUser not found" });
     }
 
     await deletedShopUser.destroy();
@@ -315,7 +315,7 @@ const remove = async (req, res) => {
     return res.json({ message: "ShopUser deleted successfully" });
   } catch (error) {
     console.error(`Error deleting shop user with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
