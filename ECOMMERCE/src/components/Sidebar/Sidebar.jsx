@@ -27,8 +27,8 @@ export default function Sidebar() {
       aria-labelledby="nested-list-subheader"
       style={{ margin: "0 auto" }}
     >
-      <Link to={"/system/index"}>
-        <ListItemButton className={isActive("/system/index")}>
+      <Link to={"/management/index"}>
+        <ListItemButton className={isActive("/management/index")}>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
@@ -36,8 +36,8 @@ export default function Sidebar() {
         </ListItemButton>
       </Link>
 
-      <Link to={"/system/orders"}>
-        <ListItemButton className={isActive("/system/orders")}>
+      <Link to={"/management/orders"}>
+        <ListItemButton className={isActive("/management/orders")}>
           <ListItemIcon>
             <Inventory2Icon />
           </ListItemIcon>
@@ -45,17 +45,25 @@ export default function Sidebar() {
         </ListItemButton>
       </Link>
 
-      <Link to={"/system/products"}>
-        <ListItemButton className={isActive("/system/products")}>
+      <Link to={"/management/products"}>
+        <ListItemButton className={isActive("/management/products")}>
           <ListItemIcon>
             <PostAddIcon />
           </ListItemIcon>
           <ListItemText primary="Kho sản phẩm" />
         </ListItemButton>
       </Link>
+      <Link to={"/management/categories"}>
+        <ListItemButton className={isActive("/management/categories")}>
+          <ListItemIcon>
+            <PostAddIcon />
+          </ListItemIcon>
+          <ListItemText primary="Danh mục sản phẩm" />
+        </ListItemButton>
+      </Link>
 
-      <Link to={"/system/coupons"}>
-        <ListItemButton className={isActive("/system/coupons")}>
+      <Link to={"/management/coupons"}>
+        <ListItemButton className={isActive("/management/coupons")}>
           <ListItemIcon>
             <PolylineIcon />
           </ListItemIcon>
@@ -63,8 +71,8 @@ export default function Sidebar() {
         </ListItemButton>
       </Link>
 
-      <Link to={"/system/suppliers"}>
-        <ListItemButton className={isActive("/system/suppliers")}>
+      <Link to={"/management/suppliers"}>
+        <ListItemButton className={isActive("/management/suppliers")}>
           <ListItemIcon>
             <PolylineIcon />
           </ListItemIcon>
@@ -72,8 +80,8 @@ export default function Sidebar() {
         </ListItemButton>
       </Link>
 
-      <Link to={"/system/supplie-orders"}>
-        <ListItemButton className={isActive("/system/supplie-orders")}>
+      <Link to={"/management/supplie-orders"}>
+        <ListItemButton className={isActive("/management/supplie-orders")}>
           <ListItemIcon>
             <PolylineIcon />
           </ListItemIcon>
@@ -81,16 +89,16 @@ export default function Sidebar() {
         </ListItemButton>
       </Link>
 
-      <Link to={"/system/customers"}>
-        <ListItemButton className={isActive("/system/customers")}>
+      <Link to={"/management/customers"}>
+        <ListItemButton className={isActive("/management/customers")}>
           <ListItemIcon>
             <AddBusinessIcon />
           </ListItemIcon>
           <ListItemText primary="Quản lý khách hàng" />
         </ListItemButton>
       </Link>
-      <Link to={"/system/email"}>
-        <ListItemButton className={isActive("/system/email")}>
+      <Link to={"/management/email"}>
+        <ListItemButton className={isActive("/management/email")}>
           <ListItemIcon>
             <ForwardToInboxIcon />
           </ListItemIcon>
