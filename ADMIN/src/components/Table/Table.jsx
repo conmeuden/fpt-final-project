@@ -38,6 +38,8 @@ function AutoTable({ data, setPage, limit, page, count, link }) {
                         Ngưng sử dụng
                       </span>
                     )
+                  ) : column === "logo" ? (
+                    <img src={row[column]} alt="logo" width="50" height="50" />
                   ) : (
                     <Link to={`${link}/${row.id}`}>{row[column]}</Link>
                   )}

@@ -1,4 +1,4 @@
-const { Shop, Package } = require("../models/index");
+const { Shop, Package, User } = require("../models/index");
 const { Op } = require("sequelize");
 
 const findAll = async (req, res) => {
@@ -34,7 +34,10 @@ const findById = async (req, res) => {
   try {
     const { id } = req.params;
     const shop = await Shop.findByPk(id, {
-      include: [{ model: Package, as: "package" }],
+      include: [
+        { model: User, as: "user" },
+        { model: Package, as: "package" },
+      ],
     });
 
     if (!shop) {

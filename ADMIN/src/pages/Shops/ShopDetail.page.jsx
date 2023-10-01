@@ -1,20 +1,28 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import ShopsService from "./../../services/shops.service";
+import ShopsService from "../../services/shops.service";
+import PackageService from "../../services/packages.service";
+import UploadService from "../../services/upload.service";
 import SystemAlert from "./../../components/Alert/Alert";
 import SmallLoading from "./../../components/Loading/SmallLoading";
+import Toastify from "../../components/Toastify/Toastify";
 
 function ShopDetail() {
   const { id } = useParams();
   const [shop, setShop] = useState(null);
+  const [pkg, setPkg] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [file, setFile] = useState(null);
+  const [toast, setToast] = useState({ type: "", message: "" });
 
   const getCurrentShop = async () => {
     try {
       setLoading(true);
-      const data = await ShopsService.getShopById(id);
-      setShop(data);
+      const dataShop = await ShopsService.getShopById(id);
+      const dataPackage = await PackageService.getAllPackages({});
+      setShop(dataShop);
+      setPkg(dataPackage.packages.rows);
       setLoading(false);
     } catch (error) {
       setError(error.message);
@@ -24,25 +32,25 @@ function ShopDetail() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-
     if (!validateForm()) {
       return;
     }
-
     try {
       setLoading(true);
       await ShopsService.updateShop({
         id,
         shop,
       });
+      setToast({ type: "success", message: "Update thành công" });
       setLoading(false);
     } catch (error) {
       setError(error.message);
+      setToast({ type: "error", message: error.message });
       setLoading(false);
     }
   };
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setShop((prevFormData) => ({
       ...prevFormData,
@@ -54,11 +62,23 @@ function ShopDetail() {
     try {
       setLoading(true);
       await ShopsService.removeShop(id);
+      setToast({ type: "success", message: "Delete thành công" });
       setLoading(false);
     } catch (error) {
       setError(error.message);
+      setToast({ type: "error", message: error.message });
       setLoading(false);
     }
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+    const img = await UploadService.singleFile({ file });
+    setShop({
+      ...shop,
+      logo: img,
+    });
   };
 
   const validateForm = () => {
@@ -86,17 +106,17 @@ function ShopDetail() {
       {loading && <SmallLoading />}
       {error && <SystemAlert type={"error"} message={error} />}
 
-      {shop && (
+      {shop && pkg && (
         <div
           className="shop-detail container p-4"
           style={{ backgroundColor: "white", borderRadius: 20 }}
         >
-          <div className="form-container col-5">
-            <form>
+          <form className="d-flex">
+            <div className="form-container col-5">
               <div className="form-group m-3">
                 <label>Tên cửa hàng</label>
                 <input
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   type="text"
                   className="form-control"
                   name="name"
@@ -106,37 +126,32 @@ function ShopDetail() {
               <div className="form-group m-3">
                 <label>Chủ cửa hàng</label>
                 <input
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   type="text"
                   className="form-control"
                   name="user_id"
-                  value={shop.user_id}
+                  value={shop.user.full_name}
                 />
               </div>
               <div className="form-group m-3">
                 <label>Gói đang sử dụng</label>
-                <input
-                  onChange={handleChange}
-                  type="text"
-                  className="form-control"
+                <select
+                  onChange={handleInputChange}
                   name="package_id"
-                  value={shop.package_id}
-                />
-              </div>
-              <div className="form-group m-3">
-                <label>Logo thương hiệu</label>
-                <input
-                  onChange={handleChange}
-                  type="text"
                   className="form-control"
-                  name="logo"
-                  value={shop.logo}
-                />
+                  defaultValue={shop.package.id}
+                >
+                  {pkg.map((data, index) => (
+                    <option key={index} value={data.id}>
+                      {data.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="form-group m-3">
                 <label>Ngày đăng kí</label>
                 <input
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   type="text"
                   className="form-control"
                   name="created_at"
@@ -146,7 +161,7 @@ function ShopDetail() {
               <div className="form-group m-3">
                 <label>Mô tả</label>
                 <input
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   type="text"
                   className="form-control"
                   name="description"
@@ -156,7 +171,7 @@ function ShopDetail() {
               <div className="form-group m-3">
                 <label>Địa chỉ</label>
                 <input
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   type="text"
                   className="form-control"
                   name="address"
@@ -166,7 +181,7 @@ function ShopDetail() {
               <div className="form-group m-3">
                 <label>Số điện thoại</label>
                 <input
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   type="text"
                   className="form-control"
                   name="phone_number"
@@ -176,7 +191,7 @@ function ShopDetail() {
               <div className="form-group m-3">
                 <label>Trạng thái</label>
                 <select
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   name="status"
                   defaultValue={shop.status}
                   className="form-control"
@@ -205,10 +220,30 @@ function ShopDetail() {
                   Xóa
                 </button>
               </div>
-            </form>
-          </div>
+            </div>
+            <div className="form-container col-7">
+              <div className="form-group m-3">
+                <label className="d-block">Logo thương hiệu</label>
+                <img
+                  src={shop.logo}
+                  alt="logo-thuong-hieu"
+                  style={{
+                    width: 450,
+                    height: 450,
+                  }}
+                />
+                <input
+                  type="file"
+                  className="form-control"
+                  name="icon"
+                  onChange={handleFileChange}
+                />
+              </div>
+            </div>
+          </form>
         </div>
       )}
+      <Toastify type={toast.type} message={toast.message} />
     </>
   );
 }
