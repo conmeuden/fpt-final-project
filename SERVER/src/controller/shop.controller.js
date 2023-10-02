@@ -3,13 +3,17 @@ const { Op } = require("sequelize");
 
 const findAll = async (req, res) => {
   try {
-    const { page = 1, limit = 10, keyword = "" } = req.query;
+    const { page = 1, limit = 10, keyword = "", status = "" } = req.query;
 
     const whereCondition = {};
 
     if (keyword) {
       whereCondition.name = { [Op.like]: `%${keyword}%` };
       // Nếu bạn muốn tìm kiếm theo nhiều trường khác, bạn có thể thêm vào whereCondition tương ứng.
+    }
+
+    if (status) {
+      whereCondition.status = status;
     }
 
     // Sử dụng phân trang và điều kiện tìm kiếm

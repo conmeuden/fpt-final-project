@@ -23,64 +23,67 @@ function ShopPage() {
         status,
       })
     );
-  }, [dispatch, keyword, status, page]);
+  }, [dispatch, keyword, page, status]);
 
   return (
     <>
       {error && <SystemAlert type={"error"} message={error} />}
 
-      <div className="container">
-        {loading && <SmallLoading />}
-        <div className="shops-table">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setKeyword(searchText);
-            }}
-          >
-            <div className="shops-control row mb-3">
-              <div className="row">
-                <div className="col-3">
-                  <input
-                    onChange={(e) => {
-                      setSearchText(e.target.value);
-                    }}
-                    type="text"
-                    placeholder="Tìm kiếm shop..."
-                    value={searchText}
-                    className="form-control"
-                  />
-                </div>
-                <div className="col-3">
-                  <select
-                    defaultValue={status}
-                    onChange={(e) => {
-                      setStatus(e.target.value);
-                    }}
-                    className="form-control"
-                  >
-                    <option value="">Chọn trạng thái</option>
-                    <option value="1">Đang hoạt động</option>
-                    <option value="0">Ngưng hoạt động</option>
-                  </select>
-                </div>
-                <div className="col-2">
-                  <button className="btn btn-primary">Tìm kiếm</button>
+      <div className="shops-page container-fluid">
+        {loading ? (
+          <SmallLoading />
+        ) : (
+          <div className="shops-table">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setKeyword(searchText);
+              }}
+            >
+              <div className="shops-control mb-3">
+                <div className="row">
+                  <div className="col-sm-12 col-md-6 col-xl-3">
+                    <input
+                      onChange={(e) => {
+                        setSearchText(e.target.value);
+                      }}
+                      type="text"
+                      placeholder="Tìm kiếm cửa hàng..."
+                      value={searchText}
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="col-sm-12 col-md-6 col-xl-3">
+                    <select
+                      defaultValue={status}
+                      onChange={(e) => {
+                        setStatus(e.target.value);
+                      }}
+                      className="form-control"
+                    >
+                      <option value="">Chọn trạng thái</option>
+                      <option value="1">Đang hoạt động</option>
+                      <option value="0">Ngưng hoạt động</option>
+                    </select>
+                  </div>
+                  <div className="col-2">
+                    <button className="btn btn-primary">Tìm kiếm</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
-          {data && (
-            <AutoTable
-              data={data.shops.rows}
-              limit={10}
-              count={data.shops.count}
-              page={page}
-              setPage={setPage}
-              link={"/dashboard/shops"}
-            />
-          )}
-        </div>
+            </form>
+            {data && (
+              <AutoTable
+                data={data.shops.rows}
+                limit={10}
+                count={data.shops.count}
+                page={page}
+                setPage={setPage}
+                link={"/dashboard/shops"}
+              />
+            )}
+          </div>
+        )}
       </div>
     </>
   );
