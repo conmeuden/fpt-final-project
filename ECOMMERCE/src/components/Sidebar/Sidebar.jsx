@@ -53,14 +53,6 @@ export default function Sidebar() {
           <ListItemText primary="Kho sản phẩm" />
         </ListItemButton>
       </Link>
-      <Link to={"/management/categories"}>
-        <ListItemButton className={isActive("/management/categories")}>
-          <ListItemIcon>
-            <PostAddIcon />
-          </ListItemIcon>
-          <ListItemText primary="Danh mục sản phẩm" />
-        </ListItemButton>
-      </Link>
 
       <Link to={"/management/coupons"}>
         <ListItemButton className={isActive("/management/coupons")}>
