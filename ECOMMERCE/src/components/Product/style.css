@@ -3,9 +3,9 @@
 }
 
 .create-product_images img {
-  border: 1px solid rgb(124, 121, 121);
-  height: 100px;
-  width: 100px;
+  padding: 6px;
+  height: 120px;
+  width: 100%;
   object-fit: cover;
   filter: grayscale(0%); /* Remove grayscale effect on hover */
   transition: filter 0.3s ease; /* Add a transition for a smooth effect */
@@ -23,7 +23,7 @@
 }
 
 .create-product_images .col-2:hover img {
-  filter: grayscale(100%); /* Apply grayscale effect by default */
+  opacity: 0.6;
 }
 
 .create-product_images .col-2:hover .btn-remove-image {
@@ -32,4 +32,19 @@
 
 .create-product_form label {
   text-align: right;
+}
+
+.create-product_form .product-add-properties-btn {
+  height: 70px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid var(--bg-color);
+  border-radius: 12px;
+  cursor: pointer;
+  color: var(--bg-color);
+}
+
+.product-properties-container,
+.product-variant_list_item {
+  border: 1px solid rgb(199 199 199);
 }
