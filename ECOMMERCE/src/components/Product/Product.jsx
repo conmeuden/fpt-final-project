@@ -6,6 +6,7 @@ import SystemAlert from "./../Alert/Alert";
 import ProductTable from "./ProductTable";
 import { getAllCategories } from "../../redux/slices/category.slice";
 import Slider from "@mui/material/Slider";
+import { Link } from "react-router-dom";
 
 function valueLabelFormat(value) {
   return `${value.toLocaleString()}đ`;
@@ -24,7 +25,7 @@ function Product() {
     barcode: "",
   });
 
-  const [categoryParams, setCategoryParams] = useState({
+  const [categoryParams] = useState({
     page: 1,
     limit: 999999,
     status: 1,
@@ -156,7 +157,9 @@ function Product() {
               <button className="btn btn-primary" onClick={handleSearch}>
                 Tìm kiếm
               </button>{" "}
-              <button className="btn btn-success">Thêm mới</button>
+              <Link to={"/management/products/create"}>
+                <button className="btn btn-success">Thêm mới</button>
+              </Link>
             </div>
           </div>
         </div>

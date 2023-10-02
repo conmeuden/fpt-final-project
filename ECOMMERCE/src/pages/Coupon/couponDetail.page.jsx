@@ -82,7 +82,7 @@ function CouponDetailPage() {
             className="coupon-detail p-4"
             style={{ backgroundColor: "white", borderRadius: 20 }}
           >
-            <div className="coupon-detail_form col-4">
+            <div className="coupon-detail_form col-sm-12 col-md-7 col-xl-5">
               <form onSubmit={handleUpdateCoupon}>
                 <div className="form-group m-3">
                   <label>Mã code:</label>
