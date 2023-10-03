@@ -7,6 +7,9 @@ import userSlice from "./slices/user.slice";
 import packagesSlice from "./slices/packages.slice";
 import shopsSlice from "./slices/shops.slice";
 
+import blogSlice from "./slices/blog.slice";
+
+import packagesSlice from "./slices/packages.slice";
 export default configureStore({
   reducer: {
     authentication: authSlice,
@@ -14,5 +17,7 @@ export default configureStore({
     industries: industriesSlice,
     packages: packagesSlice,
     shops: shopsSlice,
+    blogs:blogSlice,
+    packages:packagesSlice,
   },
 });

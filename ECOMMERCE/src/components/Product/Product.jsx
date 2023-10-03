@@ -6,11 +6,7 @@ import SystemAlert from "./../Alert/Alert";
 import ProductTable from "./ProductTable";
 import { getAllCategories } from "../../redux/slices/category.slice";
 import Slider from "@mui/material/Slider";
-
-function valuetext(value) {
-  console.log(value);
-  return `${value}`;
-}
+import { Link } from "react-router-dom";
 
 function valueLabelFormat(value) {
   return `${value.toLocaleString()}đ`;
@@ -23,13 +19,13 @@ function Product() {
     limit: 10,
     keyword: "",
     status: "",
-    min_price: 5,
-    max_price: 70000000,
+    min_price: 500,
+    max_price: 10000000,
     category_id: "",
     barcode: "",
   });
 
-  const [categoryParams, setCategoryParams] = useState({
+  const [categoryParams] = useState({
     page: 1,
     limit: 999999,
     status: 1,
@@ -87,7 +83,6 @@ function Product() {
   };
 
   const handleSetPage = (e) => {
-    console.log(e);
     setProductParams({ ...productParams, page: Number(e) });
   };
 
@@ -117,9 +112,9 @@ function Product() {
             </div>
             <div className="form-group mt-2 col-4">
               <Slider
-                min={5}
-                step={100}
-                max={100000000}
+                min={500}
+                step={500}
+                max={10000000}
                 getAriaLabel={() => "Temperature range"}
                 value={[
                   Number(productParams.min_price),
@@ -162,7 +157,9 @@ function Product() {
               <button className="btn btn-primary" onClick={handleSearch}>
                 Tìm kiếm
               </button>{" "}
-              <button className="btn btn-success">Thêm mới</button>
+              <Link to={"/management/products/create"}>
+                <button className="btn btn-success">Thêm mới</button>
+              </Link>
             </div>
           </div>
         </div>

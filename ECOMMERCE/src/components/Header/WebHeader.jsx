@@ -15,11 +15,13 @@ function WebHeader() {
         className="p-3"
       >
         <Container>
-          <Link to={"/"}>
-            <Navbar.Brand>
-              <span id="dalapha">DALAPHA</span>
-              <span id="ecommerce">ecommerce</span>
-            </Navbar.Brand>
+          <Link to="/">
+            <h1>
+              <span style={{ color: "orange", fontWeight: "bold" }}>
+                DALAPHA
+              </span>
+              <span style={{ color: "white", fontWeight: "bold" }}>Shop</span>
+            </h1>
           </Link>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">

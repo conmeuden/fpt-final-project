@@ -87,12 +87,12 @@ function LoginPage() {
               </form>
               <hr className="hr" />
 
-              <div>
+              <div className="form-group m-3">
                 <GoogleLogin
+                  size="large"
                   responseType="code,token"
                   onSuccess={responseMessage}
                   onError={errorMessage}
-                  text="ád"
                 />
               </div>
 

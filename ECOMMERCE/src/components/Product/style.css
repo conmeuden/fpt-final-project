@@ -1,0 +1,50 @@
+.create-product_images .col-2 {
+  position: relative;
+}
+
+.create-product_images img {
+  padding: 6px;
+  height: 120px;
+  width: 100%;
+  object-fit: cover;
+  filter: grayscale(0%); /* Remove grayscale effect on hover */
+  transition: filter 0.3s ease; /* Add a transition for a smooth effect */
+}
+
+.create-product_images .btn-remove-image {
+  padding: 5px;
+  color: red;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease; /* Add a transition for a smooth effect */
+}
+
+.create-product_images .col-2:hover img {
+  opacity: 0.6;
+}
+
+.create-product_images .col-2:hover .btn-remove-image {
+  opacity: 1; /* Show the remove button on hover */
+}
+
+.create-product_form label {
+  text-align: right;
+}
+
+.create-product_form .product-add-properties-btn {
+  height: 70px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid var(--bg-color);
+  border-radius: 12px;
+  cursor: pointer;
+  color: var(--bg-color);
+}
+
+.product-properties-container,
+.product-variant_list_item {
+  border: 1px solid rgb(199 199 199);
+}

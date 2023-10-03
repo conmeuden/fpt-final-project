@@ -48,8 +48,8 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(getAllProducts.rejected, (state, action) => {
-        state.loading = true;
-        state.error = action.payload.message;
+        state.loading = false;
+        state.error = action.payload;
       })
       .addCase(getAllProducts.fulfilled, (state, action) => {
         state.loading = false;

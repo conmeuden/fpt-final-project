@@ -63,6 +63,7 @@ function Category() {
 
   return (
     <>
+      {error}
       {error && <SystemAlert type={"error"} message={error} />}
       <div className="category-page col-sm-12 col-md-12 col-xl-7">
         <div className="category-control">

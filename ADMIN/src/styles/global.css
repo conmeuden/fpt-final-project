@@ -16,3 +16,6 @@ a {
 td:hover {
   color: #2093eb !important;
 }
+label {
+  font-weight: bolder;
+}

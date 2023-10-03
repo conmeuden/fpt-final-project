@@ -12,10 +12,16 @@ import BaseComponent from "../pages/BaseComponent/BaseComponent.page";
 import UserPage from "./../pages/User/user.page";
 import UserDetail from "./../pages/User/UserDetail.page";
 import EmailPage from "./../pages/Email/email.page";
+import BlogPage from "../pages/Blog/blog.page";
+import BlogDetail from "../pages/Blog/blogDetail.page";
+import BlogCreate from "../pages/Blog/blogCreate.page";
+
+
 import PackagePage from "../pages/Packages/packages.page";
 import PackageDetail from "../pages/Packages/PackageDetail.page";
 import ShopPage from "../pages/Shops/Shops.page";
 import ShopDetail from "../pages/Shops/ShopDetail.page";
+
 function AppRouter() {
   return (
     //Thêm router ở đây
@@ -24,7 +30,9 @@ function AppRouter() {
 
       <Route path="/users/:id" element={<UserDetail />} />
       <Route path="/users" element={<UserPage />} />
-      <Route path="/blogs" element={<h1>blogs page</h1>} />
+      <Route path="/blogs/:id" element={<BlogDetail/> } />
+      <Route path="/blogs" element={<BlogPage/> } />
+      <Route path="/blogs/create" element={<BlogCreate/> } />
       <Route path="/email" element={<EmailPage />} />
       <Route path="/industries" element={<IndustriesPage />} />
       <Route path="/industries/:id" element={<IndustryDetail />} />
