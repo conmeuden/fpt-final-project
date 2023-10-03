@@ -17,6 +17,7 @@ const salerUrls = [
   "/api/shopUser",
   "/api/suppliers",
   "/api/upload",
+  "/api/products",
 ];
 
 const jwtAuthMiddleware = (req, res, next) => {
@@ -25,7 +26,8 @@ const jwtAuthMiddleware = (req, res, next) => {
 
   if (
     (isPublicUrl && req.method === "GET") ||
-    (urlRequest.startsWith("/api/auth") && req.method === "POST")
+    (urlRequest.startsWith("/api/auth") && req.method === "POST") ||
+    (urlRequest.startsWith("/api/auth") && req.method === "GET")
   ) {
     return next();
   }

@@ -1,41 +1,3 @@
-/**
- * @swagger
- * definitions:
- *   Shop:
- *     type: object
- *     properties:
- *       id:
- *         type: integer
- *         description: ID của cửa hàng.
- *       name:
- *         type: string
- *         description: Tên cửa hàng.
- *       user_id:
- *         type: integer
- *         description: ID của người dùng sở hữu cửa hàng.
- *       package_id:
- *         type: integer
- *         description: ID của gói dịch vụ của cửa hàng.
- *       logo:
- *         type: string
- *         description: Đường dẫn đến logo của cửa hàng.
- *       created_at:
- *         type: string
- *         format: date-time
- *         description: Ngày tạo cửa hàng.
- *       description:
- *         type: string
- *         description: Mô tả cửa hàng.
- *       address:
- *         type: string
- *         description: Địa chỉ cửa hàng.
- *       phone_number:
- *         type: string
- *         description: Số điện thoại cửa hàng.
- *       status:
- *         type: integer
- *         description: Trạng thái của cửa hàng (ví dụ: hoạt động, ngừng hoạt động).
- */
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database.config"); // Import sequelize instance
 
@@ -50,7 +12,7 @@ const Shop = sequelize.define(
     },
     name: {
       type: DataTypes.STRING(100),
-      allowNull: false,
+      allowNull: true,
     },
     user_id: {
       type: DataTypes.INTEGER,
@@ -62,7 +24,7 @@ const Shop = sequelize.define(
     },
     logo: {
       type: DataTypes.STRING(200),
-      allowNull: false,
+      allowNull: true,
     },
     created_at: {
       type: DataTypes.DATE,
@@ -70,15 +32,15 @@ const Shop = sequelize.define(
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
     address: {
       type: DataTypes.STRING(150),
-      allowNull: false,
+      allowNull: true,
     },
     phone_number: {
       type: DataTypes.STRING(14),
-      allowNull: false,
+      allowNull: true,
     },
     status: {
       type: DataTypes.INTEGER,

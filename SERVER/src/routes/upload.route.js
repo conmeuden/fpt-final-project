@@ -1,3 +1,5 @@
+/** @format */
+
 const express = require("express");
 const router = express.Router();
 const upload = require("../config/multer.config");
@@ -12,7 +14,7 @@ router.post("/single", upload.single("file"), (req, res) => {
     res.json({ filePath });
   } catch (error) {
     log("Lỗi upload single file : " + error);
-    res.status(500).json({ error: "Lỗi xử lý tệp tin tải lên" });
+    res.status(500).json({ message: "Lỗi xử lý tệp tin tải lên" });
   }
 });
 
@@ -25,7 +27,7 @@ router.post("/multiple", upload.array("files", 10), (req, res) => {
     res.json({ filePaths });
   } catch (error) {
     log("Lỗi upload multiple file : " + error);
-    res.status(500).json({ error: "Lỗi xử lý tệp tin tải lên" });
+    res.status(500).json({ message: "Lỗi xử lý tệp tin tải lên" });
   }
 });
 

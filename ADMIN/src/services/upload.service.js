@@ -1,3 +1,5 @@
+/** @format */
+
 import axios from "axios";
 
 const baseURL = import.meta.env.VITE_REACT_API_URL;
@@ -25,7 +27,7 @@ const UploadService = {
       }
 
       const filepath = `${baseURL.slice(0, -1)}${response.data.filePath}`;
-
+      console.log("upload success: ", filepath);
       return filepath;
     } catch (error) {
       console.error("Error uploading single file:", error);

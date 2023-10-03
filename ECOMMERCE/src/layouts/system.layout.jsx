@@ -115,43 +115,45 @@ export default function SystemLayout({ children }) {
   }, [dispatch, isAuthentication, navigate]);
 
   return (
-    <Box sx={{ display: "flex" }}>
-      {loading && <ScreenLoading />}
-      <CssBaseline />
-      <AppBar position="fixed" open={open} id="navbar">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <SystemHeader />
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Sidebar open={open} />
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
+    <div className="container-fluid p-0">
+      <Box sx={{ display: "flex" }}>
+        {loading && <ScreenLoading />}
+        <CssBaseline />
+        <AppBar position="fixed" open={open} id="navbar">
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: "none" }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <SystemHeader />
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="permanent" open={open}>
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "rtl" ? (
+                <ChevronRightIcon />
+              ) : (
+                <ChevronLeftIcon />
+              )}
+            </IconButton>
+          </DrawerHeader>
+          <Sidebar open={open} />
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <DrawerHeader />
 
-        <div className="main">{children}</div>
+          <div className="main">{children}</div>
+        </Box>
       </Box>
-    </Box>
+    </div>
   );
 }

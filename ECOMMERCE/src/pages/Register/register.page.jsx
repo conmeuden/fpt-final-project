@@ -5,6 +5,7 @@ import { register } from "../../redux/slices/auth.slice";
 import { useNavigate } from "react-router-dom";
 import ScreenLoading from "../../components/Loading/ScreenLoading";
 import SystemAlert from "./../../components/Alert/Alert";
+
 function RegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,17 +64,17 @@ function RegisterPage() {
       {loading && <ScreenLoading />}
       {error && <SystemAlert type={"error"} message={error} />}
       {errorMessage && <SystemAlert type={"error"} message={errorMessage} />}
-      <div className="container-fluid p-0 register-page mb-3">
+      <div className="container-fluid p-0 register-page mb-5">
         <div className="container">
           <div className="row" style={{ alignItems: "center" }}>
-            <div className="login-banner col-8">
+            <div className="login-banner col-sm-12 col-md-12 col-xl-8">
               <img
                 src="/images/sign-up-bg.png"
                 alt="lg"
                 style={{ width: "80%" }}
               />
             </div>
-            <div className="login-form col-4">
+            <div className="login-form col-sm-12 col-md-12 col-xl-4">
               <h2 className="m-3">Tạo một cửa hàng !</h2>
               <form onSubmit={handleRegister}>
                 <div className="form-group m-3">

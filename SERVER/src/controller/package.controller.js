@@ -57,11 +57,34 @@ const { Package } = require("../models/index");
  */
 const findAll = async (req, res) => {
   try {
-    const packages = await Package.findAll();
-    return res.json(packages);
+    const { page = 1, limit = 10, keyword = "" } = req.query;
+    const pageOptions = {
+      page: parseInt(page, 10) || 1, // Trang mặc định là 1 nếu không có tham số
+      limit: parseInt(limit, 10) || 10, // Giới hạn số mục trên mỗi trang, mặc định là 10 nếu không có tham số
+    };
+
+    // Điều kiện tìm kiếm
+    const whereCondition = {};
+
+    if (keyword) {
+      whereCondition.name = { [Op.like]: `%${keyword}%` };
+      // Nếu bạn muốn tìm kiếm theo nhiều trường khác, bạn có thể thêm vào whereCondition tương ứng.
+    }
+
+    const packages = await Package.findAndCountAll({
+      where: whereCondition,
+      offset: (pageOptions.page - 1) * pageOptions.limit,
+      limit: pageOptions.limit,
+    });
+
+    return res.json({
+      page: pageOptions.page,
+      limit: pageOptions.limit,
+      packages,
+    });
   } catch (error) {
     console.error("Error fetching packages:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -105,13 +128,13 @@ const findById = async (req, res) => {
     const package = await Package.findByPk(id);
 
     if (!package) {
-      return res.status(404).json({ error: "Package not found" });
+      return res.status(404).json({ message: "Package not found" });
     }
 
     return res.json(package);
   } catch (error) {
     console.error(`Error fetching package with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -170,7 +193,7 @@ const create = async (req, res) => {
     return res.status(201).json(newPackage);
   } catch (error) {
     console.error("Error creating package:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -236,7 +259,7 @@ const update = async (req, res) => {
     const existingPackage = await Package.findByPk(id);
 
     if (!existingPackage) {
-      return res.status(404).json({ error: "Package not found" });
+      return res.status(404).json({ message: "Package not found" });
     }
 
     existingPackage.name = name;
@@ -249,7 +272,7 @@ const update = async (req, res) => {
     return res.json(existingPackage);
   } catch (error) {
     console.error(`Error updating package with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -296,13 +319,13 @@ const remove = async (req, res) => {
     const updatedRows = await Package.update({ status: 0 }, { where: { id } });
 
     if (updatedRows[0] === 0) {
-      return res.status(404).json({ error: "Package not found" });
+      return res.status(404).json({ message: "Package not found" });
     }
 
     return res.json({ message: "Package deleted successfully" });
   } catch (error) {
     console.error(`Error deleting package with ID ${id}:`, error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
