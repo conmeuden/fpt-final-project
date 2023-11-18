@@ -1,140 +1,429 @@
 import "./style.css";
-import { CheckCircleOutline } from "@mui/icons-material";
+import CallIcon from '@mui/icons-material/Call';
+import WorkIcon from '@mui/icons-material/Work';
+import SystemSecurityUpdateGoodIcon from '@mui/icons-material/SystemSecurityUpdateGood';
 function AboutPage() {
   return (
-    <div className="container-fluid p-0 login-page mb-5" id="about-page">
-      <div className="home-banner">
-        <img
-          src="/public/images/banner-about.jpg"
-          alt="banner"
-          className="w-100"
-          style={{ height: "350px", objectFit: "cover" }}
-        />
-      </div>
-      <div className="container mt-5">
-        <div className="title text-center">
-          <h4 className=" text-dark fw-bold" style={{ lineHeight: "1.5" }}>
-            DALAPHAecommerce là nền tảng thương mại điện tử hàng đầu tại Việt Nam.
-          </h4>
-          <div>
-            <p
-              className="desctiption h6 mt-3 text-secondary"
-              style={{ lineHeight: "1.5" }}
-            >
-              {" "}
-              Ra mắt năm 2023, nền tảng thương mại DALAPHAecommerce được xây dựng nhằm cung cấp cho người dùng những trải nghiệm dễ dàng,
+    <>
+      <>
+        <section
+          id="hero-animated"
+          className="hero-animated d-flex align-items-center"
+        >
+          <div
+            className="container d-flex flex-column justify-content-center align-items-center text-center position-relative"
+            data-aos="zoom-out"
+          >
+            <img
+              src="https://bootstrapmade.com/demo/templates/HeroBiz/assets/img/hero-carousel/hero-carousel-3.svg"
+              className="img-fluid animated"
+            />
+            <h2>
+              Welcome to <span>DALAPHA</span>
+            </h2>
+            <p>
+              Được xây dựng nhằm cung cấp cho người dùng những trải nghiệm dễ dàng,
               an toàn và nhanh chóng khi mua sắm trực tuyến thông qua hệ thống hỗ trợ thanh toán và vận hành vững mạnh.
+            </p>
 
 
-            </p>
-            <p
-              className="desctiption h6 mt-3 text-secondary"
-              style={{ lineHeight: "1.5" }}
-            >
-              {" "}
-              Chúng tôi có niềm tin mạnh mẽ rằng trải nghiệm mua sắm trực tuyến phải đơn giản,
-              dễ dàng và mang đến cảm xúc vui thích. Niềm tin này truyền cảm hứng và thúc đẩy chúng tôi mỗi ngày tại DALAPHAecommerce.
-            </p>
           </div>
-          <button className="mt-3 btn btn-success rounded-4 p-2">
-            Tìm hiểu DALAPHAecommerce
-          </button>
-        </div>
-        <div className="box-text d-flex text-center mt-5">
-          <div className="box-col shadow p-2 rounded-3">
-            <h5 className="fw-bold">Mục tiêu của chúng tôi</h5>
-            <p
-              className="description text-secondary"
-              style={{ lineHeight: "1.5" }}
-            >
-              Chúng tôi tin tưởng vào sức mạnh khai triển của công nghệ và
-              mong muốn góp phần làm cho thế giới trở nên tốt đẹp hơn bằng việc
-              kết nối cộng đồng người mua và người bán thông qua việc cung cấp một nền tảng thương mại điện tử.
-            </p>
-          </div>
-          <div className="box-col shadow p-2 rounded-3">
-            <h5 className="title fw-bold">Định vị của chúng tôi</h5>
-            <p
-              className="description text-secondary"
-              style={{ lineHeight: "1.5" }}
-            >
-              Đối với người dùng trên toàn khu vực,
-              DALAPHAecommerce mang đến trải nghiệm mua sắm trực tuyến tích hợp với vô số sản phẩm đa dạng chủng loại,
-              cộng đồng người dùng năng động và chuỗi dịch vụ liền mạch.
-            </p>
-          </div>
-          <div className="box-col-2 shadow p-2 rounded-3">
-            <h5 className="title fw-bold">Đặc điểm về con người của chúng tôi</h5>
-            <p
-              className="description text-secondary"
-              style={{ lineHeight: "1.5" }}
-            >
-              Để định nghĩa chúng tôi là ai - thông qua lời nói hay cách ứng xử trong nhiều trường hợp khác nhau - thì thực chất,
-              chúng tôi Gần gũi, Vui vẻ và Đồng lòng.
-              Đây là những đặc tính chính và nổi bật trong từng bước đường phát triển của DALAPHAecommerce.
-            </p>
-          </div>
-        </div>
+        </section>
+        <main id="main">
+          {/* ======= Featured Services Section =======
+          <section id="featured-services" className="featured-services">
+            <div className="container">
 
-        <div className="mt-5 staus-desctipiton-tw">
-          <h3 className="tx text-center fw-bold">Quy trình hoạt động</h3>
-          <div className="list-status d-flex">
-            <div className="list-status-item">
-              <h5 className="title">
-                <CheckCircleOutline
-                  style={{ marginRight: "5px", color: "#008847" }}
-                />
-                DALAPHAecommerce ra mắt tại thị trường Việt Nam
-              </h5>
-              <p className="descitpiton">
-                Năm 2023, DALAPHAecommerce ra mắt tại thị trường trong khu vực Việt Nam
-              </p>
             </div>
-            <div className="list-status-item">
-              <h5 className="title">
-                <CheckCircleOutline
-                  style={{ marginRight: "5px", color: "#008847" }}
-                />
-                Ra mắt trang web
-              </h5>
-              <p className="descitpiton">
-                Chúng tôi khai thác cả công nghệ hiện có và công nghệ mới nổi để định nghĩa lại trải nghiệm bán lẻ.
-                Tận dụng dữ liệu trong thời gian thực cho phép chúng tôi nhanh chóng thích ứng với nhu cầu
-                và điều kiện thay đổi. Chúng tôi kết nối người tiêu dùng với các thương hiệu,
-                tạo ra trải nghiệm tùy chỉnh và phát triển thành điểm đến bán lẻ mà khách hàng đến để mua sắm và giải trí.
-              </p>
+          </section> */}
+          {/* End Featured Services Section */}
+          {/* ======= About Section ======= */}
+          <section id="about" className="about">
+            <div className="container" data-aos="fade-up">
+              <div className="section-header">
+                <h6>NHIỆM VỤ CỦA CHÚNG TÔI</h6>
+                <h2>Làm cho thương mại tốt hơn cho mọi người</h2>
+                <h5>
+                  Chúng tôi giúp mọi người đạt được sự độc lập bằng cách giúp việc thành lập,
+                  điều hành và phát triển doanh nghiệp trở nên dễ dàng hơn.
+                  Chúng tôi tin rằng tương lai của thương mại sẽ có nhiều tiếng nói hơn chứ không phải ít hơn,
+                  vì vậy, chúng tôi đang giảm bớt các rào cản đối với quyền sở hữu doanh nghiệp để giúp thương mại trở nên tốt hơn cho mọi người.
+                </h5>
+              </div>
+
+              <div className="row g-4 g-lg-5" data-aos="fade-up" data-aos-delay={200}>
+                <div className="col-lg-5">
+                  <div className="about-img">
+                    <img src="https://cdn.shopify.com/shopifycloud/brochure/assets/about/video-poster-small-16931e5b1c29b169a9e7eb71a79d1ac0a655ebdc9e0053fc959eaa05cfd50bd7.jpg" className="img-fluid" alt="" />
+                  </div>
+                </div>
+                <div className="col-lg-7">
+
+                  <h3 className="pt-0 pt-lg-5">
+                    Tạo một cộng đồng để tác động
+                  </h3>
+
+                  <div className="tab-content">
+                    <div className="tab-pane fade show active" id="tab1">
+
+                      <div className="d-flex align-items-center mt-4">
+                        <i className="bi bi-check2" />
+                        <h4>DALAPHA được tạo nên từ một nhóm nhỏ từ đó một trang web thương mại điện tử được mọi người tin dùng ra đời.
+                          Với hàng trăm doanh nghiệp được hỗ trợ bởi DALAPHA, chúng tôi đầu tư vào con người và
+                          cộng đồng của mình. Các sáng kiến ​​tác động xã hội của chúng tôi tập trung vào việc tạo
+                          dựng một tương lai công bằng bằng cách xây dựng các sản phẩm và chương trình để hỗ trợ
+                          đội ngũ và người bán của chúng tôi.
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* ======= end task 1 ======= */}
+
+              <div className="row g-4 g-lg-5" data-aos="fade-up" data-aos-delay={200}>
+                <div className="col-lg-5">
+                  <div className="about-img">
+                    <img src="https://cdn.shopify.com/shopifycloud/brochure/assets/about/sustainability-small-9082b3c33fc96c720d3534c0908c622c1ca835cdfccb307ba6c30db8d9c41cc0.jpg" className="img-fluid" alt="" />
+                  </div>
+                </div>
+                <div className="col-lg-7">
+
+                  <h3 className="pt-0 pt-lg-5">
+                    Chúng tôi đang xây dựng một công ty 100 năm
+                  </h3>
+
+                  <div className="tab-content">
+                    <div className="tab-pane fade show active" id="tab1">
+
+                      <div className="d-flex align-items-center mt-4">
+                        <i className="bi bi-check2" />
+                        <h4>
+                          DALAPHA xây dựng lâu dài và điều đó có nghĩa là đầu tư vào hành tinh của chúng ta để chúng ta
+                          có thể chứng minh DALAPHA trong tương lai cũng như giúp người bán chứng minh hoạt động kinh
+                          doanh của họ trong tương lai. Quỹ bền vững của chúng tôi bao gồm việc khởi động thị trường
+                          loại bỏ carbon và lựa chọn năng lượng tái tạo, giảm và loại bỏ lượng khí thải carbon,
+                          đồng thời tạo ra các giải pháp để các thương nhân của chúng tôi làm điều tương tự.
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="list-status-item">
-              <h5 className="title">
-                <CheckCircleOutline
-                  style={{ marginRight: "5px", color: "#008847" }}
-                />
-                Thị trường khu vực
-              </h5>
-              <p className="descitpiton">
-                Hiểu rõ về đặc điểm địa phương, nhu cầu tiêu dùng, và quy định pháp lý là chìa khóa quan trọng
-                để doanh nghiệp phát triển chiến lược linh hoạt, tối ưu hóa cơ hội thị trường,
-                và xây dựng mối quan hệ vững chắc trong cộng đồng kinh doanh đang ngày càng toàn cầu hóa.
-              </p>
+          </section>
+          {/* End About Section */}
+          {/* ======= Clients Section ======= */}
+
+          {/* End Clients Section */}
+          {/* ======= Call To Action Section ======= */}
+
+          <section id="services" className="services">
+            <div className="container" data-aos="fade-up">
+              <div className="section-header">
+                <h2>Tìm hiểu thêm về DALAPHA</h2>
+
+              </div>
+              <div className="row gy-5">
+                <div
+                  className="col-xl-4 col-md-6"
+                  data-aos="zoom-in"
+                  data-aos-delay={200}
+                >
+                  <div className="service-item">
+                    <div className="img">
+                      <img
+                        src="public/images/ho-tro.png"
+                        className="img-fluid"
+                        alt=""
+                      />
+                    </div>
+                    <div className="details position-relative">
+                      <div className="icon">
+                        <CallIcon />
+                      </div>
+
+                      <h3>Hỗ trợ tận tình</h3>
+
+                      <p>
+                        Nhận tư vấn và hỗ trợ các vấn đề bạn thắc mắc với sự hỗ trợ 24/7 trước, trong và sau khi sử dụng.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {/* End Service Item */}
+                <div
+                  className="col-xl-4 col-md-6"
+                  data-aos="zoom-in"
+                  data-aos-delay={300}
+                >
+                  <div className="service-item">
+                    <div className="img">
+                      <img
+                        src="public/images/viec-lam.png"
+                        className="img-fluid"
+                        alt=""
+                      />
+                    </div>
+                    <div className="details">
+                      <div className="icon">
+                        <WorkIcon />
+                      </div>
+
+                      <h3>Các cơ hội nghề nghiệp</h3>
+
+                      <p>
+                        Sản phẩm của chúng tôi cho phép người dùng tạo ra
+                        giá trị mới cho thế giới và mở ra cơ hội phát triển cho những người xây dựng nó.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {/* End Service Item */}
+                <div
+                  className="col-xl-4 col-md-6"
+                  data-aos="zoom-in"
+                  data-aos-delay={400}
+                >
+                  <div className="service-item">
+                    <div className="img">
+                      <img
+                        src="public/images/bao-chi.png"
+                        className="img-fluid"
+                        alt=""
+                      />
+                    </div>
+                    <div className="details position-relative">
+                      <div className="icon">
+                        <SystemSecurityUpdateGoodIcon />
+                      </div>
+                      <a href="#" className="stretched-link">
+                        <h3>Công cụ tiện lợi</h3>
+                      </a>
+                      <p>
+                        Các công cụ tự động hóa thương mại điện tử để tự động hóa các chiến dịch bán hàng,
+                        khuyến mãi và các tác vụ phổ biến
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {/* End Service Item */}
+
+              </div>
             </div>
-            <div className="list-status-item">
-              <h5 className="title">
-                <CheckCircleOutline
-                  style={{ marginRight: "5px", color: "#008847" }}
-                />
-                Đảm bảo chất lượng
-              </h5>
-              <p className="descitpiton">
-                Chúng tôi hiểu rõ rằng sự tin cậy của khách hàng xây dựng dựa trên chất lượng, và chính vì vậy,
-                mọi sản phẩm và dịch vụ đều được đảm bảo đáp ứng hoặc vượt qua các tiêu chuẩn cao nhất.
-                Đối với chúng tôi, đảm bảo chất lượng không chỉ là nghệ thuật,
-                mà còn là sứ mệnh, đồng hành cùng sự thành công và sự hài lòng của khách hàng.
-              </p>
+          </section>
+          {/* End Services Section */}
+          {/* ======= Pricing Section ======= */}
+          <section id="pricing" className="pricing">
+            <div className="container" data-aos="fade-up">
+              <div className="section-header">
+                <h2>Giá của chúng tôi</h2>
+
+              </div>
+              <div className="row gy-4">
+                <div className="col-lg-4" data-aos="zoom-in" data-aos-delay={200}>
+                  <div className="pricing-item">
+                    <div className="pricing-header">
+                      <h3>Gói dùng thử</h3>
+                      <h4>
+                        Miến phí<span> / 14 Ngày</span>
+                      </h4>
+                    </div>
+                    <ul>
+                      <li>
+                        <i className="bi bi-dot" />{" "}
+                        <span>Sử dụng đầy đủ tất r cả các  chức năng</span>
+                      </li>
+                      <li>
+                        <i className="bi bi-dot" />{" "}
+                        <span>Miễn phí trải nghiệm trong 14 ngày đầu</span>
+                      </li>
+                    </ul>
+                    <div className="text-center mt-auto">
+                      <a href="#" className="buy-btn">
+                        Thử ngay
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                {/* End Pricing Item */}
+                <div className="col-lg-4" data-aos="zoom-in" data-aos-delay={400}>
+                  <div className="pricing-item featured">
+                    <div className="pricing-header">
+                      <h3>Gói 1 tháng</h3>
+                      <h4>
+                        199000<span><sup>đ</sup> / Tháng</span>
+                      </h4>
+                    </div>
+                    <ul>
+                      <li>
+                        <i className="bi bi-dot" />{" "}
+                        <span>Sử dụng đầy đủ tất r cả các  chức năng</span>
+                      </li>
+
+                    </ul>
+                    <div className="text-center mt-auto">
+                      <a href="#" className="buy-btn">
+                        Mua ngay
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                {/* End Pricing Item */}
+                <div className="col-lg-4" data-aos="zoom-in" data-aos-delay={600}>
+                  <div className="pricing-item">
+                    <div className="pricing-header">
+                      <h3>Gói 6 tháng</h3>
+                      <h4>
+                        990000<span><sup>đ</sup> / 6 Tháng</span>
+                      </h4>
+                    </div>
+                    <ul>
+                      <li>
+                        <i className="bi bi-dot" />{" "}
+                        <span>Sử dụng đầy đủ tất r cả các  chức năng</span>
+                      </li>
+                      <li>
+                        <i className="bi bi-dot" />{" "}
+                        <span>Tiết kiệm 204k mỗi tháng</span>
+                      </li>
+                    </ul>
+                    <div className="text-center mt-auto">
+                      <a href="#" className="buy-btn">
+                        Mua ngay
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                {/* End Pricing Item */}
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </section>
+          {/* End Pricing Section */}
+          {/* ======= F.A.Q Section ======= */}
+
+          {/* End F.A.Q Section */}
+          {/* ======= Contact Section ======= */}
+          <section id="contact" className="contact">
+            <div className="container">
+              <div className="section-header">
+                <h2>Liên hệ với chúng tôi</h2>
+
+              </div>
+            </div>
+
+            <div className="map">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1578.55008854374!2d108.06577886355659!3d12.683175733110662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3171f7c9d368e6ff%3A0x32cd2d1f5943fce9!2zMzcyLzEgSMO5bmcgVsawxqFuZywgVMOibiBM4bqtcCwgVGjDoG5oIHBo4buRIEJ1w7RuIE1hIFRodeG7mXQsIMSQ4bqvayBM4bqvayA2MzAwMDAsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1700072594415!5m2!1svi!2s"
+                frameBorder={0}
+                allowFullScreen=""
+              />
+            </div>
+            {/* End Google Maps */}
+            <div className="container">
+              <div className="row gy-5 gx-lg-5">
+                <div className="col-lg-4">
+                  <div className="info">
+                    <h3>Liên lạc</h3>
+                    <p>
+
+                    </p>
+                    <div className="info-item d-flex">
+                      <i className="bi bi-geo-alt flex-shrink-0" />
+                      <div>
+                        <h4>Vị trí:</h4>
+                        <p>Số 372/1/8 đường Hùng Vương, Phường Tân Lập, Thành phố Buôn Ma Thuột, Tỉnh Đắk Lắk</p>
+                      </div>
+                    </div>
+                    {/* End Info Item */}
+                    <div className="info-item d-flex">
+                      <i className="bi bi-envelope flex-shrink-0" />
+                      <div>
+                        <h4>Email:</h4>
+                        <p>dalpha@gmail.com</p>
+                      </div>
+                    </div>
+                    {/* End Info Item */}
+                    <div className="info-item d-flex">
+                      <i className="bi bi-phone flex-shrink-0" />
+                      <div>
+                        <h4>Số điện thoại:</h4>
+                        <p>+84 918461936</p>
+                      </div>
+                    </div>
+                    {/* End Info Item */}
+                  </div>
+                </div>
+                <div className="col-lg-8">
+                  <form
+                    action="forms/contact.php"
+                    method="post"
+                    role="form"
+                    className="php-email-form"
+                  >
+                    <div className="row">
+                      <div className="col-md-6 form-group">
+                        <input
+                          type="text"
+                          name="name"
+                          className="form-control"
+                          id="name"
+                          placeholder="Tên của bạn"
+                          required=""
+                        />
+                      </div>
+                      <div className="col-md-6 form-group mt-3 mt-md-0">
+                        <input
+                          type="email"
+                          className="form-control"
+                          name="email"
+                          id="email"
+                          placeholder="Email"
+                          required=""
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group mt-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="subject"
+                        id="subject"
+                        placeholder="Tiêu đề"
+                        required=""
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <textarea
+                        className="form-control"
+                        name="message"
+                        placeholder="Nội dung"
+                        required=""
+                        defaultValue={""}
+                      />
+                    </div>
+                    <div className="my-3">
+                      <div className="loading">Loading</div>
+                      <div className="error-message" />
+                      <div className="sent-message">
+                        Tin nhắn của bạn đã dduojc gửi. Cảm ơn!!
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <button type="submit">Gửi tin nhắn</button>
+                    </div>
+                  </form>
+                </div>
+                {/* End Contact Form */}
+              </div>
+            </div>
+          </section>
+          {/* End Contact Section */}
+        </main>
+        {/* End #main */}
+      </>
+
+    </>
   );
 }
 
